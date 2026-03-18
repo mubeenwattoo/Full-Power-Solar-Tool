@@ -59,11 +59,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--black)
 .fl{font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;}
 .fw{position:relative;}
 .fw .sfx{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--grey);font-size:12px;pointer-events:none;}
+.fg-hint{font-size:11px;color:var(--grey);margin-top:5px;}
+.chart-caption{font-size:11px;color:var(--grey);margin-top:10px;}
+@media (max-width:640px){.breakpoints-card .breakpoints-grid{grid-template-columns:repeat(2,1fr)!important;}}
 input,select,textarea{width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:8px;font-size:13px;color:var(--black);background:var(--white);outline:none;font-family:'DM Sans',sans-serif;transition:border-color .2s;appearance:none;}
 input:focus,select:focus,textarea:focus{border-color:var(--yellow);}
 textarea{resize:vertical;min-height:72px;}
 .cb-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
-.chip{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:50px;border:2px solid var(--border);background:var(--white);cursor:pointer;font-size:12px;font-weight:600;color:var(--black);transition:all .2s;user-select:none;}
+.chip{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:50px;border:2px solid var(--border);background:var(--white);cursor:pointer;font-size:12px;font-weight:600;color:var(--black);transition:background .2s ease,border-color .2s ease,transform .15s ease;user-select:none;}
+.chip:hover{border-color:var(--yellow);}
 .chip.on{background:var(--yellow);border-color:var(--yellow);}
 
 /* BUTTONS */
@@ -536,13 +540,14 @@ function buildPayback(){
 // ═══════════════════════════════════════════════
 const fmt=n=>'£'+Math.round(n).toLocaleString('en-GB');
 const fmtN=n=>Math.round(n).toLocaleString('en-GB');
-function fd(l,id,type,val,ph,sfx,opts){
+function fd(l,id,type,val,ph,sfx,opts,attrs){
   const s=sfx?`<span class="sfx">${sfx}</span>`:'';
   if(opts){
     const os=opts.map(o=>`<option value="${o.v}" ${val===o.v?'selected':''}>${o.l}</option>`).join('');
     return `<div class="fg"><label class="fl">${l}</label><div class="fw"><select id="${id}" onchange="sf('${id}')">${os}</select></div></div>`;
   }
-  return `<div class="fg"><label class="fl">${l}</label><div class="fw"><input type="${type}" id="${id}" value="${val}" placeholder="${ph||''}" oninput="sf('${id}')"/>${s}</div></div>`;
+  const a=(attrs&&typeof attrs==='object')?Object.entries(attrs).map(([k,v])=>`${k}="${String(v).replace(/"/g,'&quot;')}"`).join(' '):'';
+  return `<div class="fg"><label class="fl">${l}</label><div class="fw"><input type="${type}" id="${id}" value="${val}" placeholder="${ph||''}" oninput="sf('${id}')" ${a}/>${s}</div></div>`;
 }
 function chips(items,key){
   return `<div class="cb-wrap">${items.map(it=>`<label class="chip ${ST[key]&&Array.isArray(ST[key])&&ST[key].includes(it.id)?'on':''}" onclick="toggleArr('${key}','${it.id}',this)">${it.e} ${it.l}</label>`).join('')}</div>`;
@@ -572,7 +577,7 @@ function sf(id){
   if(id==='csurveyor'){ST.surveyor=v;return;}
   if(m[id])ST[m[id][0]][m[id][1]]=v;
   // Only schedule a live refresh for fields that affect calculations/charts
-  const calcFields=['ek','eb','sp','so','spit','svo','svp','svsh'];
+  const calcFields=['ek','eb','et','sp','so','spit','svo','svp','svsh'];
   if(calcFields.includes(id)){
     if(id==='sp'||id==='so'||id==='spit') autoApplyPricing();
     scheduleRefresh();
@@ -754,7 +759,7 @@ function rS2(){
 
   // Bump callout — only shown when at least one chip is active
   const bumpBlock = extrasKwh > 0 ? `
-<div style="margin-top:14px;padding:14px 18px;background:#fffbeb;border:2px solid #fde68a;border-radius:11px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+<div style="margin-top:14px;padding:14px 18px;background:#fffbeb;border:2px solid #fde68a;border-radius:11px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;gap:16px">
   <div style="flex:1">
     <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#92400e;margin-bottom:5px">⚡ Additional Load Adjustment Active</div>
     <div style="font-size:12px;color:#78350f;line-height:1.6">${selExtras.map(id=>EXTRAS_LABELS[id]||id).join(' · ')} — adds an estimated <strong>+${fmtN(extrasKwh)} kWh/yr</strong> to projected usage. Factored into all cost projections and the final proposal.</div>
@@ -768,37 +773,39 @@ function rS2(){
 
   return `
 <h2 class="section-title">Energy Usage & Spend</h2>
-<p class="section-sub">Enter the customer's current electricity usage. This drives all savings calculations.</p>
+<p class="section-sub">Enter current usage and tariff — from the bill or meter. Optional appliance chips add estimated load to all projections and savings.</p>
 <div class="card">
   <div class="card-title">Current Energy Data</div>
   <div class="grid-3">
-    ${fd('Annual Usage','ek','number',e.kwh,'e.g. 4000','kWh')}
-    ${fd('Monthly Bill','eb','number',e.bill,'e.g. 120','£')}
-    <div class="fg"><label class="fl">Electricity Tariff</label><div class="fw"><input type="text" id="et" value="${e.tariff}" placeholder="e.g. 0.28" onchange="sf('et')"/><span class="sfx">£/kWh</span></div></div>
+    ${fd('Annual Usage','ek','number',e.kwh,'e.g. 4000','kWh',undefined,{min:0,step:100})}
+    ${fd('Monthly Bill','eb','number',e.bill,'e.g. 120','£',undefined,{min:0,step:1})}
+    <div class="fg"><label class="fl">Electricity Tariff</label><div class="fw"><input type="text" id="et" inputmode="decimal" value="${e.tariff}" placeholder="e.g. 0.28" oninput="sf('et')"/><span class="sfx">£/kWh</span></div><div class="fg-hint">Typical standard variable ~24–30p/kWh</div></div>
   </div>
-  <div style="margin-top:16px"><div class="fl">Additional Appliances <span style="font-size:10px;font-weight:500;color:var(--grey);text-transform:none;letter-spacing:0">— select any that apply to add a kWh estimate to projections</span></div>
+  <div style="margin-top:18px"><div class="fl">Additional Appliances <span style="font-size:10px;font-weight:500;color:var(--grey);text-transform:none;letter-spacing:0">— select any that apply to add a kWh estimate to projections</span></div>
   ${chips(exs,'e_extras')}${bumpBlock}</div>
 </div>
-<div class="stat-row">
+<div class="stat-row" style="margin-top:20px">
   <div class="sbox y"><div class="sl">Annual Spend</div><div class="sv">${fmt(getAnnualBill())}</div><div class="ss">${extrasKwh>0?'Includes extras':'Monthly × 12'}</div></div>
   <div class="sbox g"><div class="sl">Daily Usage</div><div class="sv">${(ann/365).toFixed(1)} kWh</div><div class="ss">Average per day</div></div>
   <div class="sbox b"><div class="sl">Annual Usage</div><div class="sv">${fmtN(ann)} kWh</div><div class="ss">${extrasKwh>0?`Base + ${fmtN(extrasKwh)} extras`:'From meter data'}</div></div>
-  <div class="sbox r"><div class="sl">Unit Rate</div><div class="sv">${(tr*100).toFixed(1)}p</div><div class="ss">Per kWh</div></div>
+  <div class="sbox r"><div class="sl">Unit Rate</div><div class="sv">${(tr*100).toFixed(1)}p</div><div class="ss">p/kWh</div></div>
 </div>
 <div class="card">
   <div class="card-title">Estimated Monthly Bill Profile</div>
   <canvas id="usageC" height="160"></canvas>
+  <p class="chart-caption">Approximate monthly spend if usage is spread evenly across the year.</p>
 </div>
 ${bFoot()}`;
 }
 
 function rS3(){
   const p20=buildProj(20,ST.inf);
-  const t10=p20[9].cwo, t20=p20[19].cwo;
-  const s10=p20[9].cSaved, s20=p20[19].cSaved;
-  const ws10=p20[9].cws, ws20=p20[19].cws;
+  const t5=p20[4].cwo, t10=p20[9].cwo, t15=p20[14].cwo, t20=p20[19].cwo;
+  const s5=p20[4].cSaved, s10=p20[9].cSaved, s15=p20[14].cSaved, s20=p20[19].cSaved;
+  const ws5=p20[4].cws, ws10=p20[9].cws, ws15=p20[14].cws, ws20=p20[19].cws;
   const bill=getAnnualBill();
   const yr20bill=p20[19].wo;
+  const scenarioRates=[5.5,7.5,10.4];
   return `
 <h2 class="section-title">Future Cost Projection</h2>
 <p class="section-sub">Based on ONS electricity price data — what this customer is likely to spend on electricity over the next 20 years, with and without solar.</p>
@@ -817,6 +824,23 @@ function rS3(){
     <div style="font-size:10px;text-transform:uppercase;font-weight:800;letter-spacing:.08em;color:var(--grey);margin-bottom:6px">10-Year Total</div>
     <div style="font-size:32px;font-weight:900;color:#f87171">${fmt(t10)}</div>
     <div style="font-size:10px;color:var(--grey);margin-top:4px">Without solar</div>
+  </div>
+</div>
+
+<!-- 5 / 10 / 15 / 20 YEAR BREAKPOINTS -->
+<div class="card breakpoints-card" style="margin-bottom:18px">
+  <div class="card-title">Cost breakpoints — 5, 10, 15 & 20 years</div>
+  <div class="breakpoints-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px">
+    <div style="text-align:center;padding:10px 8px;background:var(--light);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px">5 yr</div><div style="font-size:18px;font-weight:900;color:var(--black)">${fmt(t5)}</div><div style="font-size:9px;color:var(--red);font-weight:700;margin-top:2px">Without solar</div></div>
+    <div style="text-align:center;padding:10px 8px;background:var(--light);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px">10 yr</div><div style="font-size:18px;font-weight:900;color:var(--black)">${fmt(t10)}</div><div style="font-size:9px;color:var(--red);font-weight:700;margin-top:2px">Without solar</div></div>
+    <div style="text-align:center;padding:10px 8px;background:var(--light);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px">15 yr</div><div style="font-size:18px;font-weight:900;color:var(--black)">${fmt(t15)}</div><div style="font-size:9px;color:var(--red);font-weight:700;margin-top:2px">Without solar</div></div>
+    <div style="text-align:center;padding:10px 8px;background:var(--light);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px">20 yr</div><div style="font-size:18px;font-weight:900;color:var(--black)">${fmt(t20)}</div><div style="font-size:9px;color:var(--red);font-weight:700;margin-top:2px">Without solar</div></div>
+  </div>
+  <div class="breakpoints-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+    <div style="text-align:center;padding:10px 8px;background:var(--green-light);border:1px solid var(--green-border);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px">5 yr</div><div style="font-size:18px;font-weight:900;color:var(--green)">${fmt(ws5)}</div><div style="font-size:9px;color:var(--green);font-weight:700;margin-top:2px">Save ${fmt(s5)}</div></div>
+    <div style="text-align:center;padding:10px 8px;background:var(--green-light);border:1px solid var(--green-border);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px">10 yr</div><div style="font-size:18px;font-weight:900;color:var(--green)">${fmt(ws10)}</div><div style="font-size:9px;color:var(--green);font-weight:700;margin-top:2px">Save ${fmt(s10)}</div></div>
+    <div style="text-align:center;padding:10px 8px;background:var(--green-light);border:1px solid var(--green-border);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px">15 yr</div><div style="font-size:18px;font-weight:900;color:var(--green)">${fmt(ws15)}</div><div style="font-size:9px;color:var(--green);font-weight:700;margin-top:2px">Save ${fmt(s15)}</div></div>
+    <div style="text-align:center;padding:10px 8px;background:var(--green-light);border:1px solid var(--green-border);border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px">20 yr</div><div style="font-size:18px;font-weight:900;color:var(--green)">${fmt(ws20)}</div><div style="font-size:9px;color:var(--green);font-weight:700;margin-top:2px">Save ${fmt(s20)}</div></div>
   </div>
 </div>
 
@@ -861,8 +885,12 @@ function rS3(){
   📊 <strong>ONS-Based Rate:</strong> UK domestic electricity prices have risen at an average of <strong>${ONS_DATA.avgInflation}% per year</strong> over the last decade (DESNZ/Ofgem). This rate is used to model projected bills below — adjust if needed.
   <span style="display:inline-flex;align-items:center;gap:8px;margin-left:16px;background:rgba(251,202,32,.15);border-radius:8px;padding:4px 12px">
     <span style="font-size:11px;color:var(--yellow);font-weight:700">Inflation rate:</span>
-    <input type="number" id="inf" value="${ST.inf}" style="width:60px;padding:4px 8px;font-size:13px;font-weight:800;background:rgba(255,255,255,.1);border:1px solid rgba(251,202,32,.3);border-radius:6px;color:white;text-align:center" oninput="sf('inf');reRender()"/>
+    <input type="number" id="inf" value="${ST.inf}" min="0" max="20" step="0.1" style="width:60px;padding:4px 8px;font-size:13px;font-weight:800;background:rgba(255,255,255,.1);border:1px solid rgba(251,202,32,.3);border-radius:6px;color:white;text-align:center" oninput="sf('inf');reRender()"/>
     <span style="font-size:11px;color:var(--yellow)">% / yr</span>
+  </span>
+  <span style="display:inline-flex;align-items:center;gap:6px;margin-left:12px;flex-wrap:wrap">
+    <span style="font-size:11px;color:var(--grey)">Scenarios:</span>
+    ${scenarioRates.map(r=>`<button type="button" onclick="ST.inf=${r};var el=document.getElementById('inf');if(el)el.value=${r};reRender()" style="padding:4px 10px;font-size:11px;font-weight:700;border-radius:6px;border:1px solid rgba(251,202,32,.4);background:${parseFloat(ST.inf)===r?'var(--yellow)':'rgba(255,255,255,.1)'};color:${parseFloat(ST.inf)===r?'var(--black)':'var(--yellow)'};cursor:pointer;font-family:inherit">${r}%</button>`).join('')}
   </span>
 </div>
 
