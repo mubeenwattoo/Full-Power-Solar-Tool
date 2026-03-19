@@ -908,11 +908,12 @@ function showToast(msg){
   if(!t){
     t=document.createElement('div');
     t.id='fpToast';
-    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#000100;color:#FBCA20;padding:14px 24px;border-radius:50px;font-weight:800;font-size:14px;z-index:9999;border:2px solid #FBCA20;box-shadow:0 4px 20px rgba(0,0,0,.35);transition:opacity .3s ease;max-width:94vw;text-align:center;';
+    t.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#000100;color:#FBCA20;padding:14px 24px;border-radius:50px;font-weight:800;font-size:14px;z-index:9999;border:2px solid #FBCA20;box-shadow:0 4px 20px rgba(0,0,0,.35);transition:opacity .3s ease;max-width:94vw;text-align:center;pointer-events:none;';
     document.body.appendChild(t);
   }
   t.textContent='\u2713 '+msg;
   t.style.opacity='1';
+  t.style.pointerEvents='none';
   clearTimeout(t._to);
   t._to=setTimeout(function(){ t.style.opacity='0'; },2500);
 }
@@ -1335,8 +1336,8 @@ window.openSavePanel=function(){document.getElementById('saveOverlay').style.dis
 window.closeSavePanel=function(){document.getElementById('saveOverlay').style.display='none';};
 function showToast(msg){
   var t=document.getElementById('fpToast');
-  if(!t){t=document.createElement('div');t.id='fpToast';t.style.cssText='position:fixed;bottom:24px;right:24px;background:#000100;color:#FBCA20;padding:13px 20px;border-radius:10px;font-weight:800;font-size:14px;z-index:9999;border:2px solid #FBCA20;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:opacity .3s';document.body.appendChild(t);}
-  t.textContent='\u2713 '+msg;t.style.opacity='1';
+  if(!t){t=document.createElement('div');t.id='fpToast';t.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#000100;color:#FBCA20;padding:13px 20px;border-radius:10px;font-weight:800;font-size:14px;z-index:9999;border:2px solid #FBCA20;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:opacity .3s;pointer-events:none';document.body.appendChild(t);}
+  t.textContent='\u2713 '+msg;t.style.opacity='1';t.style.pointerEvents='none';
   clearTimeout(t._t);t._t=setTimeout(function(){t.style.opacity='0';},2500);
 }
 
