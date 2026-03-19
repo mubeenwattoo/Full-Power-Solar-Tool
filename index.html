@@ -147,6 +147,35 @@ textarea{resize:vertical;min-height:72px;}
 .pp-spec .psv{font-size:13px;font-weight:800;color:var(--yellow);margin-top:2px;}
 .reach-box{padding:10px 14px;background:rgba(251,202,32,.1);border:1px solid rgba(251,202,32,.25);border-radius:8px;font-size:11px;color:#fde68a;font-style:italic;}
 
+/* Product Info — card-based categories */
+.product-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start;}
+@media (max-width:700px){.product-info-grid{grid-template-columns:1fr;}}
+.product-info-card{border-radius:16px;border:2px solid var(--border);background:var(--white);overflow:hidden;transition:border-color .25s ease,box-shadow .25s ease;cursor:pointer;}
+.product-info-card:hover{border-color:var(--yellow);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.product-info-card.expanded{border-color:var(--yellow);box-shadow:0 8px 28px rgba(0,0,0,.1);}
+.product-info-card-head{display:flex;align-items:center;gap:14px;padding:20px 22px;}
+.product-info-card-head .pic{width:52px;height:52px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.product-info-card-head .meta{flex:1;min-width:0;}
+.product-info-card-head .title{font-size:16px;font-weight:900;color:var(--black);margin-bottom:2px;}
+.product-info-card-head .brand{font-size:11px;color:var(--yellow);font-weight:700;}
+.product-info-card-head .sum{font-size:12px;color:var(--grey);line-height:1.45;margin-top:6px;}
+.product-info-card-head .chevron{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;color:var(--grey);transition:transform .35s ease,color .25s ease;}
+.product-info-card-head .chevron svg{width:20px;height:20px;}
+.product-info-card.expanded .product-info-card-head .chevron{transform:rotate(180deg);color:var(--yellow);}
+.product-info-detail{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.product-info-card.expanded .product-info-detail{max-height:720px;}
+.product-info-detail-inner{padding:0 22px 22px;border-top:1px solid var(--border);padding-top:18px;}
+.product-info-detail .desc{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:16px;}
+.product-info-detail .feat-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.product-info-detail .feat-item{padding:6px 12px;background:var(--light);border-radius:8px;font-size:11px;font-weight:700;color:var(--mid);}
+.product-info-detail .spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 16px;margin-bottom:14px;}
+.product-info-detail .spec-item{font-size:12px;}
+.product-info-detail .spec-item .spl{color:var(--grey);}
+.product-info-detail .spec-item .spv{font-weight:800;color:var(--black);margin-left:4px;}
+.product-info-detail .warranty{padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:12px;color:#92400e;margin-bottom:12px;}
+.product-info-detail .certs{font-size:11px;color:var(--grey);}
+.product-info-placeholder{padding:20px 22px;text-align:center;font-size:13px;color:var(--grey);}
+
 /* FLOW */
 .flow-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;}
 .flow-box{text-align:center;padding:13px 14px;background:var(--light);border-radius:11px;min-width:85px;}
@@ -370,7 +399,7 @@ const ST = {
   e:{kwh:'4000',bill:'120',tariff:'0.28'},
   e_extras:[],
   inf:5.4,
-  sv:{orient:'south',pitch:'35',storeys:'2',shading:'low',roofType:'tile',membrane:false,sprayFoam:false,access:false},
+  sv:{orient:'south',pitch:'35',storeys:'2',shading:'low',roofType:'tile',membrane:false,sprayFoam:false,access:false,scaffolding:false},
   photos:[],
   status:'pipeline',
   surveyor:'',
@@ -449,6 +478,59 @@ const PRODS=[
   {id:'se-b',ico:'🔌',n:'SolarEdge Battery',br:'SolarEdge',
    body:'Fully integrated with the SolarEdge ecosystem. DC-coupled for higher round-trip efficiency. Smart energy scheduling via the SolarEdge monitoring portal.',
    specs:[{l:'Capacity',v:'10kWh'},{l:'Chemistry',v:'LFP'},{l:'Warranty',v:'10 years'},{l:'Efficiency',v:'94% RT'},{l:'Coupling',v:'DC'},{l:'Lifespan',v:'10–15 years'}]}
+];
+
+// Product Info section — card-based display (Solar PV, Battery, ASHP, EV). Content for Solar PV from JA Solar; others placeholder for Full Power.
+const PRODUCT_INFO_CATEGORIES = [
+  {
+    id: 'solar-pv',
+    label: 'Solar PV',
+    icon: '☀️',
+    brand: 'JA Solar',
+    summary: 'JAM78D10 430–450W MBB Bifacial Mono PERC · Half-cell double glass',
+    placeholder: false,
+    description: 'Assembled with MBB bifacial PERCIUM cells and half-cell configuration, these double glass modules convert incident light from both front and rear into electricity — providing higher output power, lower temperature coefficient, less shading loss, and enhanced tolerance for mechanical loading.',
+    features: ['Higher output power', 'More reliable, stable power generation', 'Less shading effect', 'Lower temperature coefficient'],
+    specs: [
+      { l: 'Rated Max Power (Pmax)', v: '430–450W (series)' },
+      { l: 'Module Efficiency', v: '19.5% – 20.4%' },
+      { l: 'Cell Type', v: 'Mono (Monocrystalline)' },
+      { l: 'Cells', v: '156 (6 × 26)' },
+      { l: 'Dimensions', v: '2198 × 1005 × 35 mm' },
+      { l: 'Weight', v: '29.0 kg ± 3%' },
+      { l: 'Max System Voltage', v: '1500V DC (IEC)' },
+      { l: 'Operating Temperature', v: '-40°C to +85°C' },
+      { l: 'Junction Box', v: 'IP68, 3 diodes' },
+      { l: 'Power Tolerance', v: '0 ~ +5W' },
+      { l: 'Bifaciality', v: '70% ± 10%' }
+    ],
+    warranty: '12-year product warranty · 30-year linear power output warranty · 0.5% annual degradation over 30 years.',
+    certifications: 'IEC 61215, IEC 61730 · ISO 9001:2015, ISO 14001:2015 · OHSAS 18001:2007'
+  },
+  {
+    id: 'battery',
+    label: 'Battery Storage',
+    icon: '🔋',
+    brand: '',
+    summary: 'Content to be supplied by Full Power.',
+    placeholder: true
+  },
+  {
+    id: 'ashp',
+    label: 'Air Source Heat Pump (ASHP)',
+    icon: '🌡️',
+    brand: '',
+    summary: 'Content to be supplied by Full Power.',
+    placeholder: true
+  },
+  {
+    id: 'ev',
+    label: 'EV Charging',
+    icon: '🚗',
+    brand: '',
+    summary: 'Content to be supplied by Full Power.',
+    placeholder: true
+  }
 ];
 
 const NAV=[
@@ -985,28 +1067,38 @@ ${bFoot()}`;
 window.toggleSV=function(k,el){ST.sv[k]=!ST.sv[k];el.classList.toggle('on');reRender();};
 
 function rS5(){
-  const ap=ST.ap;
-  const prod=PRODS.find(p=>p.id===ap);
-  const pgrid=PRODS.map(p=>`
-    <button class="prod-btn ${ap===p.id?'on':''}" onclick="setAP('${p.id}')">
-      <div class="pi">${p.ico}</div><div class="pn">${p.n}</div><div class="pb">${p.br}</div>
-    </button>`).join('');
-  const detail=prod?`
-    <div class="prod-panel open">
-      <div class="pp-head"><span class="pp-icon">${prod.ico}</span><div><div class="pp-title">${prod.n}</div><div class="pp-brand">${prod.br}</div></div></div>
-      <div class="pp-body">${prod.body}</div>
-      <div class="pp-specs">${prod.specs.map(s=>`<div class="pp-spec"><div class="psl">${s.l}</div><div class="psv">${s.v}</div></div>`).join('')}</div>
-      <div class="reach-box">✓ REACH certified — UK & European safety and environmental standards compliant</div>
-    </div>`:'';
+  const openId=ST.productInfoOpen||null;
+  const cardsHtml=PRODUCT_INFO_CATEGORIES.map(c=>{
+    const expanded=openId===c.id;
+    const head=`<div class="product-info-card-head">
+      <div class="pic">${c.icon}</div>
+      <div class="meta"><div class="title">${c.label}</div>${c.brand?`<div class="brand">${c.brand}</div>`:''}<div class="sum">${c.summary}</div></div>
+      <span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+    </div>`;
+    let detailHtml='';
+    if(c.placeholder){
+      detailHtml=`<div class="product-info-detail-inner"><div class="product-info-placeholder">Content for this category will be supplied by Full Power. Add specs, warranty and description here once provided.</div></div>`;
+    } else {
+      const featHtml=c.features&&c.features.length?`<div class="feat-list">${c.features.map(f=>`<span class="feat-item">${f}</span>`).join('')}</div>`:'';
+      const specHtml=c.specs&&c.specs.length?`<div class="spec-grid">${c.specs.map(s=>`<div class="spec-item"><span class="spl">${s.l}</span><span class="spv">${s.v}</span></div>`).join('')}</div>`:'';
+      const warrHtml=c.warranty?`<div class="warranty">${c.warranty}</div>`:'';
+      const certHtml=c.certifications?`<div class="certs">${c.certifications}</div>`:'';
+      detailHtml=`<div class="product-info-detail-inner">
+        ${c.description?`<p class="desc">${c.description}</p>`:''}${featHtml}${specHtml}${warrHtml}${certHtml}
+      </div>`;
+    }
+    return `<div class="product-info-card ${expanded?'expanded':''}" onclick="toggleProductInfo('${c.id}')">${head}<div class="product-info-detail">${detailHtml}</div></div>`;
+  }).join('');
   return `
 <h2 class="section-title">Product Information</h2>
-<p class="section-sub">Tap any product to view full specifications, warranty details and compliance information.</p>
-<div class="card"><div class="card-title">Tap a Product to Learn More</div>
-  <div class="prod-grid">${pgrid}</div>${detail}
+<p class="section-sub">Card-based product overview. Tap a card to expand full specifications. Content supplied by Full Power.</p>
+<div class="card">
+  <div class="card-title">Product Categories</div>
+  <div class="product-info-grid">${cardsHtml}</div>
 </div>
 ${bFoot()}`;
 }
-window.setAP=function(id){ST.ap=ST.ap===id?null:id;reRender();};
+window.toggleProductInfo=function(id){ST.productInfoOpen=ST.productInfoOpen===id?null:id;reRender();};
 
 function rS6(){
   const n=parseInt(ST.sys.panels)||10;
@@ -1105,6 +1197,19 @@ function rS6(){
     ${fd('Roof Pitch','spit','number',ST.sys.pitch,'e.g. 35','°')}
   </div>
 </div>
+
+<div class="card">
+  <div class="card-title">Installation & Access</div>
+  <div class="fl" style="margin-bottom:10px">Toggle any that apply — these flags can affect cost and scheduling.</div>
+  <div class="cb-wrap">
+    <label class="chip ${ST.sv.scaffolding?'on':''}" onclick="toggleSV('scaffolding',this)">🪜 Scaffolding Needed</label>
+    <label class="chip ${ST.sv.membrane?'on':''}" onclick="toggleSV('membrane',this)">🏗️ Roof Membrane Present</label>
+    <label class="chip ${ST.sv.sprayFoam?'on':''}" onclick="toggleSV('sprayFoam',this)">⚠️ Spray Foam Insulation</label>
+    <label class="chip ${ST.sv.access?'on':''}" onclick="toggleSV('access',this)">🔒 Additional Access Required</label>
+  </div>
+  ${ST.sv.sprayFoam?`<div style="margin-top:12px;padding:12px 16px;background:#fef2f2;border-radius:9px;border:1px solid #fecaca;font-size:12px;color:var(--red);font-weight:700;">⚠️ Spray foam insulation detected — this may affect the customer's mortgage eligibility. The customer should be advised before proceeding.</div>`:''}
+</div>
+
 <div class="card-dark">
   <div class="ds-row">
     <div class="ds"><div class="di">⚡</div><div class="dv">${kWp} kWp</div><div class="dl">System Size</div></div>
@@ -2250,7 +2355,7 @@ function getDefaultState(){
     c:{name:'',address:'',email:'',phone:'',propType:'detached',occupants:'2',notes:'',town:'',county:'',postcode:''},
     e:{kwh:'4000',bill:'120',tariff:'0.28',extras:[]},
     inf:5.4,
-    sv:{orient:'south',pitch:'35',storeys:'2',shading:'low',roofType:'tile',membrane:false,sprayFoam:false,access:false},
+    sv:{orient:'south',pitch:'35',storeys:'2',shading:'low',roofType:'tile',membrane:false,sprayFoam:false,access:false,scaffolding:false},
     photos:[],
     status:'pipeline',
     surveyor:'',
