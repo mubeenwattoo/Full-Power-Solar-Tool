@@ -762,16 +762,14 @@ var TBI=[
   {t:'Final Proposal',s:'Customer quote ready to present'}
 ];
 
-/* Our Products — card-based display. Content (Solar PV, Battery, ASHP, EV) supplied by Full Power. */
+/* Our Products — card-based display. Content (Solar PV, Battery, EV) supplied by Full Power. ASHP removed per client. */
 var PRODUCT_INFO_CATEGORIES=[
   {id:'solar-pv',label:'Solar PV',icon:'\u2600\uFE0F',brand:'JA Solar',summary:'JAM78D10 430\u2013450W MBB Bifacial Mono PERC \u00b7 Half-cell double glass',placeholder:false,
    description:'Assembled with MBB bifacial PERCIUM cells and half-cell configuration, these double glass modules convert incident light from both front and rear into electricity \u2014 providing higher output power, lower temperature coefficient, less shading loss, and enhanced tolerance for mechanical loading.',
    features:['Higher output power','More reliable, stable power generation','Less shading effect','Lower temperature coefficient'],
-   specs:[{l:'Rated Max Power (Pmax)',v:'430\u2013450W (series)'},{l:'Module Efficiency',v:'19.5% \u2013 20.4%'},{l:'Cell Type',v:'Mono (Monocrystalline)'},{l:'Cells',v:'156 (6 \u00d7 26)'},{l:'Dimensions',v:'2198 \u00d7 1005 \u00d7 35 mm'},{l:'Weight',v:'29.0 kg \u00b1 3%'},{l:'Max System Voltage',v:'1500V DC (IEC)'},{l:'Operating Temperature',v:'-40\u00b0C to +85\u00b0C'},{l:'Junction Box',v:'IP68, 3 diodes'},{l:'Power Tolerance',v:'0 ~ +5W'},{l:'Bifaciality',v:'70% \u00b1 10%'}],
    warranty:'12-year product warranty \u00b7 30-year linear power output warranty \u00b7 0.5% annual degradation over 30 years.',
    certifications:'IEC 61215, IEC 61730 \u00b7 ISO 9001:2015, ISO 14001:2015 \u00b7 OHSAS 18001:2007'},
   {id:'battery',label:'Battery Storage',icon:'\uD83D\uDD0B',brand:'',summary:'Content to be supplied by Full Power.',placeholder:true},
-  {id:'ashp',label:'Air Source Heat Pump (ASHP)',icon:'\uD83C\uDF21\uFE0F',brand:'',summary:'Content to be supplied by Full Power.',placeholder:true},
   {id:'ev',label:'EV Charging',icon:'\uD83D\uDE97',brand:'',summary:'Content to be supplied by Full Power.',placeholder:true}
 ];
 function buildProductCardsHtml(){
