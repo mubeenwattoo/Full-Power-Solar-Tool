@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--black:#000100;--yellow:#FBCA20;--light:#f3f4f6;--grey:#6b7280;--mid:#374151;--white:#fff;--border:#e5e7eb;--green:#16a34a;--green-light:#f0fdf4;--green-border:#bbf7d0;--red:#dc2626;--nav-w:230px;}
+:root{--black:#000100;--yellow:#FBCA20;--yellow-soft:#fffbeb;--yellow-soft2:#fef3c7;--yellow-border:#fde68a;--yellow-ink:#92400e;--yellow-text:#ca8a04;--light:#f3f4f6;--grey:#6b7280;--mid:#374151;--white:#fff;--border:#e5e7eb;--green:#16a34a;--green-light:#f0fdf4;--green-border:#bbf7d0;--red:#dc2626;--nav-w:230px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--black);display:flex;min-height:100vh;}
 #sidebar{width:var(--nav-w);min-height:100vh;background:var(--black);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:200;overflow-y:auto;}
@@ -22,7 +22,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--black)
 .nav-item.done{color:#4b5563;}
 .nav-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#6b7280;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
 .nav-item.active .nav-num{background:var(--yellow);color:var(--black);}
-.nav-item.done .nav-num{background:var(--green);color:#fff;font-size:11px;}
+.nav-item.done .nav-num{background:var(--yellow);color:var(--black);font-size:11px;}
 .sb-footer{padding:14px 16px;border-top:1px solid #1f1f1f;font-size:10px;color:#4b5563;line-height:1.7;}
 #main{margin-left:var(--nav-w);flex:1;display:flex;flex-direction:column;min-height:100vh;}
 #topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
@@ -66,7 +66,8 @@ textarea{resize:vertical;min-height:72px;}
 .btn-y{background:var(--yellow);color:var(--black);border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
 .btn-y:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(251,202,32,.4);}
 .btn-g{background:transparent;color:var(--mid);border:2px solid var(--border);border-radius:10px;padding:12px 22px;font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.btn-green{background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-green{background:var(--yellow);color:var(--black);border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-green:hover{filter:brightness(1.03);box-shadow:0 4px 14px rgba(251,202,32,.45);}
 .btn-dark{background:var(--black);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border);}
 .nav-btns-r{display:flex;gap:10px;}
@@ -81,20 +82,20 @@ textarea{resize:vertical;min-height:72px;}
 .scenario-btn{padding:5px 12px;margin:0 3px;font-size:12px;font-weight:700;border-radius:6px;border:2px solid var(--border);background:var(--light);color:var(--mid);cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s;}
 .scenario-btn:hover{border-color:var(--yellow);color:var(--black);}
 .scenario-btn.on{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
-.bp-box.green{background:var(--green-light);border:2px solid var(--green-border);}
-.bp-box.green .bp-yr,.bp-box.green .bp-val,.bp-box.green .bp-lbl{color:var(--green);}
+.bp-box.green{background:var(--yellow-soft);border:2px solid var(--yellow-border);}
+.bp-box.green .bp-yr,.bp-box.green .bp-val,.bp-box.green .bp-lbl{color:var(--yellow-text);}
 .bp-box.green .bp-val{font-weight:900;}
 .sb{background:var(--light);border-radius:10px;padding:14px 16px;text-align:center;}
 .sb-val{font-size:22px;font-weight:900;}
 .sb-lbl{font-size:10px;color:var(--grey);text-transform:uppercase;font-weight:700;margin-top:3px;letter-spacing:.03em;}
 .sb.y{border-left:4px solid var(--yellow);}
-.sb.g{border-left:4px solid var(--green);}
+.sb.g{border-left:4px solid var(--yellow);}
 .sb.r{border-left:4px solid var(--red);}
 .sb.b{border-left:4px solid #2563eb;}
 .ib{padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin:14px 0;}
 .ib.y{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
 #extras-banner.ib{box-shadow:0 1px 3px rgba(0,0,0,.06);}
-.ib.g{background:#f0fdf4;border:1px solid #bbf7d0;color:#14532d;}
+.ib.g{background:var(--yellow-soft);border:1px solid var(--yellow-border);color:var(--yellow-ink);}
 .ib.gr{background:var(--light);border:1px solid var(--border);color:var(--grey);}
 /* Our Products — card-based categories (Solar PV, Battery, ASHP, EV). Content supplied by Full Power. */
 .product-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start;}
@@ -131,7 +132,7 @@ textarea{resize:vertical;min-height:72px;}
 .rtbl td{padding:10px 13px;border-bottom:1px solid var(--border);}
 .rtbl tr:hover td{background:#fafafa;}
 .rtbl .rv{color:var(--red);font-weight:700;}
-.rtbl .gv{color:var(--green);font-weight:700;}
+.rtbl .gv{color:var(--yellow-text);font-weight:700;}
 .rtbl .bv{font-weight:800;}
 .pkg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px;}
 .pkg{border-radius:14px;border:2px solid var(--border);padding:22px;background:#fff;cursor:pointer;transition:all .25s;text-align:center;}
@@ -142,6 +143,141 @@ textarea{resize:vertical;min-height:72px;}
 .pkg-px{font-size:28px;font-weight:900;}
 .pkg-sub{font-size:11px;color:var(--grey);margin-bottom:10px;}
 .pkg-inc{text-align:left;font-size:12px;color:var(--mid);line-height:1.7;margin-top:12px;}
+/* Step 1 — pricing matrix / system configuration (Full Power theme + custom dropdowns) */
+.cost-calc-banner{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:linear-gradient(180deg,#fafbfc 0%,#f1f5f9 100%);color:var(--mid);padding:14px 18px;border-radius:12px;margin-bottom:20px;line-height:1.5;border:1px solid var(--border);box-shadow:0 1px 0 rgba(255,255,255,.8) inset}
+.cost-calc-rows{border:1px solid var(--border);border-radius:12px;overflow:visible;background:#fff}
+.cost-calc-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,320px);gap:12px 20px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);position:relative}
+.cost-calc-row:last-child{border-bottom:none}
+.cost-calc-row .fl{margin:0;font-weight:700;font-size:13px}
+.cost-calc-cell{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+.cost-calc-hint{font-size:10px;color:var(--grey);font-weight:600;white-space:nowrap}
+.cost-calc-num{width:100%;max-width:120px;padding:10px 13px;border:2px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--black);background:var(--white);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.cost-calc-num:focus{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(251,202,32,.22)}
+.cost-calc-dd-wrap{position:relative;flex:1;min-width:140px;max-width:100%;z-index:1}
+.cost-calc-dd-wrap.menu-open{z-index:350}
+.cost-calc-mux-select{position:absolute!important;left:0;top:0;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;margin:0!important;padding:0!important;border:0!important;clip:rect(0,0,0,0)!important}
+.cost-calc-dd-trigger{position:relative;width:100%;text-align:left;padding:10px 44px 10px 13px;border:2px solid var(--border);border-radius:8px;background:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--black);cursor:pointer;transition:border-color .2s,box-shadow .2s,background .15s;line-height:1.35;min-height:44px;display:flex;align-items:center}
+.cost-calc-dd-trigger:hover{border-color:#d1d5db;background:#fafafa}
+.cost-calc-dd-trigger.open,.cost-calc-dd-trigger:focus{border-color:var(--yellow);outline:none;box-shadow:0 0 0 3px rgba(251,202,32,.22);background:#fff}
+.cost-calc-dd-lbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:4px}
+.cost-calc-dd-chev{position:absolute;right:12px;top:50%;margin-top:-10px;width:20px;height:20px;color:var(--black);flex-shrink:0;pointer-events:none;transition:transform .22s ease,color .2s}
+.cost-calc-dd-trigger:hover .cost-calc-dd-chev{color:var(--yellow)}
+.cost-calc-dd-trigger.open .cost-calc-dd-chev{transform:rotate(180deg);color:var(--yellow)}
+.cost-calc-dd-menu{position:absolute;left:0;right:0;top:calc(100% + 5px);background:var(--white);border:2px solid var(--border);border-radius:10px;box-shadow:0 14px 44px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);max-height:min(280px,52vh);overflow-y:auto;display:none;padding:6px 0;animation:costCalcDdIn .18s ease}
+@keyframes costCalcDdIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.cost-calc-dd-menu.open{display:block}
+.cost-calc-dd-item{padding:11px 14px 11px 16px;font-size:13px;font-weight:600;color:var(--mid);cursor:pointer;transition:background .14s ease,color .14s ease,border-color .14s ease,padding-left .14s ease;border-left:3px solid transparent;line-height:1.35}
+.cost-calc-dd-item:hover{background:linear-gradient(90deg,#fffbeb 0%,#fff 100%);color:var(--black);border-left-color:var(--yellow);padding-left:18px}
+.cost-calc-dd-item.sel{background:rgba(251,202,32,.14);color:var(--black);font-weight:700;border-left-color:var(--yellow)}
+.cost-calc-footnote{font-size:12px;color:var(--mid);font-weight:600;margin-top:14px;line-height:1.5}
+/* Step 2 — labour costs (premium neutral table) */
+.labour-cost-wrap{margin-top:10px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(0,1,0,.04),0 1px 3px rgba(0,1,0,.04)}
+.labour-cost-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.labour-cost-table thead th{background:linear-gradient(180deg,#fafbfc,#f4f5f7);text-align:left;padding:14px 18px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--mid);border-bottom:1px solid #e2e8f0}
+.labour-cost-table thead th:first-child{border-radius:0}
+.labour-cost-table thead th.labour-th-cost{text-align:right;width:1%;white-space:nowrap}
+.labour-cost-table tbody td{padding:14px 18px;border-bottom:1px solid #f1f5f9;vertical-align:middle;background:#fff}
+.labour-cost-table tbody tr:nth-child(even):not(.labour-total-row) td{background:#fafbfc}
+.labour-cost-table tbody tr:last-child td{border-bottom:none}
+.labour-item-td{font-weight:700;color:var(--black);line-height:1.45}
+.labour-ico{margin-right:8px;opacity:.85}
+.labour-cost-input{width:100%;max-width:124px;padding:10px 12px;border:1px solid #e2e8f0;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;text-align:right;color:var(--black);background:#fff;transition:border-color .2s,box-shadow .2s}
+.labour-cost-input:focus{border-color:var(--yellow);outline:none;box-shadow:0 0 0 3px rgba(251,202,32,.22)}
+.labour-note{font-size:11px;color:var(--grey);line-height:1.55;max-width:420px}
+.labour-total-row td{background:linear-gradient(180deg,var(--yellow-soft),var(--yellow-soft2));color:var(--yellow-ink);padding:16px 18px;font-weight:800;border-top:2px solid var(--yellow)}
+.labour-total-row .labour-item-td{color:var(--yellow-ink);font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.07em}
+.labour-total-row .labour-note{color:var(--yellow-ink);opacity:.88;font-weight:600}
+.labour-total-amt{font-size:20px;font-weight:900;letter-spacing:-.03em;text-align:right;white-space:nowrap;color:var(--yellow-text);font-variant-numeric:tabular-nums}
+@media (max-width:720px){.labour-cost-wrap{overflow-x:auto}.labour-cost-table{min-width:560px}}
+@media (max-width:640px){.cost-calc-row{grid-template-columns:1fr}.cost-calc-cell{justify-content:flex-start}}
+/* Step 3 — materials breakdown (premium neutral, no row tint fills) */
+.m3-wrap{margin-top:10px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(0,1,0,.04),0 1px 3px rgba(0,1,0,.04)}
+.m3-scroll{overflow-x:auto;max-height:min(52vh,440px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.m3-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;min-width:680px}
+.m3-table thead th{background:linear-gradient(180deg,#fafbfc,#f4f5f7);color:var(--black);padding:13px 16px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;text-align:left;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:2;box-shadow:0 1px 0 #e2e8f0}
+.m3-table thead th.m3-th-qty,.m3-table thead th.m3-th-unit,.m3-table thead th.m3-th-line{text-align:right;width:1%;white-space:nowrap}
+.m3-table tbody td{padding:12px 16px;border-bottom:1px solid #f1f5f9;vertical-align:top;background:#fff}
+.m3-table tbody tr.m3-mat-even td{background:#fafbfc}
+.m3-comp{font-weight:700;color:var(--black);line-height:1.4}
+.m3-ico{margin-right:8px;opacity:.82}
+.m3-qty,.m3-unit{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--mid)}
+.m3-line{text-align:right;font-weight:800;color:var(--yellow-text);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.m3-note{font-size:11px;color:var(--grey);line-height:1.5;font-style:normal;max-width:360px}
+.m3-sub-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;margin-top:0}
+.m3-sub-table td{padding:11px 16px;border-top:1px solid var(--yellow-border);background:var(--yellow-soft)}
+.m3-sub-table tr:nth-child(even) td{background:#fffef8}
+.m3-sub-table .m3-sub-lbl{font-weight:800;color:var(--mid);text-transform:uppercase;font-size:10px;letter-spacing:.07em}
+.m3-sub-table .m3-sub-val{text-align:right;font-weight:800;color:var(--yellow-text);font-variant-numeric:tabular-nums}
+.m3-grand td{background:linear-gradient(180deg,var(--yellow-soft),var(--yellow-soft2));color:var(--yellow-ink);padding:16px 16px;font-weight:900;font-size:13px;border-top:2px solid var(--yellow)}
+.m3-grand .m3-sub-lbl{color:var(--yellow-ink);font-size:11px;letter-spacing:.06em}
+.m3-grand .m3-sub-val{color:var(--yellow-text);font-size:20px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.m3-source{font-size:11px;color:var(--grey);font-style:normal;padding:14px 18px;border-top:1px solid #e2e8f0;background:linear-gradient(180deg,#fafbfc,#fff);line-height:1.55}
+@media (max-width:720px){.m3-scroll{max-height:min(48vh,380px)}}
+/* Step 4 — sell price & margin scale */
+.step4-wrap{margin-top:10px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(0,1,0,.04),0 1px 3px rgba(0,1,0,.04)}
+.step4-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-bottom:1px solid var(--yellow-border);background:linear-gradient(180deg,#fff,#fffef8)}
+@media (max-width:900px){.step4-summary{grid-template-columns:1fr 1fr}.step4-sum-cell:nth-child(5){grid-column:1/-1}}
+.step4-sum-cell{padding:16px 18px;border-right:1px solid #f1f5f9;display:flex;flex-direction:column;gap:6px;min-width:0}
+.step4-sum-cell:last-child{border-right:none}
+.step4-sum-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--grey)}
+.step4-sum-val{font-size:1.05rem;font-weight:900;color:var(--black);font-variant-numeric:tabular-nums;line-height:1.2;word-break:break-word}
+.step4-sum-val.step4-sell{background:var(--yellow);color:var(--black);margin:-2px -6px;padding:8px 10px;border-radius:10px;display:inline-block;width:fit-content;max-width:100%}
+.step4-sum-val.step4-profit{background:var(--yellow-soft2);color:var(--yellow-ink);margin:-2px -6px;padding:8px 10px;border-radius:10px;display:inline-block;width:fit-content;max-width:100%;border:1px solid var(--yellow-border)}
+.step4-sum-val.step4-margin-pct{color:var(--yellow-text);font-weight:900}
+.step4-sum-notes{padding:12px 18px;background:var(--yellow-soft);font-size:11px;color:var(--yellow-ink);line-height:1.55;border-bottom:1px solid var(--yellow-border)}
+.step4-sum-notes strong{font-weight:800}
+.step4-margin-control{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;background:#fafbfc;border-bottom:1px solid var(--border)}
+.step4-margin-control label{font-size:12px;font-weight:800;color:var(--mid);margin:0}
+.step4-margin-control input{width:88px;padding:10px 12px;border:2px solid var(--border);border-radius:10px;font-weight:800;font-size:14px;text-align:center}
+.step4-margin-control input:focus{border-color:var(--yellow);outline:none;box-shadow:0 0 0 3px rgba(251,202,32,.22)}
+.step4-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.step4-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;min-width:720px}
+.step4-table thead th{background:linear-gradient(180deg,#fafbfc,#f4f5f7);padding:13px 14px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--mid);text-align:left;border-bottom:1px solid #e2e8f0}
+.step4-table thead th.step4-th-num{text-align:right;width:1%;white-space:nowrap}
+.step4-table tbody td{padding:11px 14px;border-bottom:1px solid #f1f5f9;vertical-align:top;background:#fff}
+.step4-table tbody tr:nth-child(even) td{background:#fafbfc}
+.step4-table tbody tr.step4-row-target td{background:linear-gradient(90deg,rgba(251,202,32,.18),rgba(251,202,32,.06));border-bottom-color:var(--yellow-border)}
+.step4-table tbody tr.step4-row-click{cursor:pointer;transition:background .15s}
+.step4-table tbody tr.step4-row-click:hover td{background:#fffbeb!important}
+.step4-pct{font-weight:800;color:var(--black);font-variant-numeric:tabular-nums}
+.step4-pct .step4-warn{margin-right:4px}
+.step4-num{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;color:var(--yellow-text)}
+.step4-row-target .step4-num{color:var(--yellow-ink);font-size:13px}
+.step4-note{font-size:11px;color:var(--grey);line-height:1.45;max-width:360px}
+.step4-row-target .step4-note{color:var(--mid);font-weight:600}
+.step4-star{color:var(--yellow-ink);margin-right:4px}
+/* Competitor comparison — match Step 2 labour / Step 3 m3 / Step 4 table chrome */
+.cc-wrap{margin-top:10px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(0,1,0,.04),0 1px 3px rgba(0,1,0,.04)}
+.cc-sub{font-size:12px;color:var(--grey);padding:14px 18px;line-height:1.55;font-weight:600;border-bottom:1px solid #e2e8f0;background:linear-gradient(180deg,#fafbfc,#fff)}
+.cc-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cc-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;min-width:720px}
+.cc-table thead th{background:linear-gradient(180deg,#fafbfc,#f4f5f7);color:var(--black);padding:13px 16px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;text-align:left;border-bottom:1px solid #e2e8f0}
+.cc-table thead th.cc-th-num{text-align:right;white-space:nowrap}
+.cc-table tbody td{padding:12px 16px;border-bottom:1px solid #f1f5f9;vertical-align:top;background:#fff;font-weight:700;color:var(--black)}
+.cc-table tbody tr:nth-child(even) td{background:#fafbfc}
+.cc-table .cc-p1{text-align:right;font-variant-numeric:tabular-nums;color:var(--black);font-weight:800}
+.cc-table .cc-p2{text-align:right;font-variant-numeric:tabular-nums;color:var(--yellow-text);font-weight:800}
+.cc-table .cc-p3{text-align:right;font-variant-numeric:tabular-nums;color:var(--yellow-ink);font-weight:800}
+.cc-table .cc-note{font-weight:500;font-style:italic;color:var(--grey);font-size:11px;line-height:1.45;max-width:280px}
+.cc-table tfoot td{background:linear-gradient(180deg,var(--yellow-soft),var(--yellow-soft2));color:var(--yellow-ink);padding:16px 16px;font-weight:900;border-top:2px solid var(--yellow)}
+.cc-table tfoot .cc-your-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--yellow-ink)}
+.cc-table tfoot .cc-your-val{text-align:center;font-size:1.15rem;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--yellow-text)}
+.cc-table tfoot .cc-foot-note{font-style:italic;font-weight:600;color:var(--yellow-ink);opacity:.88;font-size:11px}
+/* Key rules & notes — match step tables + Step 4 yellow callouts */
+.kr-wrap{margin-top:26px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(0,1,0,.04),0 1px 3px rgba(0,1,0,.04)}
+.kr-head{background:linear-gradient(180deg,#fafbfc,#f4f5f7);color:var(--black);padding:14px 18px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e2e8f0}
+.kr-head .kr-pin{opacity:.85;font-size:1rem;filter:grayscale(.15)}
+.kr-row{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:14px 18px;align-items:flex-start;border-bottom:1px solid #f1f5f9}
+.kr-row:last-child{border-bottom:none}
+.kr-row-info{background:#fff}
+.kr-row-warn{background:var(--yellow-soft);border-bottom-color:var(--yellow-border)}
+.kr-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--light);border:1px solid var(--border)}
+.kr-row-warn .kr-ico{background:var(--yellow-soft2);border-color:var(--yellow-border)}
+.kr-lbl{font-size:13px;font-weight:800;color:var(--black);margin-bottom:6px;line-height:1.35}
+.kr-row-warn .kr-lbl{color:var(--yellow-ink)}
+.kr-txt{font-size:12px;color:var(--mid);line-height:1.6;font-weight:500}
+.kr-txt strong{font-weight:800;color:var(--black)}
+@media (max-width:560px){.kr-row{grid-template-columns:32px 1fr;padding:12px 14px}}
 .pg2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
 .pc{border:2px solid var(--border);border-radius:14px;padding:22px;background:#fff;transition:border-color .2s;}
 .pc:hover{border-color:var(--yellow);}
@@ -171,7 +307,7 @@ textarea{resize:vertical;min-height:72px;}
 .ph-sub{font-size:13px;opacity:.7;}
 .pb-row{display:flex;gap:12px;margin:16px 0;}
 .pb-stat{flex:1;background:var(--light);border-radius:10px;padding:16px;text-align:center;}
-.pb-stat .ps-v{font-size:22px;font-weight:900;color:var(--green);}
+.pb-stat .ps-v{font-size:22px;font-weight:900;color:var(--yellow-text);}
 .pb-stat .ps-l{font-size:10px;color:var(--grey);text-transform:uppercase;font-weight:700;margin-top:3px;}
 .pb-stat.dk{background:var(--black);}
 .pb-stat.dk .ps-v{color:var(--yellow);}
@@ -224,6 +360,7 @@ textarea{resize:vertical;min-height:72px;}
 .p-dr:last-child{border-bottom:none;}
 .p-dr-k{color:#6b7280;font-weight:500;}
 .p-dr-v{font-weight:700;color:#000100;text-align:right;}
+.p-dr-v-save{color:var(--yellow-text)!important;}
 .prop-price-strip{background:#000100;border-radius:10px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
 .prop-price-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:4px;}
 .prop-price-amt{font-family:'Barlow Condensed',sans-serif;font-size:3rem;font-weight:900;color:#FBCA20;line-height:1;}
@@ -244,7 +381,7 @@ textarea{resize:vertical;min-height:72px;}
 .prop-inc-text{font-size:.8rem;font-weight:600;color:#374151;line-height:1.3;}
 .prop-inc-sub{font-size:.68rem;color:#6b7280;font-weight:400;margin-top:1px;}
 .prop-chart-wrap{position:relative;height:220px;margin-bottom:18px;}
-.prop-co2{background:linear-gradient(135deg,#f0fdf4,#f7fef9);border:1.5px solid #bbf7d0;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.prop-co2{background:linear-gradient(135deg,var(--yellow-soft),#fffef0);border:1.5px solid var(--yellow-border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px;}
 .prop-co2-icon{font-size:26px;flex-shrink:0;}
 .prop-co2-text{font-size:.8rem;color:#374151;line-height:1.6;}
 .prop-sig-card{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:18px;}
@@ -473,9 +610,273 @@ textarea{resize:vertical;min-height:72px;}
 <!-- SEC 6 -->
 <div class="sec" id="sec6" style="display:none">
   <h2 class="sec-title">Package Selection</h2>
-  <p class="sec-sub">System pricing based on your roof design.</p>
+  <p class="sec-sub">System pricing based on your roof design and the cost calculator configuration below.</p>
   <div class="card">
-    <div id="pkg-rec" class="ib g" style="margin-bottom:20px">Complete System Design to load packages.</div>
+    <div class="cost-calc-banner">Solar PV system cost calculator &middot; Full Power Installations &mdash; Configure your system below. All costs will auto-calculate when the pricing matrix is fully wired. Prices ex VAT. Feb 2026.</div>
+    <div class="card-title" style="margin-bottom:4px">Step 1 &mdash; System configuration</div>
+    <p class="sec-sub" style="margin-bottom:14px;font-size:12px">Match the spreadsheet: panel count, component types and accessories. More dropdown options will be added as the matrix is finalised.</p>
+    <div class="cost-calc-rows">
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_panel_qty">Number of panels (1&ndash;30)</label>
+        <div class="cost-calc-cell">
+          <input type="number" class="cost-calc-num" id="calc_panel_qty" min="1" max="30" value="10" inputmode="numeric" oninput="autoSave();updatePkg()"/>
+          <span class="cost-calc-hint">&larr; type</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_panel_type">Panel type</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_panel_type" onchange="autoSave();updatePkg()">
+            <option value="ja450_ab">JA Solar 450W All-Black (JAM54D41-450/LB)</option>
+            <option value="se430_opt">SolarEdge 430W (SPV430-R54PDTL) &ndash; incl. optimiser</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_inverter">Inverter model</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_inverter" onchange="autoSave();updatePkg()">
+            <option value="alpha_g3_368">Alpha G3 3.68kW Hybrid IP65</option>
+            <option value="alpha_g3_5">Alpha G3 5kW Hybrid IP65</option>
+            <option value="alpha_g3_8">Alpha G3 8kW Hybrid IP65</option>
+            <option value="se3680h">SolarEdge SE3680H 3.68kW Hybrid</option>
+            <option value="fox_h1_30">Fox ESS H1-3.0 3kW Hybrid EPS</option>
+            <option value="fox_h1_37">Fox ESS H1-3.7 3.7kW Hybrid EPS</option>
+            <option value="fox_h1_50">Fox ESS H1-5.0 5kW Hybrid EPS</option>
+            <option value="fox_h1_60">Fox ESS H1-6.0 6kW Hybrid EPS</option>
+            <option value="fox_kh7">Fox ESS KH7 7kW Hybrid</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_battery">Battery</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_battery" onchange="autoSave();updatePkg()">
+            <option value="none">No battery</option>
+            <option value="alpha_g3_48">Alpha G3 4.8kWh IP65</option>
+            <option value="alpha_96_heat">Alpha 9.6kWh Heated IP65</option>
+            <option value="se_home_10">SolarEdge Home Battery 10kWh</option>
+            <option value="fox_cm2900">Fox ESS CM2900 2.88kWh Master</option>
+            <option value="fox_cs2900">Fox ESS CS2900 2.88kWh Slave V2</option>
+            <option value="fox_cm4300">Fox ESS CM4300 3kWh Master</option>
+            <option value="fox_cs4300">Fox ESS CS4300 4.3kWh Slave</option>
+            <option value="fox_ep6h">Fox ESS EP6-H 5.76kWh Heated</option>
+            <option value="fox_ep12h">Fox ESS EP12-H 11.52kWh</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_bat_mount">Battery mounting</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_bat_mount" onchange="autoSave();updatePkg()">
+            <option value="wall_no_base">Wall mount (no base)</option>
+            <option value="floor_base_75">Floor mount (+ base &pound;75)</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_roof_mount">Roof type / mounting</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_roof_mount" onchange="autoSave();updatePkg()">
+            <option value="fastensol">Fastensol (slate / pantile / flat tile)</option>
+            <option value="gse_inroof">GSE in-roof (interlocking tile)</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_isolator">Isolator size</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_isolator" onchange="autoSave();updatePkg()">
+            <option value="20a_368">20A (up to 3.68kW)</option>
+            <option value="32a_5k">32A (5kW+)</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+      <div class="cost-calc-row">
+        <label class="fl" for="calc_mc4">MC4 connectors</label>
+        <div class="cost-calc-cell">
+          <div class="cost-calc-dd-wrap">
+            <select id="calc_mc4" onchange="autoSave();updatePkg()">
+            <option value="termtech_1">Termtech (budget &pound;1.00)</option>
+            <option value="staubli_258">Staubli (premium &pound;2.58)</option>
+            </select>
+          </div>
+          <span class="cost-calc-hint">&larr; select</span>
+        </div>
+      </div>
+    </div>
+    <p class="cost-calc-footnote">Change the configuration above &mdash; Step 3 materials and package prices update automatically.</p>
+
+    <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 2 &mdash; Labour costs</div>
+    <p class="sec-sub" style="margin-bottom:12px;font-size:12px">Enter trade labour (ex VAT) in the fields below. The total is summed automatically and included in package <strong>trade</strong> totals before the 35% margin is applied.</p>
+    <div class="labour-cost-wrap">
+      <table class="labour-cost-table">
+        <thead>
+          <tr>
+            <th>Labour item</th>
+            <th class="labour-th-cost">Cost (&pound;)</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="labour-item-td"><span class="labour-ico" aria-hidden="true">&#127959;&#65039;</span>Scaffolding (erect + dismantle)</td>
+            <td><input type="number" class="labour-cost-input" id="lab_scaffold" min="0" step="1" value="1000" inputmode="numeric" oninput="autoSave();updateLabourTotalDisplay();updatePkg()"/></td>
+            <td class="labour-note">Typical 1&ndash;2 storey. Adjust for 3-storey or complex access.</td>
+          </tr>
+          <tr>
+            <td class="labour-item-td"><span class="labour-ico" aria-hidden="true">&#127968;&#65039;</span>Roofing / mounting labour (panel fitting, weatherproofing)</td>
+            <td><input type="number" class="labour-cost-input" id="lab_roof" min="0" step="1" value="600" inputmode="numeric" oninput="autoSave();updateLabourTotalDisplay();updatePkg()"/></td>
+            <td class="labour-note">Panel fitting, all flashing, waterproofing.</td>
+          </tr>
+          <tr>
+            <td class="labour-item-td"><span class="labour-ico" aria-hidden="true">&#9889;</span>Electrical labour (inverter, wiring, commissioning)</td>
+            <td><input type="number" class="labour-cost-input" id="lab_electrical" min="0" step="1" value="350" inputmode="numeric" oninput="autoSave();updateLabourTotalDisplay();updatePkg()"/></td>
+            <td class="labour-note">DC/AC wiring, isolator, CU connection, MCS docs.</td>
+          </tr>
+          <tr>
+            <td class="labour-item-td"><span class="labour-ico" aria-hidden="true">&#128196;</span>DNO / G98 / MCS admin allowance</td>
+            <td><input type="number" class="labour-cost-input" id="lab_dno" min="0" step="1" value="50" inputmode="numeric" oninput="autoSave();updateLabourTotalDisplay();updatePkg()"/></td>
+            <td class="labour-note">Paperwork, notification, MCS cert. Adjust per DNO.</td>
+          </tr>
+          <tr class="labour-total-row">
+            <td class="labour-item-td">TOTAL LABOUR COST</td>
+            <td class="labour-total-amt" id="labour_total_display">&pound;2,000.00</td>
+            <td class="labour-note">Sum of all labour lines.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 3 &mdash; Materials cost breakdown</div>
+    <p class="sec-sub" style="margin-bottom:12px;font-size:12px">Trade materials (ex VAT) calculated from Step 1. Line totals feed the package <strong>trade</strong> totals below; customer prices use <strong>Step 4</strong> target margin: sell = cost &divide; (1 &minus; margin%) on materials + labour + EV.</p>
+    <div class="m3-wrap">
+      <div class="m3-scroll">
+        <table class="m3-table" id="step3-materials-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th class="m3-th-qty">Qty</th>
+              <th class="m3-th-unit">Unit (&pound;)</th>
+              <th class="m3-th-line">Line total</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="step3-materials-body"></tbody>
+        </table>
+      </div>
+      <table class="m3-sub-table" id="step3-subtotals-table">
+        <tbody id="step3-subtotals-body"></tbody>
+      </table>
+      <div class="m3-source" id="step3-materials-foot">Trade cost basis: Greentech / Edmundson &middot; Ex VAT &middot; Feb 2026. Figures update when you change Step 1.</div>
+    </div>
+
+    <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 4 &mdash; Your sell price &amp; margin</div>
+    <p class="sec-sub" style="margin-bottom:12px;font-size:12px">Total job cost (ex VAT) is materials (Step 3) + labour (Step 2) + EV allowance if selected. <strong>Sell price</strong> = cost &divide; (1 &minus; margin%). Adjust target margin below &mdash; package card prices use the same rule.</p>
+    <div class="step4-wrap">
+      <div class="step4-summary">
+        <div class="step4-sum-cell"><span class="step4-sum-lbl">Total cost (ex VAT)</span><span class="step4-sum-val" id="step4_total_cost">&pound;0.00</span></div>
+        <div class="step4-sum-cell"><span class="step4-sum-lbl">Target margin</span><span class="step4-sum-val step4-margin-pct" id="step4_target_margin_display">30.0%</span></div>
+        <div class="step4-sum-cell"><span class="step4-sum-lbl">Sell price (ex VAT)</span><span class="step4-sum-val step4-sell" id="step4_sell_price">&pound;0</span></div>
+        <div class="step4-sum-cell"><span class="step4-sum-lbl">Gross profit</span><span class="step4-sum-val step4-profit" id="step4_gross_profit">&pound;0.00</span></div>
+        <div class="step4-sum-cell"><span class="step4-sum-lbl">Gross margin</span><span class="step4-sum-val" id="step4_gross_margin_pct">0.0%</span></div>
+      </div>
+      <div class="step4-sum-notes"><strong>Notes:</strong> Change target margin in the field below or tap a row in the table. Sell price updates automatically. VAT @ 0% domestic solar.</div>
+      <div class="step4-margin-control">
+        <label for="calc_target_margin">Target margin (%)</label>
+        <input type="number" id="calc_target_margin" min="5" max="50" step="0.5" value="30" inputmode="decimal" oninput="autoSave();updatePkg()"/>
+        <span style="font-size:11px;color:var(--grey);font-weight:600">Recommended default 30% &middot; min 5% max 50%</span>
+      </div>
+      <div class="step4-scroll">
+        <table class="step4-table" id="step4-margin-table">
+          <thead>
+            <tr>
+              <th>Margin %</th>
+              <th class="step4-th-num">Sell price (ex VAT)</th>
+              <th class="step4-th-num">Gross profit</th>
+              <th>Positioning notes</th>
+            </tr>
+          </thead>
+          <tbody id="step4-margin-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-title" style="margin-top:28px;margin-bottom:4px"><span aria-hidden="true">&#127942;</span> Competitor comparison</div>
+    <p class="sec-sub" style="margin-bottom:0;font-size:12px"><strong>Installed, inc. VAT @ 0%.</strong> Benchmark bands from your client sheet. <strong>Your price</strong> (footer row) matches Step 4 sell price (ex VAT) for the current calculator &mdash; compare to the columns that best match the job size.</p>
+    <div class="cc-wrap">
+      <div class="cc-sub" style="padding-top:14px">Ranges are indicative guides only &mdash; not live quotes.</div>
+      <div class="cc-scroll">
+        <table class="cc-table" aria-label="Competitor price comparison">
+          <thead>
+            <tr>
+              <th>Competitor</th>
+              <th class="cc-th-num">6&ndash;8 panels</th>
+              <th class="cc-th-num">10 panels + 4.8kWh</th>
+              <th class="cc-th-num">10 panels + 9.6kWh</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>OVO / EON / British Gas</td>
+              <td class="cc-p1">&pound;4,500&ndash;&pound;6,000</td>
+              <td class="cc-p2">&pound;6,500&ndash;&pound;8,000</td>
+              <td class="cc-p3">&pound;8,000&ndash;&pound;10,000</td>
+              <td class="cc-note">National suppliers. High overhead. Premium pricing.</td>
+            </tr>
+            <tr>
+              <td>Typical local installer</td>
+              <td class="cc-p1">&pound;3,000&ndash;&pound;4,000</td>
+              <td class="cc-p2">&pound;5,500&ndash;&pound;7,000</td>
+              <td class="cc-p3">&pound;7,000&ndash;&pound;9,000</td>
+              <td class="cc-note">Variable quality. Often higher than online.</td>
+            </tr>
+            <tr>
+              <td>GreenMatch / Checkatrade</td>
+              <td class="cc-p1">&pound;2,800&ndash;&pound;4,000</td>
+              <td class="cc-p2">&pound;5,000&ndash;&pound;6,500</td>
+              <td class="cc-p3">&pound;6,500&ndash;&pound;8,500</td>
+              <td class="cc-note">Online lead-gen. Wide price variance.</td>
+            </tr>
+            <tr>
+              <td>BOXT Solar</td>
+              <td class="cc-p1">&pound;3,999+</td>
+              <td class="cc-p2">~&pound;6,000&ndash;&pound;7,000</td>
+              <td class="cc-p3">~&pound;7,500&ndash;&pound;9,000</td>
+              <td class="cc-note">Fixed price online. Growing competitor. Alpha/SolarEdge.</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="cc-your-lbl"><span aria-hidden="true">&#9733;</span> Your price (ex VAT)</td>
+              <td colspan="3" class="cc-your-val" id="cc_your_price">&pound;0.00</td>
+              <td class="cc-foot-note">Compare to competitor ranges above.</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div id="pkg-rec" class="ib g" style="margin-top:22px;margin-bottom:20px">Complete System Design to load packages.</div>
     <div class="pkg-grid" id="pkg-grid"></div>
     <div class="sdiv">Pricing Adjustment</div>
     <div class="g2">
@@ -483,6 +884,45 @@ textarea{resize:vertical;min-height:72px;}
       <div class="fg"><label class="fl">Final Customer Price (&pound;)</label><input type="number" id="pkg_final" readonly style="background:var(--light);font-weight:800;font-size:17px"/></div>
     </div>
     <div id="pkg-detail" class="ib gr" style="margin-top:14px">Select a package above.</div>
+
+    <div class="kr-wrap" aria-label="Key rules and notes">
+      <div class="kr-head"><span class="kr-pin" aria-hidden="true">&#128204;</span> Key rules &amp; notes</div>
+      <div class="kr-row kr-row-info">
+        <div class="kr-ico" aria-hidden="true">&#128309;</div>
+        <div>
+          <div class="kr-lbl">What you enter vs auto-calculated</div>
+          <div class="kr-txt"><strong>You enter:</strong> Step 1 &mdash; panel count, panel type, inverter, battery, battery mounting, roof/mounting system, isolator, MC4. Step 2 &mdash; labour lines (scaffold, roof, electrical, DNO/MCS). Step 4 &mdash; target margin (%). <strong>Everything else</strong> (materials breakdown, sell price, package totals, competitor row) updates automatically.</div>
+        </div>
+      </div>
+      <div class="kr-row kr-row-info">
+        <div class="kr-ico" aria-hidden="true">&#9889;</div>
+        <div>
+          <div class="kr-lbl">Brand-specific accessories (auto in Step 3)</div>
+          <div class="kr-txt"><strong>Alpha G3 inverters</strong> &mdash; Alpha CT clamp (10m) is added automatically. <strong>SolarEdge SE3680H</strong> &mdash; Energy Net Comm Hub, revenue grade meter, 100A CT clamp and WiFi antenna are added automatically. <strong>SolarEdge Home Battery</strong> &mdash; Y-cable is added when that battery is selected.</div>
+        </div>
+      </div>
+      <div class="kr-row kr-row-info">
+        <div class="kr-ico" aria-hidden="true">&#9989;</div>
+        <div>
+          <div class="kr-lbl">VAT @ 0%</div>
+          <div class="kr-txt">Domestic solar PV installations are <strong>zero-rated for VAT</strong> (no VAT charged to the homeowner on qualifying installs). Figures in this calculator are shown <strong>ex VAT</strong> as trade costs; customer prices follow your margin &mdash; still consistent with 0% VAT domestic solar.</div>
+        </div>
+      </div>
+      <div class="kr-row kr-row-warn">
+        <div class="kr-ico" aria-hidden="true">&#9888;&#65039;</div>
+        <div>
+          <div class="kr-lbl">Always get DNO approval before install</div>
+          <div class="kr-txt">Submit the correct grid notification: typically <strong>G98</strong> for systems up to 3.68kW inverter capacity (per DNO rules), and <strong>G99</strong> where a full application is required for larger or export-limited systems. Confirm with the relevant DNO &mdash; do not install without approval where required.</div>
+        </div>
+      </div>
+      <div class="kr-row kr-row-warn">
+        <div class="kr-ico" aria-hidden="true">&#9888;&#65039;</div>
+        <div>
+          <div class="kr-lbl">Material prices &mdash; Greentech / Edmundson (Feb 2026)</div>
+          <div class="kr-txt">Trade material costs are based on <strong>Greentech / Edmundson</strong> pricing, <strong>ex VAT</strong>, <strong>Feb 2026</strong>. If ordering significantly later, refresh panel, inverter and battery costs in the matrix. Prices move with supply and exchange rates.</div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="nav-btns"><button class="btn-g" onclick="goTo(5)">&larr; Back</button><button class="btn-y" onclick="goTo(7)">Savings &amp; ROI &rarr;</button></div>
 </div>
@@ -579,9 +1019,9 @@ textarea{resize:vertical;min-height:72px;}
         <div class="prop-info-box">
           <div class="prop-info-hd"><div class="prop-info-hd-txt">Financial Summary</div></div>
           <div class="prop-info-body">
-            <div class="p-dr"><span class="p-dr-k">Year 1 Saving</span><span class="p-dr-v" style="color:#16a34a" id="prop-yr1">&mdash;</span></div>
-            <div class="p-dr"><span class="p-dr-k">15yr Saving</span><span class="p-dr-v" style="color:#16a34a" id="prop-s15">&mdash;</span></div>
-            <div class="p-dr"><span class="p-dr-k">25yr Lifetime Value</span><span class="p-dr-v" style="color:#16a34a" id="prop-s25">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">Year 1 Saving</span><span class="p-dr-v p-dr-v-save" id="prop-yr1">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">15yr Saving</span><span class="p-dr-v p-dr-v-save" id="prop-s15">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">25yr Lifetime Value</span><span class="p-dr-v p-dr-v-save" id="prop-s25">&mdash;</span></div>
             <div class="p-dr"><span class="p-dr-k">Payback Period</span><span class="p-dr-v" id="prop-pb">&mdash;</span></div>
           </div>
         </div>
@@ -734,17 +1174,275 @@ textarea{resize:vertical;min-height:72px;}
 <script>
 var PANEL_KW=0.42,KWH_PER_KW=850,STORE='fp_v12';
 
-/* Component costs (trade ex-VAT, Greentech/Edmundson Feb 2026) */
-var JA_PANEL=50,SE_PANEL=99,MOUNT_PER_PANEL=31,FIXED_WATERPROOF=148;
-var FIXED_ELEC=174,ALPHA_CT=25,SE_MONITORING=166,SE_INV=449;
-var SE_BAT=3296,ALPHA_BAT=1663,EV_TRADE=700;
-var MARKUP=1.5385; /* 35% gross margin */
-var LABOUR=1800;
+/* Trade materials lookup (ex-VAT, Greentech/Edmundson Feb 2026) + EV install allowance */
+var EV_TRADE=700;
+/** Last package trade costs for margin recalculation (Step 4) */
+var _lastPkgTrades={};
+/** Margin scale rows: positioning copy from client spreadsheet */
+var STEP4_MARGIN_SCALE=[
+  {p:5,note:'Absolute floor &mdash; barely covers overheads',warn:true},
+  {p:10,note:'Loss-leader / door opener only',warn:true},
+  {p:15,note:'Consider for high-volume or referral jobs',warn:false},
+  {p:20,note:'Minimum sustainable &mdash; good competitive price',warn:false},
+  {p:25,note:'Healthy &mdash; competitive vs local installers',warn:false},
+  {p:30,note:'Target margin &mdash; recommended default',star:true},
+  {p:35,note:'Strong &mdash; still competitive in most markets',warn:false},
+  {p:40,note:'Premium positioning &mdash; needs strong brand / reviews',warn:false},
+  {p:45,note:'Top-end &mdash; justify with quality / warranty / service',warn:false},
+  {p:50,note:'National supplier territory (OVO / Eon pricing)',warn:false}
+];
 
-function alphaInv(p){return p<=10?720:p<=14?790:910;}
-function tradeJA(p,ev){return p*JA_PANEL+p*MOUNT_PER_PANEL+FIXED_WATERPROOF+FIXED_ELEC+alphaInv(p)+ALPHA_CT+LABOUR+(ev?EV_TRADE:0);}
-function tradeSE(p,ev){return p*SE_PANEL+p*MOUNT_PER_PANEL+FIXED_WATERPROOF+FIXED_ELEC+SE_INV+SE_MONITORING+LABOUR+(ev?EV_TRADE:0);}
-function custPx(trade){return Math.round(trade*MARKUP);}
+var STEP3_INV_TRADE={
+  alpha_g3_368:720,alpha_g3_5:790,alpha_g3_8:910,se3680h:449,
+  fox_h1_30:360,fox_h1_37:395,fox_h1_50:510,fox_h1_60:585,fox_kh7:655
+};
+var STEP3_BAT_TRADE={
+  none:0,alpha_g3_48:870,alpha_96_heat:1663,se_home_10:3296,
+  fox_cm2900:288,fox_cs2900:265,fox_cm4300:320,fox_cs4300:295,
+  fox_ep6h:576,fox_ep12h:1152
+};
+
+function getTotalLabourCost(){
+  var ids=['lab_scaffold','lab_roof','lab_electrical','lab_dno'],s=0,any=false;
+  for(var i=0;i<ids.length;i++){
+    var el=document.getElementById(ids[i]);
+    if(el){any=true;s+=parseFloat(el.value)||0;}
+  }
+  return any?Math.round(s):2000;
+}
+function updateLabourTotalDisplay(){
+  var t=getTotalLabourCost();
+  var el=document.getElementById('labour_total_display');
+  if(el)el.textContent='\u00a3'+t.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function getCalcVal(id){
+  var el=document.getElementById(id);
+  return el?String(el.value||''):'';
+}
+function round2(x){
+  x=Number(x)||0;
+  return Math.round(x*100)/100;
+}
+function fmtQty(q){
+  q=Number(q)||0;
+  if(Math.abs(q-Math.round(q))<1e-9)return String(Math.round(q));
+  return (Math.round(q*100)/100).toString();
+}
+function tradeMaterialsPlusLabourEv(materialsTrade,ev){
+  return round2((Number(materialsTrade)||0)+getTotalLabourCost()+(ev?EV_TRADE:0));
+}
+function getTargetMarginPct(){
+  var el=document.getElementById('calc_target_margin');
+  var v=parseFloat(el&&el.value);
+  if(!isFinite(v))v=30;
+  return Math.min(50,Math.max(5,v));
+}
+/** Sell price ex VAT from trade cost: sell = cost / (1 - margin%) — 2 dp (spreadsheet) */
+function sellPriceExVatFromCost(cost,marginPct){
+  cost=Number(cost)||0;
+  var m=marginPct!=null&&isFinite(Number(marginPct))?Number(marginPct):getTargetMarginPct();
+  m=Math.min(50,Math.max(5,m))/100;
+  if(m>=0.999)m=0.95;
+  return round2(cost/(1-m));
+}
+/** Package card / quote: whole pounds from same formula */
+function custPx(trade){return Math.round(sellPriceExVatFromCost(trade));}
+/** Total job cost ex VAT for current Step 1&ndash;3 + labour + EV (matches Step 3 UI configuration). */
+function getTotalJobCostExVat(){
+  var ev=document.getElementById('s_ev')&&document.getElementById('s_ev').checked;
+  var mUi=computeStep3Materials({panelBinding:'ui'});
+  return tradeMaterialsPlusLabourEv(mUi.totalMaterials,ev);
+}
+function renderStep4Margin(precomputedCost){
+  var cost=precomputedCost!=null?Number(precomputedCost):getTotalJobCostExVat();
+  cost=round2(cost);
+  var tgt=getTargetMarginPct();
+  var sell=sellPriceExVatFromCost(cost,tgt);
+  var profit=round2(sell-cost);
+  var gmPct=sell>0?round2((profit/sell)*100):0;
+
+  var el=document.getElementById('step4_total_cost');
+  if(el)el.textContent='\u00a3'+cost.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+  el=document.getElementById('step4_target_margin_display');
+  if(el)el.textContent=tgt.toFixed(1)+'%';
+  el=document.getElementById('step4_sell_price');
+  if(el)el.textContent='\u00a3'+sell.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+  el=document.getElementById('cc_your_price');
+  if(el)el.textContent='\u00a3'+sell.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+  el=document.getElementById('step4_gross_profit');
+  if(el)el.textContent='\u00a3'+profit.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+  el=document.getElementById('step4_gross_margin_pct');
+  if(el)el.textContent=gmPct.toFixed(1)+'%';
+
+  var tb=document.getElementById('step4-margin-body');
+  if(!tb)return;
+  var h='';
+  for(var i=0;i<STEP4_MARGIN_SCALE.length;i++){
+    var row=STEP4_MARGIN_SCALE[i],p=row.p;
+    var s=sellPriceExVatFromCost(cost,p);
+    var pr=round2(s-cost);
+    var isTgt=Math.abs(p-tgt)<0.001;
+    var cls='step4-row-click'+(isTgt?' step4-row-target':'');
+    var pctHtml=(row.warn?'<span class="step4-warn" aria-hidden="true">\u26A0\uFE0F</span>':'')+(row.star?'<span class="step4-star" aria-hidden="true">\u2605</span>':'')+'<strong>'+p+'%</strong>';
+    h+='<tr class="'+cls+'" data-margin="'+p+'"><td class="step4-pct">'+pctHtml+'</td>'
+      +'<td class="step4-num">'+(isTgt?'<strong>':'')+'\u00a3'+s.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})+(isTgt?'</strong>':'')+'</td>'
+      +'<td class="step4-num">'+(isTgt?'<strong>':'')+'\u00a3'+pr.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})+(isTgt?'</strong>':'')+'</td>'
+      +'<td class="step4-note">'+row.note+'</td></tr>';
+  }
+  tb.innerHTML=h;
+  tb.querySelectorAll('tr.step4-row-click').forEach(function(tr){
+    tr.onclick=function(){
+      var p=parseFloat(this.getAttribute('data-margin'));
+      if(!isFinite(p))return;
+      var inp=document.getElementById('calc_target_margin');
+      if(inp){inp.value=String(p);if(typeof autoSave==='function')autoSave();if(typeof updatePkg==='function')updatePkg();}
+    };
+  });
+}
+
+/**
+ * Step 3 materials (trade ex VAT) — exactly 26 rows, spreadsheet order & wording.
+ * opts: p, panelBinding ('ui'|'ja'|'se'), includeBattery, forceBattery, batQty
+ */
+function computeStep3Materials(opts){
+  opts=opts||{};
+  var p=opts.p;
+  if(p==null||!isFinite(p)){
+    p=matrixPanelCount();
+    if(p===null)p=totalPanels()||8;
+  }
+  if(p<1)p=1;if(p>30)p=30;
+
+  var pb=opts.panelBinding||'ui';
+  var uiPanel=getCalcVal('calc_panel_type')||'ja450_ab';
+  var panelKey=pb==='ja'?'ja450_ab':(pb==='se'?'se430_opt':uiPanel);
+
+  var roofMount=getCalcVal('calc_roof_mount')||'fastensol';
+  var inv=getCalcVal('calc_inverter')||'alpha_g3_368';
+  var bat=getCalcVal('calc_battery')||'none';
+  var batMount=getCalcVal('calc_bat_mount')||'wall_no_base';
+  var isolator=getCalcVal('calc_isolator')||'20a_368';
+  var mc4=getCalcVal('calc_mc4')||'termtech_1';
+
+  var includeBattery=opts.includeBattery;
+  if(includeBattery===undefined)includeBattery=(bat!=='none');
+  if(includeBattery===false)bat='none';
+  else if(opts.forceBattery&&bat==='none')bat=opts.forceBattery;
+
+  var batQty=opts.batQty;
+  if(batQty==null){
+    batQty=parseInt((document.getElementById('s_bat_qty')||{value:'1'}).value||'1',10);
+    if(!isFinite(batQty)||batQty<1)batQty=1;
+  }
+  if(includeBattery===false)batQty=0;
+
+  var isGse=(roofMount==='gse_inroof');
+  var isFast=!isGse;
+  var isAlpha=/^alpha_g3_/.test(inv);
+  var isSEInv=(inv==='se3680h');
+
+  var IC_S='\u2600',IC_H='\uD83C\uDFE0',IC_W='\uD83D\uDCA7',IC_E='\u26A1',IC_I='\uD83D\uDD0B',IC_B='\uD83D\uDD0B';
+  var lines=[];
+  function pushLine(cat,ico,name,qty,unit,note){
+    qty=Number(qty)||0;
+    unit=Number(unit)||0;
+    lines.push({cat:cat,ico:ico,name:name,qty:qty,unit:unit,total:round2(qty*unit),note:note||''});
+  }
+
+  var pUnit=panelKey==='ja450_ab'?50:99;
+  /* 1 */
+  pushLine('panels',IC_S,'Panels',p,pUnit,'Panel type selected above. Price auto-looks up from selection.');
+  /* 2 */
+  pushLine('mounting',IC_H,'Frames / hooks (GSE half-frame or Fastensol adj. hook)',p,isGse?40.7:3.9,'GSE: 2 half-frames @\u00a320.35. Fastensol: 1 adjustable hook @\u00a33.90.');
+  /* 3–4 */
+  pushLine('mounting',IC_H,'End clamps',Math.ceil(0.8*p),0.48,'~0.8 per panel.');
+  pushLine('mounting',IC_H,'Mid clamps',Math.ceil(1.2*p),0.48,'~1.2 per panel.');
+  /* 5–8 GSE-only lines (qty 0 when Fastensol) */
+  pushLine('mounting',IC_H,'GSE: Wedge packs (interlocking tile only)',isGse?Math.ceil(p/5):0,0.89,'GSE only. ~1 per 5 panels. Zero if Fastensol.');
+  pushLine('mounting',IC_H,'GSE: Top flashing hooks (interlocking tile only)',isGse?Math.ceil(1.6*p):0,0.76,'GSE only. ~1.6 per panel.');
+  pushLine('mounting',IC_H,'GSE: Screws 6.3x60mm (interlocking tile only)',isGse?p*10:0,0.48,'GSE only. 10 per panel.');
+  pushLine('mounting',IC_H,'GSE: Lateral flashings 1290mm (interlocking tile only)',isGse?Math.ceil(0.6*p):0,13.21,'GSE only. ~0.6 per panel.');
+  /* 9–11 Fastensol-only (qty 0 when GSE) */
+  pushLine('mounting',IC_H,'Fastensol: Rails 3.6m (slate / pantile / flat tile only)',isFast?p*2:0,12,'Fastensol only. ~2 rails per panel.');
+  pushLine('mounting',IC_H,'Fastensol: Rail joiners',isFast?p:0,0.85,'Fastensol only. ~1 per panel.');
+  pushLine('mounting',IC_H,'Fastensol: T-nuts M8',isFast?p*4:0,0.35,'Fastensol only. ~4 per panel.');
+  /* 12–13 */
+  pushLine('waterproofing',IC_W,'DEKS Fast Flash Black 280mm x 5m [FIXED per install]',1,68,'Fixed per install. Waterproofing around penetrations.');
+  pushLine('waterproofing',IC_W,'Altro Lead Plus 450mm x 5m [FIXED per install]',1,80,'Fixed per install. Lead flashing for edge sealing.');
+  /* 14–17 */
+  var isoU=isolator==='32a_5k'?9.75:8.5;
+  var mc4U=mc4==='staubli_258'?2.58:1;
+  pushLine('electrical',IC_E,'DC Isolator',1,isoU,'20A \u00a38.50 / 32A \u00a39.75.');
+  pushLine('electrical',IC_E,'MC4 connectors (1 pair)',1,mc4U,'Staubli \u00a32.58 / Temtech \u00a31.00.');
+  pushLine('electrical',IC_E,'PV array labels \u2014 pack of 5 [FIXED per install]',1,4.5,'MCS compliance. 1 pack per install.');
+  pushLine('electrical',IC_E,'Solar cable 4.0mm (25m standard run)',25,0.4,'\u00a30.40/m. Standard 25m run = \u00a310.');
+  /* 18–23 */
+  var invU=STEP3_INV_TRADE[inv]!=null?STEP3_INV_TRADE[inv]:720;
+  pushLine('inverter',IC_I,'Inverter',1,invU,'Price auto-selects from inverter model chosen above.');
+  pushLine('inverter',IC_I,'Alpha: CT Clamp 10m (Alpha only)',isAlpha?1:0,25,'Required with every Alpha inverter. Auto-adds when Alpha selected.');
+  pushLine('inverter',IC_I,'SolarEdge: Energy Net Comm Hub (SolarEdge only)',isSEInv?1:0,35,'Required with SolarEdge system. Auto-adds when SolarEdge selected.');
+  pushLine('inverter',IC_I,'SolarEdge: Revenue Grade Meter (SolarEdge only)',isSEInv?1:0,90,'Measures grid import/export. SolarEdge only.');
+  pushLine('inverter',IC_I,'SolarEdge: CT Clamp 100A (SolarEdge only)',isSEInv?1:0,21,'Measures whole-house consumption. SolarEdge only.');
+  pushLine('inverter',IC_I,'SolarEdge: WiFi Antenna (SolarEdge only)',isSEInv?1:0,19.5,'Wireless monitoring app. SolarEdge only.');
+  /* 24–26 */
+  var batActive=(includeBattery&&bat!=='none'&&batQty>0);
+  var bU=batActive?(STEP3_BAT_TRADE[bat]!=null?STEP3_BAT_TRADE[bat]:0):0;
+  pushLine('battery',IC_B,'Battery',batActive?batQty:0,bU,'Price auto-looks up from battery selection. \u00a30 if no battery.');
+  pushLine('battery',IC_B,'Battery floor base (floor mount only)',(batActive&&batMount==='floor_base_75')?1:0,75,'Only added if battery selected AND floor mount chosen.');
+  pushLine('battery',IC_B,'SolarEdge: Battery Y-Cable (SolarEdge battery only)',(batActive&&bat==='se_home_10')?batQty:0,21,'Required for SolarEdge battery connection. Auto-adds when SE battery selected.');
+
+  function sumCat(c){
+    return round2(lines.reduce(function(a,l){return l.cat===c?a+l.total:a;},0));
+  }
+  var sub={
+    panels:sumCat('panels'),
+    mounting:sumCat('mounting'),
+    waterproofing:sumCat('waterproofing'),
+    electrical:sumCat('electrical'),
+    inverter:sumCat('inverter'),
+    battery:sumCat('battery')
+  };
+  var grand=round2(sub.panels+sub.mounting+sub.waterproofing+sub.electrical+sub.inverter+sub.battery);
+
+  return {lines:lines,sub:sub,totalMaterials:grand,p:p,panelKey:panelKey};
+}
+
+function renderStep3Materials(){
+  if(typeof computeStep3Materials!=='function'||typeof matrixPanelCount!=='function')return;
+  var res=computeStep3Materials({panelBinding:'ui'});
+  var tb=document.getElementById('step3-materials-body');
+  var sb=document.getElementById('step3-subtotals-body');
+  if(!tb||!sb)return;
+
+  var h='';
+  for(var i=0;i<res.lines.length;i++){
+    var l=res.lines[i];
+    var rowCls=' class="'+(i%2?'m3-mat-even':'m3-mat-odd')+'"';
+    h+='<tr'+rowCls+'><td class="m3-comp"><span class="m3-ico" aria-hidden="true">'+l.ico+'</span>'+l.name+'</td>'
+      +'<td class="m3-qty">'+fmtQty(l.qty)+'</td>'
+      +'<td class="m3-unit">\u00a3'+l.unit.toFixed(2)+'</td>'
+      +'<td class="m3-line">\u00a3'+l.total.toFixed(2)+'</td>'
+      +'<td class="m3-note">'+l.note+'</td></tr>';
+  }
+  tb.innerHTML=h;
+
+  var labs=[
+    ['panels','Panels subtotal'],
+    ['mounting','Mounting subtotal'],
+    ['waterproofing','Waterproofing subtotal'],
+    ['electrical','Electrical sundries subtotal'],
+    ['inverter','Inverter & accessories subtotal'],
+    ['battery','Battery subtotal']
+  ];
+  var sh='';
+  for(var j=0;j<labs.length;j++){
+    var k=labs[j][0];
+    sh+='<tr><td class="m3-sub-lbl">'+labs[j][1]+'</td><td class="m3-sub-val">\u00a3'+res.sub[k].toFixed(2)+'</td></tr>';
+  }
+  sh+='<tr class="m3-grand"><td class="m3-sub-lbl">Total materials (ex VAT)</td><td class="m3-sub-val">\u00a3'+res.totalMaterials.toFixed(2)+'</td></tr>';
+  sb.innerHTML=sh;
+}
 var cur=1,pAnn=null,pCum=null,roiCh=null,propCh=null,selPkg=null;
 var NAV=[
   {n:1,l:'Customer Details'},{n:2,l:'Energy Usage'},{n:3,l:'Cost Projection'},
@@ -832,7 +1530,7 @@ function goTo(n){
   if(n===3)setTimeout(rProj,60);
   if(n===4)setTimeout(renderProductCards,60);
   if(n===5)setTimeout(rRoofs,60);
-  if(n===6)setTimeout(updatePkg,60);
+  if(n===6){setTimeout(function(){updatePkg();if(typeof refreshCostCalcCustomSelectLabels==='function')refreshCostCalcCustomSelectLabels();},60);}
   if(n===7)setTimeout(rROI,60);
   if(n===8)setTimeout(rProp,60);
   window.scrollTo({top:0,behavior:'smooth'});
@@ -916,6 +1614,104 @@ function showToast(msg){
   t.style.pointerEvents='none';
   clearTimeout(t._to);
   t._to=setTimeout(function(){ t.style.opacity='0'; },2500);
+}
+
+/* Step 1 — custom themed dropdowns (hidden native <select> for save/load + matrix values) */
+function closeAllCostCalcDdMenus(){
+  document.querySelectorAll('.cost-calc-dd-menu.open').forEach(function(m){m.classList.remove('open');});
+  document.querySelectorAll('.cost-calc-dd-trigger.open').forEach(function(b){b.classList.remove('open');b.setAttribute('aria-expanded','false');});
+  document.querySelectorAll('.cost-calc-dd-wrap.menu-open').forEach(function(w){w.classList.remove('menu-open');});
+}
+function refreshCostCalcCustomSelectLabels(){
+  document.querySelectorAll('.cost-calc-dd-wrap').forEach(function(wrap){
+    var sel=wrap.querySelector('select');
+    var lbl=wrap.querySelector('.cost-calc-dd-lbl');
+    if(sel&&lbl&&sel.options.length&&sel.selectedIndex>=0)lbl.textContent=sel.options[sel.selectedIndex].text;
+  });
+}
+function initCostCalcCustomSelects(){
+  document.querySelectorAll('.cost-calc-dd-wrap').forEach(function(wrap){
+    var sel=wrap.querySelector('select');
+    if(!sel)return;
+    if(wrap.dataset.ddInit==='1')return;
+    wrap.dataset.ddInit='1';
+    sel.classList.add('cost-calc-mux-select');
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.className='cost-calc-dd-trigger';
+    btn.setAttribute('aria-expanded','false');
+    btn.setAttribute('aria-haspopup','listbox');
+    var sl=document.createElement('span');
+    sl.className='cost-calc-dd-lbl';
+    var chev=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chev.setAttribute('class','cost-calc-dd-chev');
+    chev.setAttribute('viewBox','0 0 24 24');
+    chev.setAttribute('aria-hidden','true');
+    var pth=document.createElementNS('http://www.w3.org/2000/svg','path');
+    pth.setAttribute('stroke','currentColor');
+    pth.setAttribute('stroke-width','2.25');
+    pth.setAttribute('stroke-linecap','round');
+    pth.setAttribute('stroke-linejoin','round');
+    pth.setAttribute('fill','none');
+    pth.setAttribute('d','M6 9l6 6 6-6');
+    chev.appendChild(pth);
+    btn.appendChild(sl);
+    btn.appendChild(chev);
+    var menu=document.createElement('div');
+    menu.className='cost-calc-dd-menu';
+    menu.setAttribute('role','listbox');
+    function syncLbl(){sl.textContent=sel.options.length&&sel.selectedIndex>=0?sel.options[sel.selectedIndex].text:'';}
+    function buildItems(){
+      menu.innerHTML='';
+      for(var i=0;i<sel.options.length;i++){
+        var it=document.createElement('div');
+        it.className='cost-calc-dd-item'+(i===sel.selectedIndex?' sel':'');
+        it.setAttribute('role','option');
+        it.setAttribute('data-idx',String(i));
+        it.textContent=sel.options[i].text;
+        it.addEventListener('mousedown',function(ev){
+          ev.preventDefault();
+          var ix=parseInt(this.getAttribute('data-idx'),10);
+          sel.selectedIndex=ix;
+          syncLbl();
+          closeAllCostCalcDdMenus();
+          if(typeof autoSave==='function')autoSave();
+          if(typeof updatePkg==='function')updatePkg();
+        });
+        menu.appendChild(it);
+      }
+    }
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(menu.classList.contains('open')){
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+        wrap.classList.remove('menu-open');
+      }else{
+        closeAllCostCalcDdMenus();
+        buildItems();
+        menu.classList.add('open');
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+        wrap.classList.add('menu-open');
+      }
+    });
+    sel.addEventListener('change',syncLbl);
+    syncLbl();
+    wrap.appendChild(btn);
+    wrap.appendChild(menu);
+  });
+  refreshCostCalcCustomSelectLabels();
+  if(!window._costCalcDdListenersAttached){
+    window._costCalcDdListenersAttached=1;
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.cost-calc-dd-wrap'))closeAllCostCalcDdMenus();
+    });
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape')closeAllCostCalcDdMenus();
+    });
+  }
 }
 
 /* ── ENERGY ── */
@@ -1054,6 +1850,14 @@ function totalPanels(){
   for(var r=1;r<=n;r++){var el=document.getElementById('rp'+r);if(el)t+=parseInt(el.value||0);}
   return t;
 }
+/** Panel count from Step 1 pricing matrix (1–30); falls back to roof total when invalid. */
+function matrixPanelCount(){
+  var el=document.getElementById('calc_panel_qty');
+  if(!el)return null;
+  var v=parseInt(el.value,10);
+  if(isFinite(v)&&v>=1&&v<=30)return v;
+  return null;
+}
 
 function rSysSummary(){
   var p=totalPanels(),kwp=(p*PANEL_KW).toFixed(2),gen=Math.round(p*PANEL_KW*KWH_PER_KW);
@@ -1068,12 +1872,34 @@ function rSysSummary(){
 
 /* ── PACKAGES ── */
 function updatePkg(){
-  var p=totalPanels()||8;
+  if(typeof updateLabourTotalDisplay==='function')updateLabourTotalDisplay();
+  if(typeof renderStep3Materials==='function')renderStep3Materials();
+
+  var p=matrixPanelCount();
+  if(p===null)p=totalPanels()||8;
   var ev=document.getElementById('s_ev').checked;
-  var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'1'}).value||1);
-  var kwp=(p*PANEL_KW).toFixed(2);
-  var jaOnly=tradeJA(p,ev),seOnly=tradeSE(p,ev);
-  var jaBat=jaOnly+ALPHA_BAT*batQty,seBat=seOnly+SE_BAT*batQty;
+  var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'1'}).value||1,10);
+  if(!isFinite(batQty)||batQty<0)batQty=0;
+  var bqBat=Math.max(1,batQty||1);
+
+  var uiPanel=getCalcVal('calc_panel_type')||'ja450_ab';
+  var kwpP=uiPanel==='se430_opt'?0.43:0.42;
+  var kwp=(p*kwpP).toFixed(2);
+
+  var mUiJob=computeStep3Materials({panelBinding:'ui'});
+  var jobCostExVat=tradeMaterialsPlusLabourEv(mUiJob.totalMaterials,ev);
+  if(typeof renderStep4Margin==='function')renderStep4Margin(jobCostExVat);
+
+  var mJa=computeStep3Materials({panelBinding:'ja',includeBattery:false});
+  var mSe=computeStep3Materials({panelBinding:'se',includeBattery:false});
+  var mJaBat=computeStep3Materials({panelBinding:'ja',includeBattery:true,forceBattery:'alpha_96_heat',batQty:bqBat});
+  var mSeBat=computeStep3Materials({panelBinding:'se',includeBattery:true,forceBattery:'se_home_10',batQty:bqBat});
+
+  var jaOnly=tradeMaterialsPlusLabourEv(mJa.totalMaterials,ev);
+  var seOnly=tradeMaterialsPlusLabourEv(mSe.totalMaterials,ev);
+  var jaBat=tradeMaterialsPlusLabourEv(mJaBat.totalMaterials,ev);
+  var seBat=tradeMaterialsPlusLabourEv(mSeBat.totalMaterials,ev);
+  _lastPkgTrades={ja_solar:jaOnly,se_solar:seOnly,ja_bat:jaBat,se_bat:seBat};
   var evLine=ev?['OZEV EV charge point']:[];
   var pkgs=[
     {id:'ja_solar',hasBat:false,n:'Solar Only — JA Solar',sz:p+' × JA Solar 450W All-Black + Alpha Hybrid',trade:jaOnly,
@@ -1088,12 +1914,12 @@ function updatePkg(){
   var grid=document.getElementById('pkg-grid');grid.innerHTML='';
   for(var i=0;i<pkgs.length;i++){
     var pkg=pkgs[i],cp=custPx(pkg.trade);
-    var div=document.createElement('div');div.className='pkg';
+    var div=document.createElement('div');div.className='pkg';div.setAttribute('data-pkg-id',pkg.id);
     (function(pk,c2,el){div.onclick=function(){selPkg2(pk,c2,el);};})(pkg,cp,div);
     div.innerHTML=
       '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
       +'<div class="pkg-name">'+pkg.n+'</div>'
-      +(pkg.hasBat?'<span style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0;margin-left:8px">+ Battery</span>':'')
+      +(pkg.hasBat?'<span style="background:#fffbeb;color:#ca8a04;border:1px solid #fde68a;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0;margin-left:8px">+ Battery</span>':'')
       +'</div>'
       +'<div class="pkg-sz">'+pkg.sz+'</div>'
       +'<div class="pkg-px">\u00a3'+cp.toLocaleString()+'</div>'
@@ -1103,6 +1929,19 @@ function updatePkg(){
       +pkg.inc.map(function(x){return '<div style="padding:2px 0">\u2713 '+x+'</div>';}).join('')
       +'</div>';
     grid.appendChild(div);
+  }
+  if(selPkg&&_lastPkgTrades[selPkg.id]!=null){
+    var basePx=Math.round(sellPriceExVatFromCost(_lastPkgTrades[selPkg.id]));
+    selPkg.custPx=basePx;
+    var disc=parseFloat(document.getElementById('pkg_discount').value||0);
+    var finalPx=disc>0?Math.round(basePx*(1-disc/100)):basePx;
+    document.getElementById('pkg_final').value=finalPx;
+    if(disc>0)selPkg.final=finalPx;
+    else delete selPkg.final;
+    var det=document.getElementById('pkg-detail');
+    if(det)det.innerHTML='<strong>'+selPkg.name+'</strong> \u2014 <strong>\u00a3'+finalPx.toLocaleString()+'</strong> \u00b7 '+selPkg.inc.join(', ');
+    var selEl=document.querySelector('#pkg-grid .pkg[data-pkg-id="'+selPkg.id+'"]');
+    if(selEl)selEl.classList.add('sel');
   }
   document.getElementById('pkg-rec').innerHTML=
     '&#128161; <strong>'+p+' panels &middot; '+kwp+' kWp</strong>'
@@ -1161,7 +2000,7 @@ function rROI(){
   if(roiCh)roiCh.destroy();
   roiCh=new Chart(ctx,{type:'line',data:{labels:lbls,datasets:[
     {label:'Without Solar',data:wo,borderColor:'#DC2626',backgroundColor:'rgba(220,38,38,0.06)',tension:0.3,fill:true,pointRadius:2},
-    {label:'With Solar',data:ws,borderColor:'#16A34A',backgroundColor:'rgba(22,163,74,0.08)',tension:0.3,fill:true,pointRadius:2},
+    {label:'With Solar',data:ws,borderColor:'#D9A800',backgroundColor:'rgba(251,202,32,0.14)',tension:0.3,fill:true,pointRadius:2},
     {label:'Cumulative Saving',data:cumS,borderColor:'#FBCA20',borderDash:[5,5],tension:0.3,yAxisID:'y2',fill:false,pointRadius:2}
   ]},options:{responsive:true,maintainAspectRatio:false,
     plugins:{tooltip:{callbacks:{label:function(ctx2){return ctx2.dataset.label+': \u00a3'+ctx2.parsed.y.toLocaleString();}}}},
@@ -1252,7 +2091,7 @@ function rProp(){
   if(propCh)propCh.destroy();
   propCh=new Chart(ctx,{type:'line',data:{labels:lbls,datasets:[
     {label:'Without Solar',data:wso,borderColor:'#DC2626',backgroundColor:'rgba(220,38,38,0.05)',tension:0.3,fill:true},
-    {label:'With Solar',data:wsi,borderColor:'#16A34A',backgroundColor:'rgba(22,163,74,0.08)',tension:0.3,fill:true},
+    {label:'With Solar',data:wsi,borderColor:'#D9A800',backgroundColor:'rgba(251,202,32,0.14)',tension:0.3,fill:true},
     {label:'Cumulative Saving',data:cumSv,borderColor:'#FBCA20',borderDash:[5,5],tension:0.3,yAxisID:'y2',fill:false}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': \u00a3'+c.parsed.y.toLocaleString();}}}},scales:{y:{ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{color:'#F3F4F6'}},y2:{position:'right',ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{display:false}}}}});
 }
@@ -1260,7 +2099,7 @@ function rProp(){
 /* ── SAVE/LOAD ── */
 function getAllSaved(){try{return JSON.parse(localStorage.getItem(STORE))||{};}catch(e){return {};}}
 function collectData(){
-  var d={},ids=['c_name','c_email','c_phone','c_surveyor','c_addr1','c_street','c_town','c_county','c_postcode','c_proptype','c_occupants','c_notes','e_bill','e_tariff','e_kwh','s_roofs','pkg_discount','pkg_final','roi_gen','roi_selfcon','roi_scenario','p_scenario','p_years','s_bat_qty'];
+  var d={},ids=['c_name','c_email','c_phone','c_surveyor','c_addr1','c_street','c_town','c_county','c_postcode','c_proptype','c_occupants','c_notes','e_bill','e_tariff','e_kwh','s_roofs','pkg_discount','pkg_final','roi_gen','roi_selfcon','roi_scenario','p_scenario','p_years','s_bat_qty','calc_panel_qty','calc_panel_type','calc_inverter','calc_battery','calc_bat_mount','calc_roof_mount','calc_isolator','calc_mc4','calc_target_margin','lab_scaffold','lab_roof','lab_electrical','lab_dno'];
   for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el)d[ids[i]]=el.value;}
   var cids=['s_scaffold','s_membrane','s_sprayfoom','s_access','s_ev'];
   for(var i=0;i<cids.length;i++){var el=document.getElementById(cids[i]);if(el)d[cids[i]]=el.checked;}
@@ -1272,7 +2111,7 @@ function collectData(){
   d.roofData=rd;return d;
 }
 function applyData(d){
-  var ids=['c_name','c_email','c_phone','c_surveyor','c_addr1','c_street','c_town','c_county','c_postcode','c_proptype','c_occupants','c_notes','e_bill','e_tariff','e_kwh','s_roofs','pkg_discount','pkg_final','roi_gen','roi_selfcon','roi_scenario','p_scenario','p_years','s_bat_qty'];
+  var ids=['c_name','c_email','c_phone','c_surveyor','c_addr1','c_street','c_town','c_county','c_postcode','c_proptype','c_occupants','c_notes','e_bill','e_tariff','e_kwh','s_roofs','pkg_discount','pkg_final','roi_gen','roi_selfcon','roi_scenario','p_scenario','p_years','s_bat_qty','calc_panel_qty','calc_panel_type','calc_inverter','calc_battery','calc_bat_mount','calc_roof_mount','calc_isolator','calc_mc4','calc_target_margin','lab_scaffold','lab_roof','lab_electrical','lab_dno'];
   for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&d[ids[i]]!==undefined)el.value=d[ids[i]];}
   var cids=['s_scaffold','s_membrane','s_sprayfoom','s_access','s_ev'];
   for(var i=0;i<cids.length;i++){var el=document.getElementById(cids[i]);if(el&&d[cids[i]]!==undefined)el.checked=d[cids[i]];}
@@ -1287,6 +2126,8 @@ function applyData(d){
     }
   }else{rRoofs();}
   calcEnergy();
+  if(typeof updatePkg==='function')updatePkg();
+  if(typeof refreshCostCalcCustomSelectLabels==='function')refreshCostCalcCustomSelectLabels();
 }
 function autoSave(){try{sessionStorage.setItem('fp_cur',JSON.stringify(collectData()));}catch(e){}}
 function saveSurvey(){
@@ -1348,6 +2189,8 @@ window.addEventListener('DOMContentLoaded',function(){
   if(sess){try{applyData(JSON.parse(sess));}catch(e){rRoofs();calcEnergy();}}
   else{calcEnergy();}
   rSysSummary();
+  updatePkg();
+  initCostCalcCustomSelects();
 });
 </script>
 </body>
