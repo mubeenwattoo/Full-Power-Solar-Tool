@@ -130,9 +130,6 @@ textarea{resize:vertical;min-height:72px;}
 .scenario-btn{padding:5px 12px;margin:0 3px;font-size:12px;font-weight:700;border-radius:6px;border:2px solid var(--border);background:var(--light);color:var(--mid);cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s;}
 .scenario-btn:hover{border-color:var(--yellow);color:var(--black);}
 .scenario-btn.on{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
-.bp-box.green{background:var(--yellow-soft);border:2px solid var(--yellow-border);}
-.bp-box.green .bp-yr,.bp-box.green .bp-val,.bp-box.green .bp-lbl{color:var(--yellow-text);}
-.bp-box.green .bp-val{font-weight:900;}
 .sb{background:var(--light);border-radius:10px;padding:14px 16px;text-align:center;}
 .sb-val{font-size:22px;font-weight:900;}
 .sb-lbl{font-size:10px;color:var(--grey);text-transform:uppercase;font-weight:700;margin-top:3px;letter-spacing:.03em;}
@@ -149,15 +146,20 @@ textarea{resize:vertical;min-height:72px;}
 .roi-horizon-yr{background:linear-gradient(180deg,#fafbfc,#f4f5f7);padding:12px 14px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--mid);text-align:center;border-bottom:1px solid #e2e8f0;}
 .roi-compare-pair{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:0;}
 .roi-cell{padding:14px 12px;text-align:center;display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0;}
-.roi-cell-wo{background:#fff;border-right:1px solid #f1f5f9;}
-.roi-cell-ws{background:linear-gradient(180deg,#fffef8,#fffbeb);border-left:none;}
+.roi-cell-wo{background:linear-gradient(180deg,#fff,#fef2f2);border-right:1px solid #fecaca;}
+.roi-cell-ws{background:linear-gradient(180deg,#f0fdf4,#ecfdf5);border-left:none;}
 .roi-cell-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--grey);line-height:1.3;}
 .roi-cell-wo .roi-cell-lbl{color:#991b1b;}
-.roi-cell-ws .roi-cell-lbl{color:var(--yellow-ink);}
+.roi-cell-ws .roi-cell-lbl{color:#166534;}
 .roi-cell-val{font-size:1.05rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--black);word-break:break-word;}
 .roi-cell-wo .roi-cell-val{color:#b91c1c;}
-.roi-cell-ws .roi-cell-val{color:var(--yellow-text);}
-.roi-horizon-save{text-align:center;padding:10px 12px;font-size:11px;font-weight:800;color:var(--yellow-ink);background:var(--yellow-soft);border-top:1px solid var(--yellow-border);}
+.roi-cell-ws .roi-cell-val{color:#15803d;}
+.roi-horizon-save{text-align:center;padding:10px 12px;font-size:11px;font-weight:800;color:#166534;background:linear-gradient(180deg,#ecfdf5,#d1fae5);border-top:1px solid #6ee7b7;}
+/* Savings & ROI — stat tiles: green = cumulative savings, red = payback */
+#sec7 .stats .sb.g{border-left:4px solid #16a34a;background:linear-gradient(180deg,#f0fdf4,#fff);}
+#sec7 .stats .sb.g .sb-val{color:#15803d;}
+#sec7 .stats .sb.y{border-left:4px solid #dc2626;background:linear-gradient(180deg,#fef2f2,#fff);}
+#sec7 .stats .sb.y .sb-val{color:#b91c1c;}
 .ib{padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin:14px 0;}
 .ib.y{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
 #extras-banner.ib{box-shadow:0 1px 3px rgba(0,0,0,.06);}
@@ -403,7 +405,7 @@ textarea{resize:vertical;min-height:72px;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .prop-page{box-shadow:none!important;border-radius:0!important;page-break-after:always;margin-bottom:0!important;}
   #sec8 .prop-page:last-of-type{page-break-after:auto;}
-  .prop-chart-wrap{break-inside:avoid;page-break-inside:avoid;height:240px!important;}
+  .prop-chart-wrap{break-inside:avoid;page-break-inside:avoid;height:280px!important;}
   .prop-section,.prop-cover{break-inside:avoid;}
 }
 
@@ -459,7 +461,9 @@ textarea{resize:vertical;min-height:72px;}
 .prop-inc-chk{width:17px;height:17px;background:#FBCA20;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:9px;font-weight:900;color:#000100;}
 .prop-inc-text{font-size:.8rem;font-weight:600;color:#374151;line-height:1.3;}
 .prop-inc-sub{font-size:.68rem;color:#6b7280;font-weight:400;margin-top:1px;}
-.prop-chart-wrap{position:relative;height:220px;margin-bottom:18px;}
+.prop-chart-wrap{position:relative;height:270px;margin-bottom:8px;}
+.prop-chart-caption{font-size:.68rem;color:#4b5563;line-height:1.55;margin:0 0 14px;padding:0 2px;max-width:720px;}
+.prop-chart-caption strong{color:#111827;}
 .prop-co2{background:linear-gradient(135deg,var(--yellow-soft),#fffef0);border:1.5px solid var(--yellow-border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px;}
 .prop-co2-icon{font-size:26px;flex-shrink:0;}
 .prop-co2-text{font-size:.8rem;color:#374151;line-height:1.6;}
@@ -517,7 +521,7 @@ textarea{resize:vertical;min-height:72px;}
   #sec8 .p-dr-k{flex:1 1 auto;min-width:0;}
   #sec8 .p-dr-v{text-align:left;flex:1 1 100%;word-break:break-word;}
   #sec8 .prop-co2{flex-direction:column;align-items:flex-start;}
-  #sec8 .prop-chart-wrap{height:200px;min-width:0;width:100%;max-width:100%;}
+  #sec8 .prop-chart-wrap{height:240px;min-width:0;width:100%;max-width:100%;}
   #sec8 .prop-save-summary{padding:12px 14px;}
   #sec8 .prop-footer-bar{padding:16px 14px;flex-direction:column;align-items:flex-start;}
 }
@@ -665,12 +669,6 @@ textarea{resize:vertical;min-height:72px;}
       <div class="bp-box"><div class="bp-yr">15 yr</div><div class="bp-val" id="break-cum-15">&pound;0</div><div class="bp-lbl">Without solar</div></div>
       <div class="bp-box"><div class="bp-yr">20 yr</div><div class="bp-val" id="break-cum-20">&pound;0</div><div class="bp-lbl">Without solar</div></div>
     </div>
-    <div class="breakpoints-row" style="margin-top:12px">
-      <div class="bp-box green"><div class="bp-yr">5 yr</div><div class="bp-val" id="break-ws-5">&pound;0</div><div class="bp-lbl" id="break-save-5">Save &pound;0</div></div>
-      <div class="bp-box green"><div class="bp-yr">10 yr</div><div class="bp-val" id="break-ws-10">&pound;0</div><div class="bp-lbl" id="break-save-10">Save &pound;0</div></div>
-      <div class="bp-box green"><div class="bp-yr">15 yr</div><div class="bp-val" id="break-ws-15">&pound;0</div><div class="bp-lbl" id="break-save-15">Save &pound;0</div></div>
-      <div class="bp-box green"><div class="bp-yr">20 yr</div><div class="bp-val" id="break-ws-20">&pound;0</div><div class="bp-lbl" id="break-save-20">Save &pound;0</div></div>
-    </div>
 
     <div class="sdiv">Annual Energy Bill Without Solar</div>
     <div class="cw"><canvas id="projAnnualChart"></canvas></div>
@@ -686,9 +684,9 @@ textarea{resize:vertical;min-height:72px;}
       <div class="sb b"><div class="sb-val" id="cum-5">&pound;0</div><div class="sb-lbl">Total by Yr 5</div></div>
       <div class="sb b"><div class="sb-val" id="cum-10">&pound;0</div><div class="sb-lbl">Total by Yr 10</div></div>
       <div class="sb b"><div class="sb-val" id="cum-15">&pound;0</div><div class="sb-lbl">Total by Yr 15</div></div>
-      <div class="sb b"><div class="sb-val" id="cum-25">&pound;0</div><div class="sb-lbl">Total by Yr 25</div></div>
+      <div class="sb b"><div class="sb-val" id="cum-horizon">&pound;0</div><div class="sb-lbl" id="cum-horizon-lbl">Total by end of projection</div></div>
     </div>
-    <div class="ib y">&#9889; Without solar, this customer could spend <strong id="proj-total-lbl">&pound;0</strong> over 25 years on energy bills alone. ONS data shows average increases of 7.5% per year &mdash; solar locks in free generation.</div>
+    <div class="ib y">&#9889; Without solar, this customer could spend <strong id="proj-total-lbl">&pound;0</strong> over <span id="proj-total-yrs">15</span> years on energy bills alone. ONS data shows average increases of 7.5% per year &mdash; solar locks in free generation.</div>
   </div>
   <div class="nav-btns"><button class="btn-g" onclick="goTo(2)">&larr; Back</button><button class="btn-y" onclick="goTo(4)">Our Products &rarr;</button></div>
 </div>
@@ -749,10 +747,10 @@ textarea{resize:vertical;min-height:72px;}
     <p class="sec-sub" style="margin-bottom:14px;font-size:12px">Match the spreadsheet: panel count, component types and accessories. More dropdown options will be added as the matrix is finalised.</p>
     <div class="cost-calc-rows">
       <div class="cost-calc-row">
-        <label class="fl" for="calc_panel_qty">Number of panels (1&ndash;30)</label>
+        <label class="fl" for="calc_panel_qty">Number of panels (from roof design)</label>
         <div class="cost-calc-cell">
-          <input type="number" class="cost-calc-num" id="calc_panel_qty" min="1" max="30" value="10" inputmode="numeric" oninput="autoSave();updatePkg()"/>
-          <span class="cost-calc-hint">&larr; type</span>
+          <input type="number" class="cost-calc-num" id="calc_panel_qty" min="1" max="30" value="10" inputmode="numeric" readonly/>
+          <span class="cost-calc-hint">&larr; auto</span>
         </div>
       </div>
       <div class="cost-calc-row">
@@ -1062,7 +1060,7 @@ textarea{resize:vertical;min-height:72px;}
 <!-- SEC 7 -->
 <div class="sec" id="sec7" style="display:none">
   <h2 class="sec-title">Savings &amp; ROI</h2>
-  <p class="sec-sub">Energy bill comparison with and without solar. ONS electricity inflation feeds through from the scenario below. See cumulative spend at 5, 10 and 15 years side by side.</p>
+  <p class="sec-sub">Energy bill comparison with and without solar. ONS electricity inflation feeds through from the scenario below. See cumulative spend at 5, 10 and 15 years in the cards and year-by-year table.</p>
   <div class="card">
     <div class="g3" style="margin-bottom:16px">
       <div class="fg"><label class="fl">ONS Scenario</label>
@@ -1072,13 +1070,12 @@ textarea{resize:vertical;min-height:72px;}
           <option value="0.104">High (10.4%)</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">Est. Annual Generation (kWh)</label><input type="number" id="roi_gen" value="4500" oninput="rROI();autoSave()"/></div>
+      <div class="fg"><label class="fl">Est. Annual Generation (kWh)</label><input type="number" id="roi_gen" value="0" readonly style="background:var(--light);font-weight:700" aria-describedby="roi-gen-hint"/><span id="roi-gen-hint" class="fg-hint">Auto from System Design: panel count &times; 0.42 kWp &times; 850 kWh/kWp/yr (same as roof summary).</span></div>
       <div class="fg"><label class="fl">Self-Consumption Rate (%)</label><input type="number" id="roi_selfcon" value="40" min="10" max="90" oninput="rROI();autoSave()"/></div>
     </div>
-    <div class="cw-lg"><canvas id="roiChart"></canvas></div>
 
     <div class="sdiv roi-horizon">Cumulative energy spend</div>
-    <p class="roi-horizon-hint">Total you would pay on electricity from <strong>year 1 through year 5, 10 or 15</strong> &mdash; left: no solar (bills rising with ONS rates). Right: same years with your solar generation reducing the bill (self-use + export at 15p/kWh on unused generation, same model as the chart above).</p>
+    <p class="roi-horizon-hint">Total you would pay on electricity from <strong>year 1 through year 5, 10 or 15</strong> &mdash; left: no solar (bills rising with ONS rates). Right: same years with your solar generation reducing the bill (self-use + export at 15p/kWh on unused generation, same model as the table below).</p>
     <div class="roi-horizon-grid" role="region" aria-label="Bill comparison at 5, 10 and 15 years">
       <div class="roi-horizon-card">
         <div class="roi-horizon-yr">Years 1 &ndash; 5</div>
@@ -1245,6 +1242,7 @@ textarea{resize:vertical;min-height:72px;}
       <div class="prop-heading">Projected Savings Over 25 Years</div>
       <div class="prop-yrule"></div>
       <div class="prop-chart-wrap"><canvas id="proposalChart"></canvas></div>
+      <p id="prop-chart-caption" class="prop-chart-caption" aria-live="polite"></p>
 
       <div class="prop-eyebrow" style="margin-top:6px">What&rsquo;s Included</div>
       <div class="prop-heading" style="margin-bottom:7px">Everything In Your Package</div>
@@ -1635,7 +1633,7 @@ function renderStep3Materials(){
   sh+='<tr class="m3-grand"><td class="m3-sub-lbl">Total materials (ex VAT)</td><td class="m3-sub-val">\u00a3'+res.totalMaterials.toFixed(2)+'</td></tr>';
   sb.innerHTML=sh;
 }
-var cur=1,pAnn=null,pCum=null,roiCh=null,propCh=null,selPkg=null;
+var cur=1,pAnn=null,pCum=null,propCh=null,selPkg=null;
 /* ═══ EmailJS — TEMPORARY: Full Power test account. CLIENT: replace values in EMAILJS_CONFIG only ═══ */
 var EMAILJS_CONFIG={
   publicKey:'E8yNKjYc96gl7UWaU',
@@ -1758,6 +1756,8 @@ function updateFileProtocolNotice(){
 var POSTCODES_IO_AUTOCOMPLETE='https://api.postcodes.io/postcodes';
 var POSTCODES_IO_LOOKUP='https://api.postcodes.io/postcodes';
 var _postcodeDebounce=null;
+var _postcodeReqId=0;
+var _postcodeLookupAbort=null;
 
 function initPostcodeLookup(){
   var input=document.getElementById('postcode-lookup-input');
@@ -1768,11 +1768,25 @@ function initPostcodeLookup(){
   function showMessage(msg,isErr){ showResults('<div class="postcode-msg'+(isErr?' err':'')+'">'+msg+'</div>'); }
 
   function doFind(text){
-    var q=encodeURIComponent(text.replace(/\s+/g,' ').trim());
-    if(q.length<3){ showMessage('Enter at least 3 characters (e.g. SA1 or SA1 3XL).'); return; }
-    fetch(POSTCODES_IO_AUTOCOMPLETE+'?q='+q).then(function(r){ return r.json(); }).then(function(data){
+    var reqId=++_postcodeReqId;
+    var raw=text.replace(/\s+/g,' ').trim();
+    var q=encodeURIComponent(raw);
+    if(!raw.length){ hideResults(); return; }
+    if(_postcodeLookupAbort&&typeof _postcodeLookupAbort.abort==='function'){
+      try{ _postcodeLookupAbort.abort(); }catch(_e){}
+    }
+    var fetchOpts={};
+    if(typeof AbortController!=='undefined'){
+      _postcodeLookupAbort=new AbortController();
+      fetchOpts.signal=_postcodeLookupAbort.signal;
+    }
+    fetch(POSTCODES_IO_AUTOCOMPLETE+'?q='+q,fetchOpts).then(function(r){
+      if(!r.ok)throw new Error('bad status');
+      return r.json();
+    }).then(function(data){
+      if(reqId!==_postcodeReqId)return;
       var list=(data&&data.result) ? data.result : [];
-      if(!Array.isArray(list)||list.length===0){ showMessage('No postcodes found. Try e.g. SA1 3XL'); return; }
+      if(!Array.isArray(list)||list.length===0){ showMessage('No postcodes found. Try another part of the postcode (e.g. SA1 or SW1A).'); return; }
       var html=list.slice(0,12).map(function(it){
         var pc=(typeof it==='string'?it:(it.postcode||'')).replace(/"/g,'&quot;');
         var label=typeof it==='string'?pc:[pc,it.admin_district,it.admin_county].filter(Boolean).join(' \u2014 ');
@@ -1783,14 +1797,21 @@ function initPostcodeLookup(){
         el.addEventListener('click',function(){ onSelect(this.getAttribute('data-postcode')); });
         el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onSelect(this.getAttribute('data-postcode')); }});
       });
-    }).catch(function(){ showMessage('Unable to search. Check your connection.',true); });
+    }).catch(function(err){
+      if(err&&err.name==='AbortError')return;
+      if(reqId!==_postcodeReqId)return;
+      showMessage('Unable to search. Check your connection.',true);
+    });
   }
 
   function onSelect(postcode){
     if(!postcode){ hideResults(); return; }
     var pcEnc=encodeURIComponent(postcode.trim());
     resultsEl.innerHTML='<div class="postcode-loading">Loading\u2026</div>'; resultsEl.classList.add('open');
-    fetch(POSTCODES_IO_LOOKUP+'/'+pcEnc).then(function(r){ return r.json(); }).then(function(data){
+    fetch(POSTCODES_IO_LOOKUP+'/'+pcEnc).then(function(r){
+      if(!r.ok)throw new Error('bad status');
+      return r.json();
+    }).then(function(data){
       var r=data&&data.result;
       if(!r){ showMessage('Could not get details for this postcode.',true); return; }
       var town=(r.admin_district||r.admin_ward||'').trim();
@@ -1806,16 +1827,27 @@ function initPostcodeLookup(){
     }).catch(function(){ showMessage('Could not load postcode details.',true); });
   }
 
+  resultsEl.addEventListener('mousedown',function(e){
+    if(e.target&&e.target.closest&&e.target.closest('.postcode-result-item'))e.preventDefault();
+  });
+
   input.addEventListener('input',function(){
     var v=this.value.trim();
     clearTimeout(_postcodeDebounce);
     hideResults();
-    if(v.length<3)return;
+    if(!v.length){
+      if(_postcodeLookupAbort&&typeof _postcodeLookupAbort.abort==='function'){
+        try{ _postcodeLookupAbort.abort(); }catch(_e){}
+      }
+      _postcodeReqId++;
+      return;
+    }
     resultsEl.innerHTML='<div class="postcode-loading">Searching\u2026</div>'; resultsEl.classList.add('open');
-    _postcodeDebounce=setTimeout(function(){ doFind(v); },350);
+    var debounceMs=v.length<=2?450:320;
+    _postcodeDebounce=setTimeout(function(){ doFind(v); },debounceMs);
   });
-  input.addEventListener('focus',function(){ var v=this.value.trim(); if(v.length>=3&&resultsEl.innerHTML) resultsEl.classList.add('open'); });
-  input.addEventListener('blur',function(){ setTimeout(function(){ var active=document.activeElement; if(!resultsEl.contains(active)&&active!==input) hideResults(); },180); });
+  input.addEventListener('focus',function(){ var v=this.value.trim(); if(v.length>=1&&resultsEl.innerHTML) resultsEl.classList.add('open'); });
+  input.addEventListener('blur',function(){ setTimeout(function(){ var active=document.activeElement; if(!resultsEl.contains(active)&&active!==input) hideResults(); },200); });
   document.addEventListener('click',function(e){ if(!input.contains(e.target)&&!resultsEl.contains(e.target)) hideResults(); });
 }
 
@@ -1990,39 +2022,22 @@ function rProj(){
   document.getElementById('cum-5').textContent=yrs>=5?'\u00a3'+cumAt(5).toLocaleString():'--';
   document.getElementById('cum-10').textContent=yrs>=10?'\u00a3'+cumAt(10).toLocaleString():'--';
   document.getElementById('cum-15').textContent=yrs>=15?'\u00a3'+cumAt(15).toLocaleString():'--';
-  document.getElementById('cum-25').textContent=yrs>=25?'\u00a3'+cumAt(25).toLocaleString():'\u00a3'+cumAt(yrs).toLocaleString();
-  document.getElementById('proj-total-lbl').textContent=yrs>=25?'\u00a3'+cumAt(25).toLocaleString():'\u00a3'+cumAt(yrs).toLocaleString();
+  var cumH=document.getElementById('cum-horizon'),cumHL=document.getElementById('cum-horizon-lbl');
+  if(cumH)cumH.textContent='\u00a3'+cumAt(yrs).toLocaleString();
+  if(cumHL)cumHL.textContent='Total by Yr '+yrs;
+  document.getElementById('proj-total-lbl').textContent='\u00a3'+cumAt(yrs).toLocaleString();
+  var yEl=document.getElementById('proj-total-yrs');
+  if(yEl)yEl.textContent=String(yrs);
   var b5=document.getElementById('break-cum-5'),b10=document.getElementById('break-cum-10'),b15=document.getElementById('break-cum-15'),b20=document.getElementById('break-cum-20');
   if(b5)b5.textContent='\u00a3'+cumAt(5).toLocaleString();
   if(b10)b10.textContent='\u00a3'+cumAt(10).toLocaleString();
   if(b15)b15.textContent='\u00a3'+cumAt(15).toLocaleString();
   if(b20)b20.textContent='\u00a3'+cumAt(20).toLocaleString();
-  /* With solar row: same rate, yr1 saving from roi_gen/roi_selfcon/e_tariff */
-  var tariff=parseFloat(document.getElementById('e_tariff').value||28)/100;
-  var gen=parseFloat(document.getElementById('roi_gen').value||4500);
-  var sc=parseFloat(document.getElementById('roi_selfcon').value||40)/100;
-  var yr1=Math.round(gen*sc*tariff+gen*(1-sc)*0.15);
-  function cwsAt(y){var cs=0;for(var i=1;i<=y;i++){var bill=base*Math.pow(1+rate,i),sav=yr1*Math.pow(1+rate*0.5,i-1);cs+=Math.max(0,bill-sav);}return Math.round(cs);}
-  function saveAt(y){return cumAt(y)-cwsAt(y);}
-  var ws5=document.getElementById('break-ws-5'),ws10=document.getElementById('break-ws-10'),ws15=document.getElementById('break-ws-15'),ws20=document.getElementById('break-ws-20');
-  var sv5=document.getElementById('break-save-5'),sv10=document.getElementById('break-save-10'),sv15=document.getElementById('break-save-15'),sv20=document.getElementById('break-save-20');
-  if(ws5){ws5.textContent='\u00a3'+cwsAt(5).toLocaleString();}
-  if(ws10){ws10.textContent='\u00a3'+cwsAt(10).toLocaleString();}
-  if(ws15){ws15.textContent='\u00a3'+cwsAt(15).toLocaleString();}
-  if(ws20){ws20.textContent='\u00a3'+cwsAt(20).toLocaleString();}
-  if(sv5){sv5.textContent='Save \u00a3'+saveAt(5).toLocaleString();}
-  if(sv10){sv10.textContent='Save \u00a3'+saveAt(10).toLocaleString();}
-  if(sv15){sv15.textContent='Save \u00a3'+saveAt(15).toLocaleString();}
-  if(sv20){sv20.textContent='Save \u00a3'+saveAt(20).toLocaleString();}
   document.querySelectorAll('.scenario-btn').forEach(function(btn){var r=parseFloat(btn.getAttribute('data-rate')); btn.classList.toggle('on',Math.abs(r-rate)<0.001);});
-  /* Verification: open DevTools Console to see these. Without solar = sum of annual bills (base*(1+rate)^i). Save = that minus cumulative paid with solar. */
   if(typeof console!=='undefined'&&console.log){
     var v5=cumAt(5),v10=cumAt(10),v15=cumAt(15),v20=cumAt(20);
-    var w5=cwsAt(5),w10=cwsAt(10),w15=cwsAt(15),w20=cwsAt(20);
     console.log('Cost projection check: base=\u00a3'+base.toLocaleString()+'/yr, rate='+(rate*100)+'%');
     console.log('Without solar cumulative: 5yr \u00a3'+v5.toLocaleString()+', 10yr \u00a3'+v10.toLocaleString()+', 15yr \u00a3'+v15.toLocaleString()+', 20yr \u00a3'+v20.toLocaleString());
-    console.log('With solar cumulative: 5yr \u00a3'+w5.toLocaleString()+', 10yr \u00a3'+w10.toLocaleString()+', 15yr \u00a3'+w15.toLocaleString()+', 20yr \u00a3'+w20.toLocaleString());
-    console.log('Save: 5yr \u00a3'+(v5-w5).toLocaleString()+', 10yr \u00a3'+(v10-w10).toLocaleString()+', 15yr \u00a3'+(v15-w15).toLocaleString()+', 20yr \u00a3'+(v20-w20).toLocaleString());
   }
 }
 function setScenario(rate){
@@ -2068,6 +2083,14 @@ function totalPanels(){
   for(var r=1;r<=n;r++){var el=document.getElementById('rp'+r);if(el)t+=parseInt(el.value||0);}
   return t;
 }
+/** MCS-style yield used in System Summary: panels &times; kWp per panel &times; kWh/kWp/year */
+function getEstAnnualGenerationKwh(){
+  return Math.round((totalPanels()||0)*PANEL_KW*KWH_PER_KW);
+}
+function syncRoiGenField(){
+  var el=document.getElementById('roi_gen');
+  if(el)el.value=String(getEstAnnualGenerationKwh());
+}
 /** Panel count from Step 1 pricing matrix (1–30); falls back to roof total when invalid. */
 function matrixPanelCount(){
   var el=document.getElementById('calc_panel_qty');
@@ -2078,7 +2101,7 @@ function matrixPanelCount(){
 }
 
 function rSysSummary(){
-  var p=totalPanels(),kwp=(p*PANEL_KW).toFixed(2),gen=Math.round(p*PANEL_KW*KWH_PER_KW);
+  var p=totalPanels(),kwp=(p*PANEL_KW).toFixed(2),gen=getEstAnnualGenerationKwh();
   var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'0'}).value||0);
   var bat=batQty>0,ev=document.getElementById('s_ev').checked;
   var n=parseInt(document.getElementById('s_roofs').value||1);
@@ -2086,15 +2109,17 @@ function rSysSummary(){
   if(bat)txt+=' &middot; &#128267; '+batQty+' Batter'+(batQty>1?'ies':'y');
   if(ev)txt+=' &middot; &#9889; EV Charger';
   document.getElementById('sys-summary').innerHTML=txt;
+  syncRoiGenField();
+  if(typeof autoSave==='function')autoSave();
 }
 
 /* ── PACKAGES ── */
 function updatePkg(){
+  var p=totalPanels()||8;
+  var panelQtyEl=document.getElementById('calc_panel_qty');
+  if(panelQtyEl&&String(panelQtyEl.value)!==String(p))panelQtyEl.value=String(p);
   if(typeof updateLabourTotalDisplay==='function')updateLabourTotalDisplay();
   if(typeof renderStep3Materials==='function')renderStep3Materials();
-
-  var p=matrixPanelCount();
-  if(p===null)p=totalPanels()||8;
   var ev=document.getElementById('s_ev').checked;
   var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'1'}).value||1,10);
   if(!isFinite(batQty)||batQty<0)batQty=0;
@@ -2193,39 +2218,25 @@ function getFinal(){return parseFloat(document.getElementById('pkg_final').value
 
 /* ── ROI ── */
 function rROI(){
+  syncRoiGenField();
   var rate=parseFloat(document.getElementById('roi_scenario').value||0.075);
   var base=annBill(),tariff=parseFloat(document.getElementById('e_tariff').value||28)/100;
-  var gen=parseFloat(document.getElementById('roi_gen').value||4500);
+  var gen=getEstAnnualGenerationKwh();
   var sc=parseFloat(document.getElementById('roi_selfcon').value||40)/100;
   var cost=getFinal();
   var yr1=Math.round(gen*sc*tariff+gen*(1-sc)*0.15);
   function roiCumWithout(Y){var s=0;for(var i=1;i<=Y;i++)s+=base*Math.pow(1+rate,i);return Math.round(s);}
   function roiCumWith(Y){var s=0;for(var i=1;i<=Y;i++){var b=base*Math.pow(1+rate,i),sv=yr1*Math.pow(1+rate*0.5,i-1);s+=Math.max(0,b-sv);}return Math.round(s);}
-  var lbls=[],ws=[],wo=[],cumS=[],totS=0,pb=null;
+  var totS=0,pb=null;
   var s5=0,s10=0,s15=0;
   for(var y=1;y<=25;y++){
-    var bill=base*Math.pow(1+rate,y),sav=yr1*Math.pow(1+rate*0.5,y-1);
+    var sav=yr1*Math.pow(1+rate*0.5,y-1);
     totS+=sav;
     if(!pb&&cost>0&&totS>=cost)pb=y;
     if(y===5)s5=totS;
     if(y===10)s10=totS;
     if(y===15)s15=totS;
-    lbls.push('Yr '+y);
-    wo.push(Math.round(bill));
-    ws.push(Math.round(Math.max(0,bill-sav)));
-    cumS.push(Math.round(totS));
   }
-  /* chart */
-  var ctx=document.getElementById('roiChart').getContext('2d');
-  if(roiCh)roiCh.destroy();
-  roiCh=new Chart(ctx,{type:'line',data:{labels:lbls,datasets:[
-    {label:'Without Solar',data:wo,borderColor:'#DC2626',backgroundColor:'rgba(220,38,38,0.06)',tension:0.3,fill:true,pointRadius:2},
-    {label:'With Solar',data:ws,borderColor:'#D9A800',backgroundColor:'rgba(251,202,32,0.14)',tension:0.3,fill:true,pointRadius:2},
-    {label:'Cumulative Saving',data:cumS,borderColor:'#FBCA20',borderDash:[5,5],tension:0.3,yAxisID:'y2',fill:false,pointRadius:2}
-  ]},options:{responsive:true,maintainAspectRatio:false,
-    plugins:{tooltip:{callbacks:{label:function(ctx2){return ctx2.dataset.label+': \u00a3'+ctx2.parsed.y.toLocaleString();}}}},
-    scales:{y:{ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{color:'#F3F4F6'}},
-            y2:{position:'right',ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{display:false}}}}});
   /* stat boxes */
   function sv(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
   function fillRoiHorizon(yrSpan,key){
@@ -2287,14 +2298,62 @@ function blobToBase64(blob){
     r.readAsDataURL(blob);
   });
 }
+/** Refresh proposal DOM + chart, wait for fonts/layout so html2pdf matches the on-screen proposal */
+function prepareProposalForExport(){
+  return new Promise(function(resolve){
+    try{if(typeof autoSave==='function')autoSave();}catch(e0){}
+    try{if(typeof rProp==='function')rProp();}catch(e1){}
+    if(propCh&&typeof propCh.resize==='function'){try{propCh.resize();}catch(e2){}}
+    if(propCh&&typeof propCh.update==='function'){try{propCh.update('none');}catch(e3){}}
+    function settle(){
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          setTimeout(resolve,450);
+        });
+      });
+    }
+    if(document.fonts&&document.fonts.ready){
+      document.fonts.ready.then(settle).catch(settle);
+    }else settle();
+  });
+}
 function generateProposalPdfBlob(){
   var root=document.getElementById('proposal-pdf-root');
   if(!root)return Promise.reject(new Error('Proposal PDF root missing'));
   var opt={
     margin:[10,10,10,10],
     filename:'proposal.pdf',
-    image:{type:'jpeg',quality:0.88},
-    html2canvas:{scale:1.65,useCORS:true,logging:false,letterRendering:true,backgroundColor:'#ffffff'},
+    image:{type:'jpeg',quality:0.92},
+    html2canvas:{
+      scale:2,
+      useCORS:true,
+      logging:false,
+      letterRendering:true,
+      backgroundColor:'#ffffff',
+      scrollX:0,
+      scrollY:0,
+      allowTaint:false,
+      onclone:function(clonedDoc){
+        var cr=clonedDoc.getElementById('proposal-pdf-root');
+        if(cr){
+          cr.style.boxSizing='border-box';
+          cr.style.width='794px';
+          cr.style.maxWidth='794px';
+          cr.style.marginLeft='auto';
+          cr.style.marginRight='auto';
+        }
+        var orig=document.getElementById('proposalChart');
+        var copy=clonedDoc.getElementById('proposalChart');
+        if(orig&&copy&&orig.width>0&&orig.height>0){
+          try{
+            copy.width=orig.width;
+            copy.height=orig.height;
+            var cx=copy.getContext('2d');
+            if(cx)cx.drawImage(orig,0,0);
+          }catch(ec){}
+        }
+      }
+    },
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
     pagebreak:{mode:['avoid-all','css','legacy'],before:'.html2pdf-page-break'}
   };
@@ -2321,9 +2380,7 @@ function downloadProposalPdf(){
   var btn=document.getElementById('btn-dl-pdf');
   function done(){if(btn){btn.disabled=false;btn.innerHTML='&#128190; Download PDF';}}
   if(btn){btn.disabled=true;btn.textContent='Preparing…';}
-  try{if(typeof rProp==='function')rProp();}catch(e){}
-  if(propCh&&typeof propCh.update==='function'){try{propCh.update('none');}catch(e2){}}
-  new Promise(function(r){setTimeout(r,500);})
+  prepareProposalForExport()
   .then(function(){return generateProposalPdfBlob();})
   .then(function(blob){
     var c=document.getElementById('c_name');
@@ -2376,12 +2433,10 @@ function saveAndSendProposal(){
   function resetBtn(){if(btn){btn.disabled=false;btn.innerHTML='&#9993; Save &amp; Send';}}
   var c=EMAILJS_CONFIG;
   var replyEl=document.getElementById('c_email');
-  try{if(typeof rProp==='function')rProp();}catch(e2){}
-  if(propCh&&typeof propCh.update==='function'){try{propCh.update('none');}catch(e3){}}
   function sendTpl(params){
     return emailjs.send(c.serviceId,c.templateId,params,{publicKey:c.publicKey});
   }
-  new Promise(function(res){setTimeout(res,500);})
+  prepareProposalForExport()
   .then(function(){return generateProposalPdfBlob();})
   .then(function(blob){
     var dateSub=new Date().toLocaleDateString('en-GB');
@@ -2433,11 +2488,12 @@ function saveAndSendProposal(){
 
 /* ── PROPOSAL ── */
 function rProp(){
+  syncRoiGenField();
   var name=document.getElementById('c_name').value||'\u2014';
   var addr=[document.getElementById('c_addr1').value,document.getElementById('c_street').value,
     document.getElementById('c_town').value,document.getElementById('c_postcode').value].filter(Boolean).join(', ')||'\u2014';
   var panels=totalPanels(),kwp=(panels*PANEL_KW).toFixed(2);
-  var gen=parseFloat(document.getElementById('roi_gen').value||4500);
+  var gen=getEstAnnualGenerationKwh();
   var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'0'}).value||0);
   var bat=batQty>0,ev=document.getElementById('s_ev').checked;
   var price=getFinal(),tariff=parseFloat(document.getElementById('e_tariff').value||28)/100;
@@ -2505,14 +2561,57 @@ function rProp(){
   var csEl=document.getElementById('prop-cust-sig'); if(csEl)csEl.textContent=name;
   var rfEl=document.getElementById('prop-sig-ref'); if(rfEl)rfEl.textContent='Ref: FP-'+Date.now().toString(36).toUpperCase().slice(-6)+'  \u00b7  Valid 30 days';
 
-  /* Chart (data built in loop above: lbls, wso, wsi, cumSv) */
+  /* Chart — payback: investment line + red (before) / green (after) cumulative savings */
+  var capEl=document.getElementById('prop-chart-caption');
+  var invRounded=price>0?Math.round(price):0;
+  var cumPre=[],cumPost=[],investLine=[],prPost=[],ix;
+  for(ix=0;ix<25;ix++){
+    investLine.push(invRounded>0?invRounded:null);
+    prPost.push(0);
+  }
+  if(invRounded>0&&pb!==null&&pb>=1&&pb<=25) prPost[pb-1]=10;
+  for(ix=0;ix<25;ix++){
+    if(invRounded<=0){
+      cumPre.push(null); cumPost.push(cumSv[ix]);
+    }else if(pb===null){
+      cumPre.push(cumSv[ix]); cumPost.push(null);
+    }else if(pb===1){
+      cumPre.push(null); cumPost.push(cumSv[ix]);
+    }else if(ix<pb-1){
+      cumPre.push(cumSv[ix]); cumPost.push(null);
+    }else{
+      cumPre.push(null); cumPost.push(cumSv[ix]);
+    }
+  }
+  var ds=[
+    {label:'Without solar (annual bill)',data:wso,yAxisID:'y',borderColor:'#DC2626',backgroundColor:'rgba(220,38,38,0.07)',tension:0.25,fill:true,pointRadius:0,borderWidth:2},
+    {label:'With solar (annual bill)',data:wsi,yAxisID:'y',borderColor:'#15803d',backgroundColor:'rgba(21,128,61,0.11)',tension:0.25,fill:true,pointRadius:0,borderWidth:2}
+  ];
+  if(invRounded>0){
+    ds.push({label:'Your investment (break-even)',data:investLine,yAxisID:'y2',borderColor:'#475569',backgroundColor:'transparent',borderDash:[5,5],borderWidth:2,pointRadius:0,tension:0,fill:false});
+  }
+  if(invRounded>0&&pb!==null&&pb>1){
+    ds.push({label:'Cumulative savings — before payback',data:cumPre,yAxisID:'y2',borderColor:'#dc2626',backgroundColor:'transparent',borderDash:[7,5],borderWidth:2.5,pointRadius:0,tension:0.3,fill:false});
+  }
+  if(invRounded>0&&pb!==null){
+    ds.push({label:'Cumulative savings — after payback (net)',data:cumPost,yAxisID:'y2',borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,0.06)',borderWidth:3.5,pointRadius:prPost,pointHoverRadius:11,pointBackgroundColor:'#16a34a',pointBorderColor:'#fff',pointBorderWidth:2,tension:0.3,fill:false});
+  }else{
+    ds.push({label: invRounded>0&&pb===null ? 'Cumulative savings (still below investment at 25 yrs)' : 'Cumulative savings',data:cumSv,yAxisID:'y2',borderColor: invRounded>0&&pb===null ? '#64748b' : '#16a34a',borderDash: invRounded>0&&pb===null ? [6,4] : [],borderWidth:2.5,pointRadius:0,tension:0.3,fill:false});
+  }
+  if(capEl){
+    if(invRounded>0&&pb!==null){
+      capEl.innerHTML='<strong>Payback in year '+pb+':</strong> the horizontal dashed line is your total investment (break-even). The <strong style="color:#b91c1c">red</strong> cumulative curve is where bill savings are still below that level; <strong style="color:#15803d">green</strong> is after payback (net benefit). The large dot marks the first year cumulative savings reach your investment.';
+    }else if(invRounded>0&&pb===null){
+      capEl.innerHTML='On this model, <strong>cumulative savings</strong> (dashed grey) do not reach your investment within 25 years. Adjust generation, self-use, bill or scenario in Savings &amp; ROI, or review pricing.';
+    }else if(invRounded<=0){
+      capEl.textContent='Select a package and final customer price to show the investment line and payback split on the chart.';
+    }else{
+      capEl.textContent='';
+    }
+  }
   var ctx=document.getElementById('proposalChart').getContext('2d');
   if(propCh)propCh.destroy();
-  propCh=new Chart(ctx,{type:'line',data:{labels:lbls,datasets:[
-    {label:'Without Solar',data:wso,borderColor:'#DC2626',backgroundColor:'rgba(220,38,38,0.05)',tension:0.3,fill:true},
-    {label:'With Solar',data:wsi,borderColor:'#D9A800',backgroundColor:'rgba(251,202,32,0.14)',tension:0.3,fill:true},
-    {label:'Cumulative Saving',data:cumSv,borderColor:'#FBCA20',borderDash:[5,5],tension:0.3,yAxisID:'y2',fill:false}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': \u00a3'+c.parsed.y.toLocaleString();}}}},scales:{y:{ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{color:'#F3F4F6'}},y2:{position:'right',ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{display:false}}}}});
+  propCh=new Chart(ctx,{type:'line',data:{labels:lbls,datasets:ds},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,padding:10,font:{size:9},usePointStyle:true}},tooltip:{callbacks:{label:function(c){var v=c.parsed.y;return v==null?null:c.dataset.label+': \u00a3'+Number(v).toLocaleString();}}}},scales:{y:{ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{color:'#F3F4F6'}},y2:{position:'right',ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{color:'rgba(226,232,240,0.75)'}}}}});
 }
 
 /* ── SAVE/LOAD ── */
@@ -2547,6 +2646,8 @@ function applyData(d){
   calcEnergy();
   if(typeof updatePkg==='function')updatePkg();
   if(typeof refreshCostCalcCustomSelectLabels==='function')refreshCostCalcCustomSelectLabels();
+  syncRoiGenField();
+  if(typeof autoSave==='function')autoSave();
 }
 function autoSave(){try{sessionStorage.setItem('fp_cur',JSON.stringify(collectData()));}catch(e){}}
 function saveSurvey(){
