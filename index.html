@@ -7,70 +7,118 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-:root{--black:#000100;--yellow:#FBCA20;--yellow-soft:#fffbeb;--yellow-soft2:#fef3c7;--yellow-border:#fde68a;--yellow-ink:#92400e;--yellow-text:#ca8a04;--light:#f3f4f6;--grey:#6b7280;--mid:#374151;--white:#fff;--border:#e5e7eb;--green:#16a34a;--green-light:#f0fdf4;--green-border:#bbf7d0;--red:#dc2626;--nav-w:230px;}
+:root{
+  --black:#000100;--yellow:#FBCA20;--yellow-soft:#fffbeb;--yellow-soft2:#fef3c7;--yellow-border:#fde68a;--yellow-ink:#92400e;--yellow-text:#ca8a04;--light:#f3f4f6;--grey:#6b7280;--mid:#374151;--white:#fff;--border:#e5e7eb;--green:#16a34a;--green-light:#f0fdf4;--green-border:#bbf7d0;--red:#dc2626;
+  /* Fluid scale (email-style): everything shrinks with viewport — no “rail” sidebar */
+  --nav-w:clamp(118px,14vw + 72px,230px);
+  --sb-logo-w:clamp(56px,12vw + 36px,160px);
+  --nav-item-fs:clamp(8px,0.5vw + 5.4px,12px);
+  --nav-item-pad-x:clamp(5px,1.1vw + 2px,16px);
+  --nav-item-pad-y:clamp(5px,0.45vw + 5px,10px);
+  --nav-num-size:clamp(14px,1.25vw + 9px,22px);
+  --content-pad-x:clamp(9px,2.8vw + 6px,32px);
+  --content-pad-y:clamp(9px,2.2vw + 8px,28px);
+  --card-pad:clamp(10px,2.4vw + 6px,26px);
+  --sec-title-fs:clamp(14px,2.2vw + 9px,23px);
+  --sec-sub-fs:clamp(9.5px,0.65vw + 7.5px,13px);
+  --ui-gap:clamp(8px,1.5vw + 4px,16px);
+  --input-fs:clamp(11px,0.35vw + 10px,13px);
+  --input-pad-y:clamp(7px,0.5vw + 6px,10px);
+  --input-pad-x:clamp(8px,0.6vw + 7px,13px);
+  --btn-pad-y:clamp(8px,0.55vw + 7px,12px);
+  --btn-pad-x:clamp(10px,1.2vw + 8px,26px);
+  --btn-fs:clamp(11px,0.4vw + 10px,13px);
+  --chip-fs:clamp(9.5px,0.45vw + 9px,12px);
+  --chip-pad-y:clamp(6px,0.5vw + 5px,9px);
+  --chip-pad-x:clamp(8px,0.8vw + 6px,14px);
+  --fl-fs:clamp(9px,0.35vw + 8.5px,11px);
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--black);display:flex;min-height:100vh;}
 #sidebar{width:var(--nav-w);min-height:100vh;background:var(--black);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:200;overflow-y:auto;}
-.sb-brand{padding:18px 16px 14px;border-bottom:1px solid #1f1f1f;display:flex;flex-direction:column;align-items:center;gap:10px;}
-.sb-logo-img{width:160px;height:auto;display:block;border-radius:4px;}
-.sb-tagline{color:var(--yellow);font-size:9px;letter-spacing:.12em;text-transform:uppercase;text-align:center;}
-.sb-nav{flex:1;padding:10px 0;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;color:#9ca3af;font-size:12px;font-weight:600;transition:all .2s;border-left:3px solid transparent;}
+.sb-brand{padding:clamp(10px,2.2vw,18px) clamp(8px,1.8vw,16px) clamp(8px,1.8vw,14px);border-bottom:1px solid #1f1f1f;display:flex;flex-direction:column;align-items:center;gap:clamp(6px,1.5vw,10px);}
+.sb-logo-img{width:var(--sb-logo-w);max-width:100%;height:auto;display:block;border-radius:4px;}
+.sb-tagline{color:var(--yellow);font-size:clamp(6px,1.6vw,9px);letter-spacing:.1em;text-transform:uppercase;text-align:center;line-height:1.3;}
+.sb-nav{flex:1;padding:clamp(6px,1.5vw,10px) 0;}
+.nav-item{display:flex;align-items:center;gap:clamp(4px,0.9vw,10px);padding:var(--nav-item-pad-y) var(--nav-item-pad-x);cursor:pointer;color:#9ca3af;font-size:var(--nav-item-fs);font-weight:600;transition:all .2s;border-left:3px solid transparent;min-width:0;}
+.nav-item span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nav-item:hover{color:#fff;background:rgba(255,255,255,.05);}
 .nav-item.active{color:var(--yellow);background:rgba(251,202,32,.08);border-left-color:var(--yellow);}
 .nav-item.done{color:#4b5563;}
-.nav-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#6b7280;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+.nav-num{width:var(--nav-num-size);height:var(--nav-num-size);border-radius:50%;background:#1a1a1a;color:#6b7280;display:flex;align-items:center;justify-content:center;font-size:clamp(8px,2vw,10px);font-weight:800;flex-shrink:0;}
 .nav-item.active .nav-num{background:var(--yellow);color:var(--black);}
-.nav-item.done .nav-num{background:var(--yellow);color:var(--black);font-size:11px;}
-.sb-footer{padding:14px 16px;border-top:1px solid #1f1f1f;font-size:10px;color:#4b5563;line-height:1.7;}
-#main{margin-left:var(--nav-w);flex:1;display:flex;flex-direction:column;min-height:100vh;}
-#topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.tb-title{font-weight:900;font-size:16px;}
-.tb-sub{font-size:11px;color:var(--grey);}
-.tb-actions{display:flex;gap:10px;}
+.nav-item.done .nav-num{background:var(--yellow);color:var(--black);font-size:clamp(9px,2vw,11px);}
+.sb-footer{padding:clamp(8px,2vw,14px) clamp(8px,1.5vw,16px);border-top:1px solid #1f1f1f;font-size:clamp(7px,1.8vw,10px);color:#4b5563;line-height:1.55;}
+#main{margin-left:var(--nav-w);flex:1;display:flex;flex-direction:column;min-height:100vh;min-width:0;}
+#topbar{background:#fff;border-bottom:1px solid var(--border);padding:clamp(6px,1.4vw,10px) clamp(6px,2.2vw,32px);min-height:clamp(40px,10vw,58px);display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:clamp(4px,1.2vw,14px);position:sticky;top:0;z-index:100;box-sizing:border-box;}
+/* One horizontal line: title · subtitle (ellipsis) + buttons — never wrap bar to two rows */
+.tb-left{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:clamp(2px,0.8vw,8px);min-width:0;flex:1 1 auto;overflow:hidden;}
+.tb-title{font-weight:900;font-size:clamp(10px,2.1vw,16px);line-height:1.15;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0;}
+.tb-sub{font-size:clamp(7px,1.55vw,11px);color:var(--grey);line-height:1.2;margin-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1 1 auto;min-width:0;}
+.tb-sub::before{content:'\00a0·\00a0';color:#9ca3af;font-weight:700;}
+.tb-actions{display:flex;flex-wrap:nowrap;align-items:center;gap:clamp(3px,1vw,10px);flex-shrink:0;justify-content:flex-end;}
+#topbar .btn-g,#topbar .btn-y{display:inline-flex;align-items:center;justify-content:center;gap:clamp(2px,0.8vw,6px);padding:clamp(4px,1.1vw,12px) clamp(5px,1.5vw,22px);font-size:clamp(8px,1.75vw,13px);border-radius:clamp(6px,1vw,10px);font-weight:800;line-height:1.15;flex-shrink:0;border-width:clamp(1px,0.3vw,2px);}
+#topbar .btn-g{font-weight:700;}
+#topbar .tb-lbl-short{display:none;}
+@media (max-width:900px){
+  .tb-title{max-width:40%;}
+}
+@media (max-width:520px){
+  #topbar .tb-lbl-full{display:none;}
+  #topbar .tb-lbl-short{display:inline;}
+  #topbar .tb-ico{flex-shrink:0;line-height:1;font-size:clamp(12px,3.5vw,16px);}
+  .tb-title{max-width:34%;}
+}
+@media (max-width:380px){
+  #topbar .tb-lbl{display:none!important;}
+  #topbar .btn-g,#topbar .btn-y{padding:clamp(6px,2vw,10px) clamp(8px,2.5vw,12px);min-width:clamp(36px,11vw,44px);}
+  .tb-title{max-width:28%;}
+}
 #prog-bar{height:3px;background:var(--border);}
 #prog-fill{height:100%;background:var(--yellow);transition:width .4s;}
-#content{padding:28px 32px;flex:1;max-width:1100px;}
-.card{background:#fff;border-radius:16px;padding:26px 30px;box-shadow:0 1px 3px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);margin-bottom:18px;}
-.card-dark{background:var(--black);color:#fff;border-radius:16px;padding:26px 30px;margin-bottom:18px;}
-.sec-title{font-size:23px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;}
-.sec-sub{color:var(--grey);font-size:13px;margin-bottom:24px;line-height:1.5;}
-.card-label{font-size:11px;font-weight:800;color:var(--grey);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
-.card-title{font-size:14px;font-weight:900;color:var(--black);margin-bottom:18px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.fg{display:flex;flex-direction:column;gap:5px;}
-.fl{font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;}
-input,select,textarea{width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:8px;font-size:13px;color:var(--black);background:#fff;outline:none;font-family:'DM Sans',sans-serif;transition:border-color .2s;-webkit-appearance:none;appearance:none;}
+#content{padding:var(--content-pad-y) var(--content-pad-x);flex:1;max-width:1100px;min-width:0;width:100%;}
+.card{background:#fff;border-radius:clamp(10px,2.5vw,16px);padding:var(--card-pad) clamp(14px,3.5vw,30px);box-shadow:0 1px 3px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);margin-bottom:clamp(12px,3vw,18px);}
+.card-dark{background:var(--black);color:#fff;border-radius:clamp(10px,2.5vw,16px);padding:var(--card-pad) clamp(14px,3.5vw,30px);margin-bottom:clamp(12px,3vw,18px);}
+.sec-title{font-size:var(--sec-title-fs);font-weight:900;letter-spacing:-.02em;margin-bottom:5px;line-height:1.15;}
+.sec-sub{color:var(--grey);font-size:var(--sec-sub-fs);margin-bottom:clamp(14px,4vw,24px);line-height:1.45;}
+.card-label{font-size:clamp(9px,0.4vw + 8.5px,11px);font-weight:800;color:var(--grey);text-transform:uppercase;letter-spacing:.06em;margin-bottom:clamp(10px,2vw,14px);}
+.card-title{font-size:clamp(12px,0.55vw + 11px,14px);font-weight:900;color:var(--black);margin-bottom:clamp(12px,2.5vw,18px);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--ui-gap);}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(10px,1.8vw,14px);}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.5vw,12px);}
+.fg{display:flex;flex-direction:column;gap:clamp(4px,1vw,5px);}
+.fl{font-size:var(--fl-fs);font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;}
+input,select,textarea{width:100%;padding:var(--input-pad-y) var(--input-pad-x);border:2px solid var(--border);border-radius:clamp(6px,1.2vw,8px);font-size:var(--input-fs);color:var(--black);background:#fff;outline:none;font-family:'DM Sans',sans-serif;transition:border-color .2s;-webkit-appearance:none;appearance:none;}
 input:focus,select:focus,textarea:focus{border-color:var(--yellow);}
 textarea{resize:vertical;min-height:72px;}
 .req::after{content:' *';color:var(--red);}
 .cb-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
-.chip{padding:9px 14px;border-radius:50px;border:2px solid var(--border);background:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:background .2s ease,border-color .2s ease;user-select:none;}
+.chip{padding:var(--chip-pad-y) var(--chip-pad-x);border-radius:50px;border:2px solid var(--border);background:#fff;cursor:pointer;font-size:var(--chip-fs);font-weight:600;transition:background .2s ease,border-color .2s ease;user-select:none;}
 .chip:hover{border-color:var(--yellow);}
 .chip.active{background:var(--yellow);border-color:var(--yellow);}
 .fg-hint{font-size:11px;color:var(--grey);margin-top:5px;}
 .tg-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.tg-row{display:flex;align-items:center;justify-content:space-between;background:var(--light);border-radius:10px;padding:13px 16px;}
-.tg-lbl{font-size:13px;font-weight:600;}
+.tg-row{display:flex;align-items:center;justify-content:space-between;background:var(--light);border-radius:clamp(8px,1.5vw,10px);padding:clamp(10px,2vw,13px) clamp(12px,2.5vw,16px);gap:8px;}
+.tg-lbl{font-size:clamp(11px,0.45vw + 10px,13px);font-weight:600;}
 .tog{position:relative;width:44px;height:24px;flex-shrink:0;}
 .tog input{opacity:0;width:0;height:0;position:absolute;}
 .tog-sl{position:absolute;inset:0;background:#d1d5db;border-radius:24px;cursor:pointer;transition:.2s;}
 .tog-sl:before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;}
 .tog input:checked+.tog-sl{background:var(--yellow);}
 .tog input:checked+.tog-sl:before{transform:translateX(20px);}
-.sdiv{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--grey);margin:22px 0 14px;display:flex;align-items:center;gap:8px;}
+.sdiv{font-size:clamp(9px,0.45vw + 8.5px,11px);font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--grey);margin:clamp(14px,4vw,22px) 0 clamp(10px,2.5vw,14px);display:flex;align-items:center;gap:clamp(6px,1.5vw,8px);}
 .sdiv::after{content:'';flex:1;height:1px;background:var(--border);}
-.btn-y{background:var(--yellow);color:var(--black);border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-y{background:var(--yellow);color:var(--black);border:none;border-radius:clamp(8px,1.2vw,10px);padding:var(--btn-pad-y) var(--btn-pad-x);font-weight:800;font-size:var(--btn-fs);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
 .btn-y:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(251,202,32,.4);}
-.btn-g{background:transparent;color:var(--mid);border:2px solid var(--border);border-radius:10px;padding:12px 22px;font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.btn-green{background:var(--yellow);color:var(--black);border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-g{background:transparent;color:var(--mid);border:2px solid var(--border);border-radius:clamp(8px,1.2vw,10px);padding:var(--btn-pad-y) clamp(10px,calc(1vw + 8px),22px);font-weight:700;font-size:var(--btn-fs);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-green{background:var(--yellow);color:var(--black);border:none;border-radius:clamp(8px,1.2vw,10px);padding:var(--btn-pad-y) var(--btn-pad-x);font-weight:800;font-size:var(--btn-fs);cursor:pointer;font-family:'DM Sans',sans-serif;}
 .btn-green:hover{filter:brightness(1.03);box-shadow:0 4px 14px rgba(251,202,32,.45);}
-.btn-dark{background:var(--black);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border);}
-.nav-btns-r{display:flex;gap:10px;}
+.btn-dark{background:var(--black);color:#fff;border:none;border-radius:clamp(8px,1.2vw,10px);padding:var(--btn-pad-y) var(--btn-pad-x);font-weight:800;font-size:var(--btn-fs);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(16px,5vw,28px);padding-top:clamp(14px,4vw,22px);border-top:1px solid var(--border);gap:clamp(8px,2vw,12px);flex-wrap:wrap;}
+.nav-btns-r{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;}
 .stats2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0;}
 .breakpoints-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
@@ -92,6 +140,24 @@ textarea{resize:vertical;min-height:72px;}
 .sb.g{border-left:4px solid var(--yellow);}
 .sb.r{border-left:4px solid var(--red);}
 .sb.b{border-left:4px solid #2563eb;}
+/* Savings & ROI — 5 / 10 / 15 year cumulative bill comparison */
+.roi-horizon{margin:22px 0 8px;}
+.roi-horizon-hint{font-size:12px;color:var(--grey);line-height:1.55;margin:0 0 16px;max-width:720px;}
+.roi-horizon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media (max-width:900px){.roi-horizon-grid{grid-template-columns:1fr;}}
+.roi-horizon-card{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.roi-horizon-yr{background:linear-gradient(180deg,#fafbfc,#f4f5f7);padding:12px 14px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--mid);text-align:center;border-bottom:1px solid #e2e8f0;}
+.roi-compare-pair{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:0;}
+.roi-cell{padding:14px 12px;text-align:center;display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0;}
+.roi-cell-wo{background:#fff;border-right:1px solid #f1f5f9;}
+.roi-cell-ws{background:linear-gradient(180deg,#fffef8,#fffbeb);border-left:none;}
+.roi-cell-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--grey);line-height:1.3;}
+.roi-cell-wo .roi-cell-lbl{color:#991b1b;}
+.roi-cell-ws .roi-cell-lbl{color:var(--yellow-ink);}
+.roi-cell-val{font-size:1.05rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--black);word-break:break-word;}
+.roi-cell-wo .roi-cell-val{color:#b91c1c;}
+.roi-cell-ws .roi-cell-val{color:var(--yellow-text);}
+.roi-horizon-save{text-align:center;padding:10px 12px;font-size:11px;font-weight:800;color:var(--yellow-ink);background:var(--yellow-soft);border-top:1px solid var(--yellow-border);}
 .ib{padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin:14px 0;}
 .ib.y{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
 #extras-banner.ib{box-shadow:0 1px 3px rgba(0,0,0,.06);}
@@ -326,7 +392,20 @@ textarea{resize:vertical;min-height:72px;}
 .postcode-loading{padding:12px 14px;font-size:12px;color:var(--grey);}
 @media (max-width:640px){.postcode-results{max-height:180px;}}
 
-@media print{#sidebar,#topbar,#prog-bar,.nav-btns,.no-print{display:none!important;}#main{margin-left:0;}#content{padding:0;max-width:100%;}div.sec{display:block!important;}}
+@media print{
+  #sidebar,#topbar,#prog-bar,.nav-btns,.no-print,.proposal-screen-only{display:none!important;}
+  #saveOverlay{display:none!important;}
+  #main{margin-left:0!important;}
+  #content{padding:0!important;max-width:100%!important;}
+  #content>.sec:not(#sec8){display:none!important;}
+  #sec8{display:block!important;}
+  body{background:#fff!important;}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  .prop-page{box-shadow:none!important;border-radius:0!important;page-break-after:always;margin-bottom:0!important;}
+  #sec8 .prop-page:last-of-type{page-break-after:auto;}
+  .prop-chart-wrap{break-inside:avoid;page-break-inside:avoid;height:240px!important;}
+  .prop-section,.prop-cover{break-inside:avoid;}
+}
 
 /* ── PROPOSAL (sec8) ── */
 .prop-page{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.12);margin-bottom:20px;}
@@ -384,6 +463,7 @@ textarea{resize:vertical;min-height:72px;}
 .prop-co2{background:linear-gradient(135deg,var(--yellow-soft),#fffef0);border:1.5px solid var(--yellow-border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px;}
 .prop-co2-icon{font-size:26px;flex-shrink:0;}
 .prop-co2-text{font-size:.8rem;color:#374151;line-height:1.6;}
+.prop-footer-bar{background:#000100;border-radius:10px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;min-width:0;max-width:100%;box-sizing:border-box;}
 .prop-sig-card{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:18px;}
 .prop-sig-hd{background:#000100;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;}
 .prop-sig-hd-txt{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#fff;}
@@ -396,7 +476,59 @@ textarea{resize:vertical;min-height:72px;}
 .prop-disc{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:.7rem;color:#92400e;line-height:1.6;margin-bottom:18px;}
 .prop-pg-footer{padding:12px 34px;border-top:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;}
 .prop-pg-footer span{font-size:.62rem;color:#9ca3af;font-weight:600;}
-@media print{.prop-page{box-shadow:none!important;border-radius:0;margin-bottom:0;}}
+/* PDF export root (html2pdf) — keeps proposal pages in one capture target */
+.proposal-pdf-root{width:100%;max-width:100%;margin:0;box-sizing:border-box;}
+.proposal-pdf-root .prop-page{margin-bottom:18px;width:100%;max-width:100%;box-sizing:border-box;}
+.html2pdf-page-break{page-break-before:always;}
+.prop-save-summary{background:linear-gradient(135deg,var(--yellow-soft),#fffef8);border:1.5px solid var(--yellow-border);border-radius:10px;padding:14px 18px;margin-bottom:18px;}
+.prop-save-summary .pss-hd{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--yellow-ink);margin-bottom:8px;}
+.prop-save-summary .pss-body{font-size:.78rem;color:#374151;line-height:1.65;}
+.prop-save-summary .pss-body strong{color:#000100;font-weight:800;}
+.prop-export-hint{font-size:11px;color:var(--grey);margin-top:8px;line-height:1.45;}
+
+/* Final Proposal (sec8) — responsive, no horizontal scroll on small screens */
+#sec8{min-width:0;max-width:100%;overflow-x:hidden;}
+#sec8 .proposal-pdf-root{overflow-x:hidden;min-width:0;}
+.prop-page,.prop-cover,.prop-section{min-width:0;max-width:100%;}
+.prop-cover-badges > div:first-of-type{display:flex;flex-wrap:wrap;gap:8px;}
+@media (max-width:900px){
+  #sec8 .prop-section{padding:20px 18px;}
+  #sec8 .prop-cover-top{padding:18px 18px 16px;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+  #sec8 .prop-cover-body{padding:22px 18px 20px;flex-direction:column;gap:20px;align-items:stretch;}
+  #sec8 .prop-cover-cust{min-width:0!important;width:100%;max-width:100%;flex-shrink:1;}
+  #sec8 .prop-cover-hl{font-size:clamp(1.4rem,6.5vw,2.2rem);min-width:0;}
+  #sec8 .prop-cover-badges{padding:14px 18px;flex-direction:column;align-items:flex-start;gap:10px;}
+  #sec8 .prop-2col{grid-template-columns:1fr;}
+  #sec8 .prop-heading{font-size:clamp(1.05rem,4vw,1.45rem);}
+  #sec8 .prop-price-strip{flex-direction:column;align-items:stretch;gap:18px;padding:20px 18px;}
+  #sec8 .prop-pstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;}
+  #sec8 .prop-pstat{min-width:0!important;padding:10px 8px;}
+  #sec8 .prop-pstat-val{font-size:clamp(1rem,4vw,1.35rem);}
+  #sec8 .prop-price-amt{font-size:clamp(1.85rem,8vw,3rem);word-break:break-word;}
+  #sec8 .prop-stats3{grid-template-columns:1fr;}
+  #sec8 .prop-stat-val{font-size:clamp(1.25rem,5vw,1.7rem);}
+  #sec8 .prop-inc-grid{grid-template-columns:1fr;}
+  #sec8 .prop-inc-item{border-right:none!important;}
+  #sec8 .prop-sig-body{grid-template-columns:1fr;gap:14px;}
+  #sec8 .prop-sig-hd{flex-wrap:wrap;gap:10px;align-items:flex-start;}
+  #sec8 .prop-pg-footer{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 18px;}
+  #sec8 .prop-pg-footer span{max-width:100%;word-break:break-word;}
+  #sec8 .p-dr{flex-wrap:wrap;align-items:flex-start;gap:6px 12px;}
+  #sec8 .p-dr-k{flex:1 1 auto;min-width:0;}
+  #sec8 .p-dr-v{text-align:left;flex:1 1 100%;word-break:break-word;}
+  #sec8 .prop-co2{flex-direction:column;align-items:flex-start;}
+  #sec8 .prop-chart-wrap{height:200px;min-width:0;width:100%;max-width:100%;}
+  #sec8 .prop-save-summary{padding:12px 14px;}
+  #sec8 .prop-footer-bar{padding:16px 14px;flex-direction:column;align-items:flex-start;}
+}
+@media (max-width:640px){
+  #sec8 .prop-section{padding:16px 14px;}
+  #sec8 .prop-cover-top,#sec8 .prop-cover-body,#sec8 .prop-cover-badges{padding-left:14px;padding-right:14px;}
+  #sec8 .prop-pstats{grid-template-columns:1fr;}
+  #sec8 .nav-btns{flex-direction:column;align-items:stretch;gap:12px;}
+  #sec8 .nav-btns .nav-btns-r{justify-content:stretch;width:100%;}
+  #sec8 .nav-btns .nav-btns-r .btn-dark,#sec8 .nav-btns .nav-btns-r .btn-y,#sec8 .nav-btns .nav-btns-r .btn-green{flex:1;min-width:0;text-align:center;}
+}
 
 </style>
 </head>
@@ -413,13 +545,13 @@ textarea{resize:vertical;min-height:72px;}
 
 <div id="main">
   <div id="topbar">
-    <div>
+    <div class="tb-left">
       <div class="tb-title" id="tb-title">Customer Details</div>
       <div class="tb-sub" id="tb-sub">Step 1 of 8</div>
     </div>
     <div class="tb-actions">
-      <button class="btn-g" onclick="openSavePanel()">&#128194; Saved Surveys</button>
-      <button class="btn-y" onclick="newSurvey()">+ New Survey</button>
+      <button type="button" class="btn-g tb-topbtn" onclick="openSavePanel()" title="Saved Surveys" aria-label="Saved Surveys"><span class="tb-ico" aria-hidden="true">&#128194;</span><span class="tb-lbl tb-lbl-full">Saved Surveys</span><span class="tb-lbl tb-lbl-short">Saved</span></button>
+      <button type="button" class="btn-y tb-topbtn" onclick="newSurvey()" title="New Survey" aria-label="New Survey"><span class="tb-ico" aria-hidden="true">+</span><span class="tb-lbl tb-lbl-full">New Survey</span><span class="tb-lbl tb-lbl-short">New</span></button>
     </div>
   </div>
   <div id="prog-bar"><div id="prog-fill" style="width:12.5%"></div></div>
@@ -930,7 +1062,7 @@ textarea{resize:vertical;min-height:72px;}
 <!-- SEC 7 -->
 <div class="sec" id="sec7" style="display:none">
   <h2 class="sec-title">Savings &amp; ROI</h2>
-  <p class="sec-sub">Energy bill comparison with and without solar over 15 years.</p>
+  <p class="sec-sub">Energy bill comparison with and without solar. ONS electricity inflation feeds through from the scenario below. See cumulative spend at 5, 10 and 15 years side by side.</p>
   <div class="card">
     <div class="g3" style="margin-bottom:16px">
       <div class="fg"><label class="fl">ONS Scenario</label>
@@ -944,6 +1076,54 @@ textarea{resize:vertical;min-height:72px;}
       <div class="fg"><label class="fl">Self-Consumption Rate (%)</label><input type="number" id="roi_selfcon" value="40" min="10" max="90" oninput="rROI();autoSave()"/></div>
     </div>
     <div class="cw-lg"><canvas id="roiChart"></canvas></div>
+
+    <div class="sdiv roi-horizon">Cumulative energy spend</div>
+    <p class="roi-horizon-hint">Total you would pay on electricity from <strong>year 1 through year 5, 10 or 15</strong> &mdash; left: no solar (bills rising with ONS rates). Right: same years with your solar generation reducing the bill (self-use + export at 15p/kWh on unused generation, same model as the chart above).</p>
+    <div class="roi-horizon-grid" role="region" aria-label="Bill comparison at 5, 10 and 15 years">
+      <div class="roi-horizon-card">
+        <div class="roi-horizon-yr">Years 1 &ndash; 5</div>
+        <div class="roi-compare-pair">
+          <div class="roi-cell roi-cell-wo">
+            <span class="roi-cell-lbl">Without solar</span>
+            <span class="roi-cell-val" id="roi-h5-wo">&pound;0</span>
+          </div>
+          <div class="roi-cell roi-cell-ws">
+            <span class="roi-cell-lbl">With solar offset</span>
+            <span class="roi-cell-val" id="roi-h5-ws">&pound;0</span>
+          </div>
+        </div>
+        <div class="roi-horizon-save" id="roi-h5-delta">Less to pay: &pound;0</div>
+      </div>
+      <div class="roi-horizon-card">
+        <div class="roi-horizon-yr">Years 1 &ndash; 10</div>
+        <div class="roi-compare-pair">
+          <div class="roi-cell roi-cell-wo">
+            <span class="roi-cell-lbl">Without solar</span>
+            <span class="roi-cell-val" id="roi-h10-wo">&pound;0</span>
+          </div>
+          <div class="roi-cell roi-cell-ws">
+            <span class="roi-cell-lbl">With solar offset</span>
+            <span class="roi-cell-val" id="roi-h10-ws">&pound;0</span>
+          </div>
+        </div>
+        <div class="roi-horizon-save" id="roi-h10-delta">Less to pay: &pound;0</div>
+      </div>
+      <div class="roi-horizon-card">
+        <div class="roi-horizon-yr">Years 1 &ndash; 15</div>
+        <div class="roi-compare-pair">
+          <div class="roi-cell roi-cell-wo">
+            <span class="roi-cell-lbl">Without solar</span>
+            <span class="roi-cell-val" id="roi-h15-wo">&pound;0</span>
+          </div>
+          <div class="roi-cell roi-cell-ws">
+            <span class="roi-cell-lbl">With solar offset</span>
+            <span class="roi-cell-val" id="roi-h15-ws">&pound;0</span>
+          </div>
+        </div>
+        <div class="roi-horizon-save" id="roi-h15-delta">Less to pay: &pound;0</div>
+      </div>
+    </div>
+
     <div class="stats">
       <div class="sb g"><div class="sb-val" id="roi-s5">&pound;0</div><div class="sb-lbl">Saved Yr 1-5</div></div>
       <div class="sb g"><div class="sb-val" id="roi-s10">&pound;0</div><div class="sb-lbl">Saved Yr 1-10</div></div>
@@ -963,9 +1143,13 @@ textarea{resize:vertical;min-height:72px;}
 
 <!-- SEC 8 -->
 <div class="sec" id="sec8" style="display:none">
-  <h2 class="sec-title">Final Proposal</h2>
-  <p class="sec-sub">Customer quote &mdash; ready to present or print.</p>
+  <h2 class="sec-title proposal-screen-only">Final Proposal</h2>
+  <p class="sec-sub proposal-screen-only">Customer quote &mdash; use <strong>Print / Save PDF</strong> or <strong>Download PDF</strong>. <strong>Save &amp; Send</strong> uses <code>EMAILJS_CONFIG</code> in <code>index.html</code> (see <code>EMAILJS_SETUP.md</code>).</p>
+  <div id="prop-file-protocol-notice" class="proposal-screen-only ib gr" style="display:none;margin-top:0" role="status">
+    <strong>Opened as a local file.</strong> <strong>Save &amp; Send</strong> and some browsers may block email/PDF from <code>file://</code>. Use <strong>Live Server</strong> or <code>npx serve -l 3000</code> and open <strong>http://localhost</strong> for reliable sending. <strong>Print / Save PDF</strong> and <strong>Save Survey</strong> usually still work here.
+  </div>
 
+  <div id="proposal-pdf-root" class="proposal-pdf-root">
   <!-- COVER -->
   <div class="prop-page">
     <div class="prop-cover">
@@ -1001,7 +1185,7 @@ textarea{resize:vertical;min-height:72px;}
   </div>
 
   <!-- SYSTEM + INVESTMENT -->
-  <div class="prop-page">
+  <div class="prop-page html2pdf-page-break">
     <div class="prop-section">
       <div class="prop-eyebrow">Your System</div>
       <div class="prop-heading">System Overview &amp; Investment</div>
@@ -1019,12 +1203,16 @@ textarea{resize:vertical;min-height:72px;}
         <div class="prop-info-box">
           <div class="prop-info-hd"><div class="prop-info-hd-txt">Financial Summary</div></div>
           <div class="prop-info-body">
-            <div class="p-dr"><span class="p-dr-k">Year 1 Saving</span><span class="p-dr-v p-dr-v-save" id="prop-yr1">&mdash;</span></div>
-            <div class="p-dr"><span class="p-dr-k">15yr Saving</span><span class="p-dr-v p-dr-v-save" id="prop-s15">&mdash;</span></div>
-            <div class="p-dr"><span class="p-dr-k">25yr Lifetime Value</span><span class="p-dr-v p-dr-v-save" id="prop-s25">&mdash;</span></div>
-            <div class="p-dr"><span class="p-dr-k">Payback Period</span><span class="p-dr-v" id="prop-pb">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">Est. annual saving (year 1)</span><span class="p-dr-v p-dr-v-save" id="prop-yr1">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">Cumulative savings (15 yrs)</span><span class="p-dr-v p-dr-v-save" id="prop-s15">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">Cumulative savings (25 yrs)</span><span class="p-dr-v p-dr-v-save" id="prop-s25">&mdash;</span></div>
+            <div class="p-dr"><span class="p-dr-k">Payback (cumulative savings &ge; investment)</span><span class="p-dr-v" id="prop-pb">&mdash;</span></div>
           </div>
         </div>
+      </div>
+      <div class="prop-save-summary" id="prop-save-summary" aria-label="Savings and payback summary">
+        <div class="pss-hd">Annual savings &amp; payback</div>
+        <div class="pss-body" id="prop-save-summary-body">Figures update when you open this proposal from the survey.</div>
       </div>
       <div class="prop-price-strip">
         <div>
@@ -1051,7 +1239,7 @@ textarea{resize:vertical;min-height:72px;}
   </div>
 
   <!-- ROI CHART + INCLUSIONS -->
-  <div class="prop-page">
+  <div class="prop-page html2pdf-page-break">
     <div class="prop-section">
       <div class="prop-eyebrow">Your Returns</div>
       <div class="prop-heading">Projected Savings Over 25 Years</div>
@@ -1083,12 +1271,12 @@ textarea{resize:vertical;min-height:72px;}
   </div>
 
   <!-- SIGNATURES -->
-  <div class="prop-page">
+  <div class="prop-page html2pdf-page-break">
     <div class="prop-section">
       <div class="prop-eyebrow">Agreement</div>
       <div class="prop-heading">Acceptance &amp; Signatures</div>
       <div class="prop-yrule"></div>
-      <div class="prop-disc">All estimates are indicative and based on standard MCS calculation methodology using PVGIS solar irradiance data for South Wales. Actual generation depends on roof orientation, pitch, shading and local weather. Savings projections apply the ONS 7.5% mid-case electricity inflation scenario and are not a guarantee of performance. A formal MCS-compliant energy performance estimate will be provided in your installation documentation. This proposal is valid for 30 days from the date shown.</div>
+      <div class="prop-disc">All estimates are indicative and based on standard MCS calculation methodology using PVGIS solar irradiance data for South Wales. Actual generation depends on roof orientation, pitch, shading and local weather. Savings projections use <span id="prop-ons-note">the ONS-style electricity inflation scenario selected in Savings &amp; ROI</span> and are not a guarantee of performance. A formal MCS-compliant energy performance estimate will be provided in your installation documentation. This proposal is valid for 30 days from the date shown.</div>
       <div class="prop-sig-card">
         <div class="prop-sig-hd">
           <span class="prop-sig-hd-txt">&#9889; Authorised by Full Power Installations</span>
@@ -1115,7 +1303,7 @@ textarea{resize:vertical;min-height:72px;}
           </div>
         </div>
       </div>
-      <div style="background:#000100;border-radius:10px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div class="prop-footer-bar">
         <div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:900;color:#FBCA20;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Full Power Installations</div>
           <div style="font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.6">1&ndash;6 Pocketts Wharf, Maritime Quarter, Swansea SA1 3XL</div>
@@ -1133,14 +1321,18 @@ textarea{resize:vertical;min-height:72px;}
       <span>info@gofullpower.co.uk &middot; gofullpower.co.uk</span>
     </div>
   </div>
+  </div><!-- /#proposal-pdf-root -->
 
-  <div class="nav-btns">
+  <div class="nav-btns no-print">
     <button class="btn-g" onclick="goTo(7)">&larr; Back</button>
     <div class="nav-btns-r">
-      <button class="btn-dark" onclick="window.print()">&#128424; Print</button>
-      <button class="btn-green" onclick="saveSurvey()">&#128190; Save Survey</button>
+      <button type="button" class="btn-dark" onclick="printProposal()" title="Opens print dialog — choose Save as PDF">&#128424; Print / Save PDF</button>
+      <button type="button" id="btn-save-send" class="btn-y" onclick="saveAndSendProposal()" title="Save survey locally and email proposal PDF">&#9993; Save &amp; Send</button>
+      <button type="button" id="btn-dl-pdf" class="btn-g" onclick="downloadProposalPdf()" title="Download the proposal PDF only">&#128190; Download PDF</button>
+      <button type="button" class="btn-green" onclick="saveSurvey()">&#128190; Save Survey</button>
     </div>
   </div>
+  <p class="proposal-screen-only prop-export-hint"><strong>PDF:</strong> <em>Download PDF</em> or <em>Print / Save PDF</em>. <em>Save &amp; Send</em> uses <code>EMAILJS_CONFIG</code> in <code>index.html</code> (testing = email + auto-download; production = set <code>sendPdfAttachment:true</code> for client).</p>
 </div>
 
 <!-- SAVE OVERLAY -->
@@ -1444,6 +1636,27 @@ function renderStep3Materials(){
   sb.innerHTML=sh;
 }
 var cur=1,pAnn=null,pCum=null,roiCh=null,propCh=null,selPkg=null;
+/* ═══ EmailJS — TEMPORARY: Full Power test account. CLIENT: replace values in EMAILJS_CONFIG only ═══ */
+var EMAILJS_CONFIG={
+  publicKey:'E8yNKjYc96gl7UWaU',
+  serviceId:'service_m04v08l',
+  templateId:'template_u3qsijw',
+  /** Inbox that receives test mail (template field {{to_email}} should match) */
+  toEmail:'mobeenwattoo28@gmail.com',
+  /** Dashboard Variable Attachment “Parameter name” when client enables PDF-in-email */
+  attachmentParam:'proposal_pdf',
+  /**
+   * false = TESTING (free EmailJS): sends a small email that succeeds; same PDF auto-downloads in the browser.
+   * true  = PRODUCTION: puts PDF base64 in template params — needs paid EmailJS + Variable Attachment in template.
+   */
+  sendPdfAttachment:false,
+  /** If sendPdfAttachment is true but EmailJS returns size limit, retry without attachment and download PDF */
+  fallbackIfAttachmentFails:true
+};
+function emailjsConfigured(){
+  var c=EMAILJS_CONFIG;
+  return typeof emailjs!=='undefined'&&c&&c.publicKey&&c.serviceId&&c.templateId;
+}
 var NAV=[
   {n:1,l:'Customer Details'},{n:2,l:'Energy Usage'},{n:3,l:'Cost Projection'},
   {n:4,l:'Our Products'},{n:5,l:'System Design'},{n:6,l:'Package Selection'},
@@ -1532,8 +1745,13 @@ function goTo(n){
   if(n===5)setTimeout(rRoofs,60);
   if(n===6){setTimeout(function(){updatePkg();if(typeof refreshCostCalcCustomSelectLabels==='function')refreshCostCalcCustomSelectLabels();},60);}
   if(n===7)setTimeout(rROI,60);
-  if(n===8)setTimeout(rProp,60);
+  if(n===8){setTimeout(rProp,60);updateFileProtocolNotice();}
   window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateFileProtocolNotice(){
+  var el=document.getElementById('prop-file-protocol-notice');
+  if(!el)return;
+  el.style.display=/^file:/i.test(window.location.protocol||'')?'block':'none';
 }
 
 /* ── Postcode lookup (postcodes.io, no API key) ── */
@@ -1981,6 +2199,8 @@ function rROI(){
   var sc=parseFloat(document.getElementById('roi_selfcon').value||40)/100;
   var cost=getFinal();
   var yr1=Math.round(gen*sc*tariff+gen*(1-sc)*0.15);
+  function roiCumWithout(Y){var s=0;for(var i=1;i<=Y;i++)s+=base*Math.pow(1+rate,i);return Math.round(s);}
+  function roiCumWith(Y){var s=0;for(var i=1;i<=Y;i++){var b=base*Math.pow(1+rate,i),sv=yr1*Math.pow(1+rate*0.5,i-1);s+=Math.max(0,b-sv);}return Math.round(s);}
   var lbls=[],ws=[],wo=[],cumS=[],totS=0,pb=null;
   var s5=0,s10=0,s15=0;
   for(var y=1;y<=25;y++){
@@ -2008,6 +2228,15 @@ function rROI(){
             y2:{position:'right',ticks:{callback:function(v){return '\u00a3'+v.toLocaleString();}},grid:{display:false}}}}});
   /* stat boxes */
   function sv(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  function fillRoiHorizon(yrSpan,key){
+    var wo=roiCumWithout(yrSpan),wsv=roiCumWith(yrSpan),delta=Math.round(wo-wsv);
+    sv('roi-h'+key+'-wo','\u00a3'+wo.toLocaleString());
+    sv('roi-h'+key+'-ws','\u00a3'+wsv.toLocaleString());
+    sv('roi-h'+key+'-delta','Less to pay: \u00a3'+delta.toLocaleString());
+  }
+  fillRoiHorizon(5,'5');
+  fillRoiHorizon(10,'10');
+  fillRoiHorizon(15,'15');
   sv('roi-s5','\u00a3'+Math.round(s5).toLocaleString());
   sv('roi-s10','\u00a3'+Math.round(s10).toLocaleString());
   sv('roi-s15','\u00a3'+Math.round(s15).toLocaleString());
@@ -2029,6 +2258,177 @@ function rROI(){
     }
     tb.innerHTML=rows;
   }
+}
+
+/* ── Print / Save PDF: proposal only, friendly filename via document title ── */
+function printProposal(){
+  try{if(typeof rProp==='function')rProp();}catch(e){}
+  var raw=(document.getElementById('c_name')&&document.getElementById('c_name').value)||'Customer';
+  var nm=raw.replace(/[<>:"/\\|?*]+/g,'').trim().slice(0,44)||'Customer';
+  var prev=document.title;
+  document.title='Full Power Solar Proposal — '+nm+' — '+new Date().toLocaleDateString('en-GB');
+  setTimeout(function(){
+    window.print();
+    setTimeout(function(){document.title=prev;},500);
+  },120);
+}
+window.addEventListener('beforeprint',function(){
+  if(propCh&&typeof propCh.resize==='function'){try{propCh.resize();}catch(e){}}
+});
+
+function blobToBase64(blob){
+  return new Promise(function(resolve,reject){
+    var r=new FileReader();
+    r.onloadend=function(){
+      var s=String(r.result||''),i=s.indexOf('base64,');
+      resolve(i>=0?s.slice(i+7):s);
+    };
+    r.onerror=reject;
+    r.readAsDataURL(blob);
+  });
+}
+function generateProposalPdfBlob(){
+  var root=document.getElementById('proposal-pdf-root');
+  if(!root)return Promise.reject(new Error('Proposal PDF root missing'));
+  var opt={
+    margin:[10,10,10,10],
+    filename:'proposal.pdf',
+    image:{type:'jpeg',quality:0.88},
+    html2canvas:{scale:1.65,useCORS:true,logging:false,letterRendering:true,backgroundColor:'#ffffff'},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css','legacy'],before:'.html2pdf-page-break'}
+  };
+  return html2pdf().set(opt).from(root).outputPdf('blob');
+}
+/** Safe download filename for the proposal PDF */
+function proposalPdfDownloadName(cust,dateSub){
+  var stem='Solar-Proposal-'+(cust||'customer').replace(/[^a-zA-Z0-9-_]+/g,'-').replace(/^-+|-+$/g,'').slice(0,48)+'-'+String(dateSub||'').replace(/[^\d]/g,'');
+  return (stem.replace(/^-+|-+$/g,'')||'Solar-Proposal')+'.pdf';
+}
+function downloadPdfBlob(blob,filename){
+  if(!blob)return;
+  var u=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=u;
+  a.download=filename||'Solar-Proposal.pdf';
+  a.rel='noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){try{URL.revokeObjectURL(u);}catch(e){}},2500);
+}
+function downloadProposalPdf(){
+  var btn=document.getElementById('btn-dl-pdf');
+  function done(){if(btn){btn.disabled=false;btn.innerHTML='&#128190; Download PDF';}}
+  if(btn){btn.disabled=true;btn.textContent='Preparing…';}
+  try{if(typeof rProp==='function')rProp();}catch(e){}
+  if(propCh&&typeof propCh.update==='function'){try{propCh.update('none');}catch(e2){}}
+  new Promise(function(r){setTimeout(r,500);})
+  .then(function(){return generateProposalPdfBlob();})
+  .then(function(blob){
+    var c=document.getElementById('c_name');
+    var cust=(c&&c.value?c.value.trim():'')||'customer';
+    var dateSub=new Date().toLocaleDateString('en-GB');
+    downloadPdfBlob(blob,proposalPdfDownloadName(cust,dateSub));
+    showToast('PDF downloaded');
+  })
+  .catch(function(err){
+    console.error('downloadProposalPdf',err);
+    alert('Could not create PDF: '+(err&&err.message||String(err)));
+  })
+  .then(done);
+}
+function buildEmailJsTemplateParams(cust,dateSub,replyEl,opts){
+  opts=opts||{};
+  var c=EMAILJS_CONFIG;
+  var subject='Solar Survey — '+cust+' — '+dateSub;
+  var p={
+    to_email:c.toEmail,
+    customer_name:cust,
+    survey_date:dateSub,
+    subject:subject,
+    reply_to:replyEl&&replyEl.value?String(replyEl.value).trim():''
+  };
+  if(opts.pdfBase64){
+    p.message='Solar survey proposal PDF attached. Generated from the Full Power Installations survey tool.';
+    p[c.attachmentParam]=String(opts.pdfBase64).replace(/\s+/g,'');
+  }else{
+    p.message='Solar survey completed — Full Power Installations survey tool. (Testing mode: proposal PDF is downloaded automatically in the browser; attach it manually or set EMAILJS_CONFIG.sendPdfAttachment=true when the client EmailJS plan supports large attachments.)';
+  }
+  return p;
+}
+/* Save survey locally, build PDF, email via EmailJS; testing mode emails without huge params + auto-downloads PDF */
+function saveAndSendProposal(){
+  if(!emailjsConfigured()){
+    showToast('Configure EmailJS first — see EMAILJS_SETUP.md');
+    alert('Save & Send needs EMAILJS_CONFIG in index.html (publicKey, serviceId, templateId).\n\nSee EMAILJS_SETUP.md in this folder.');
+    return;
+  }
+  var btn=document.getElementById('btn-save-send');
+  var cnameEl=document.getElementById('c_name');
+  var custRaw=cnameEl&&cnameEl.value?cnameEl.value.trim():'';
+  if(!custRaw){
+    if(!confirm('Customer name is empty. Use "Unnamed customer" in the email subject and continue?'))return;
+  }
+  var cust=custRaw||'Unnamed customer';
+  try{if(typeof saveSurvey==='function')saveSurvey();}catch(e1){}
+  if(btn){btn.disabled=true;btn.textContent='Preparing PDF…';}
+  function resetBtn(){if(btn){btn.disabled=false;btn.innerHTML='&#9993; Save &amp; Send';}}
+  var c=EMAILJS_CONFIG;
+  var replyEl=document.getElementById('c_email');
+  try{if(typeof rProp==='function')rProp();}catch(e2){}
+  if(propCh&&typeof propCh.update==='function'){try{propCh.update('none');}catch(e3){}}
+  function sendTpl(params){
+    return emailjs.send(c.serviceId,c.templateId,params,{publicKey:c.publicKey});
+  }
+  new Promise(function(res){setTimeout(res,500);})
+  .then(function(){return generateProposalPdfBlob();})
+  .then(function(blob){
+    var dateSub=new Date().toLocaleDateString('en-GB');
+    var fname=proposalPdfDownloadName(cust,dateSub);
+    if(!c.sendPdfAttachment){
+      return sendTpl(buildEmailJsTemplateParams(cust,dateSub,replyEl,{})).then(function(){
+        downloadPdfBlob(blob,fname);
+        showToast('Email sent to '+c.toEmail+' — PDF saved (Downloads)');
+      });
+    }
+    return blobToBase64(blob).then(function(b64){
+      var b64Clean=String(b64).replace(/\s+/g,'');
+      return sendTpl(buildEmailJsTemplateParams(cust,dateSub,replyEl,{pdfBase64:b64Clean}))
+      .then(function(){
+        showToast('Proposal emailed to '+c.toEmail);
+      })
+      .catch(function(err){
+        var msg=(err&&err.text)||(err&&err.message)||String(err);
+        if(c.fallbackIfAttachmentFails&&/variables size limit|50\s*kb/i.test(msg)){
+          return sendTpl(buildEmailJsTemplateParams(cust,dateSub,replyEl,{})).then(function(){
+            downloadPdfBlob(blob,fname);
+            showToast('Email sent (no attachment) — PDF downloaded');
+          });
+        }
+        throw err;
+      });
+    });
+  })
+  .catch(function(err){
+    console.error('Save & Send',err);
+    var msg=(err&&err.text)||(err&&err.message)||String(err);
+    var st=err&&err.status;
+    var hint='';
+    if(/invalid grant|reconnect.*gmail|gmail_api/i.test(msg)){
+      hint='\n\n▶ FIX — Gmail disconnected\n1. https://dashboard.emailjs.com/admin → Email Services → Gmail → Reconnect\n2. Use http://localhost not file://\n';
+    }else if(st===412||/412|precondition/i.test(msg)){
+      hint='\n\n▶ Template: To = {{to_email}}, Subject = {{subject}}\n';
+    }else if(/variables size limit|50\s*kb/i.test(msg)){
+      hint='\n\n▶ Set EMAILJS_CONFIG.sendPdfAttachment = false for testing, or upgrade EmailJS.\n';
+    }
+    if(/^file:/i.test(window.location.protocol||'')){
+      hint+='\n▶ Use http://localhost (see EMAILJS_SETUP.md).\n';
+    }
+    showToast('Send failed — see alert');
+    alert('Save & Send failed.\n\n'+msg+hint+'\nMore help: EMAILJS_SETUP.md');
+  })
+  .then(resetBtn);
 }
 
 /* ── PROPOSAL ── */
@@ -2059,17 +2459,41 @@ function rProp(){
   document.getElementById('prop-yr1').textContent='\u00a3'+yr1.toLocaleString();
   document.getElementById('prop-bat-row').style.display=bat?'flex':'none';
   document.getElementById('prop-ev-row').style.display=ev?'flex':'none';
-  var pb=yr1>0&&price>0?Math.ceil(price/yr1):null;
-  var pbTxt=pb?pb+' yrs':'N/A';
+  var roiSel=document.getElementById('roi_scenario');
+  var scenTxt=roiSel&&roiSel.options[roiSel.selectedIndex]?roiSel.options[roiSel.selectedIndex].text:'ONS scenario';
+  var onsEl=document.getElementById('prop-ons-note');
+  if(onsEl)onsEl.textContent=scenTxt+' ('+(rate*100).toFixed(1)+'%/yr electricity inflation, matching Savings & ROI)';
+  /* Cumulative savings & payback — same model as rROI() / proposal chart */
+  var lbls=[],wso=[],wsi=[],cumSv=[],cumSav=0,s15v=0,s25v=0,pb=null;
+  for(var y=1;y<=25;y++){
+    var bw=base*Math.pow(1+rate,y),sv=yr1*Math.pow(1+rate*0.5,y-1);
+    cumSav+=sv;
+    lbls.push('Yr '+y);wso.push(Math.round(bw));wsi.push(Math.round(Math.max(0,bw-sv)));cumSv.push(Math.round(cumSav));
+    if(y===15)s15v=Math.round(cumSav);
+    if(y===25)s25v=Math.round(cumSav);
+    if(pb===null&&price>0&&cumSav>=price)pb=y;
+  }
+  var pbTxt=pb!==null?(pb===1?'1 yr':pb+' yrs'):(price>0?'> 25 yrs':'Set price');
   document.getElementById('prop-pb').textContent=pbTxt;
   document.getElementById('prop-pb2').textContent=pbTxt;
-  var s15='\u00a3'+(yr1*15).toLocaleString();
-  var s25='\u00a3'+(yr1*25).toLocaleString();
+  var s15='\u00a3'+s15v.toLocaleString();
+  var s25='\u00a3'+s25v.toLocaleString();
   document.getElementById('prop-s15').textContent=s15;
   document.getElementById('prop-s15b').textContent=s15;
   document.getElementById('prop-s25').textContent=s25;
   document.getElementById('prop-s25b').textContent=s25;
   document.getElementById('prop-yr1b').textContent='\u00a3'+yr1.toLocaleString();
+  var invAmt=price>0?'\u00a3'+Math.round(price).toLocaleString():null;
+  var sumBody=document.getElementById('prop-save-summary-body');
+  if(sumBody){
+    var y1s='\u00a3'+yr1.toLocaleString();
+    var payLine;
+    if(invAmt&&pb!==null)payLine='Estimated <strong>payback</strong> is <strong>'+pb+' years</strong> &mdash; the first year cumulative electricity savings reach or exceed your investment of <strong>'+invAmt+'</strong>.';
+    else if(invAmt)payLine='With an investment of <strong>'+invAmt+'</strong>, cumulative savings do not reach that level within 25 years on this model (adjust generation, self-use, bill or ONS scenario in Savings &amp; ROI if needed).';
+    else payLine='Select a <strong>package</strong> and <strong>final price</strong> to estimate payback.';
+    sumBody.innerHTML='Estimated <strong>annual saving in year 1</strong> (electricity not bought from the grid, at your tariff and export assumptions): <strong>'+y1s+'</strong>. '+
+      '<strong>Cumulative savings</strong> on bills under <strong>'+scenTxt+'</strong>: <strong>'+s15+'</strong> over 15 years and <strong>'+s25+'</strong> over 25 years (same methodology as the chart). '+payLine;
+  }
   var co2=Math.round(gen*25*0.233/1000);
   var trees=Math.round(co2*45);
   document.getElementById('prop-co2').textContent=co2;
@@ -2081,12 +2505,7 @@ function rProp(){
   var csEl=document.getElementById('prop-cust-sig'); if(csEl)csEl.textContent=name;
   var rfEl=document.getElementById('prop-sig-ref'); if(rfEl)rfEl.textContent='Ref: FP-'+Date.now().toString(36).toUpperCase().slice(-6)+'  \u00b7  Valid 30 days';
 
-  /* Chart */
-  var lbls=[],wso=[],wsi=[],cumSv=[];var cs=0;
-  for(var y=1;y<=25;y++){
-    var bw=base*Math.pow(1+rate,y),sv=yr1*Math.pow(1+rate*0.5,y-1);cs+=sv;
-    lbls.push('Yr '+y);wso.push(Math.round(bw));wsi.push(Math.round(Math.max(0,bw-sv)));cumSv.push(Math.round(cs));
-  }
+  /* Chart (data built in loop above: lbls, wso, wsi, cumSv) */
   var ctx=document.getElementById('proposalChart').getContext('2d');
   if(propCh)propCh.destroy();
   propCh=new Chart(ctx,{type:'line',data:{labels:lbls,datasets:[
@@ -2175,14 +2594,12 @@ function rSavePanel(){
 }
 window.openSavePanel=function(){document.getElementById('saveOverlay').style.display='flex';rSavePanel();};
 window.closeSavePanel=function(){document.getElementById('saveOverlay').style.display='none';};
-function showToast(msg){
-  var t=document.getElementById('fpToast');
-  if(!t){t=document.createElement('div');t.id='fpToast';t.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#000100;color:#FBCA20;padding:13px 20px;border-radius:10px;font-weight:800;font-size:14px;z-index:9999;border:2px solid #FBCA20;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:opacity .3s;pointer-events:none';document.body.appendChild(t);}
-  t.textContent='\u2713 '+msg;t.style.opacity='1';t.style.pointerEvents='none';
-  clearTimeout(t._t);t._t=setTimeout(function(){t.style.opacity='0';},2500);
-}
 
 window.addEventListener('DOMContentLoaded',function(){
+  updateFileProtocolNotice();
+  if(typeof emailjs!=='undefined'&&EMAILJS_CONFIG&&EMAILJS_CONFIG.publicKey){
+    try{emailjs.init({publicKey:EMAILJS_CONFIG.publicKey});}catch(e){}
+  }
   initPostcodeLookup();
   rRoofs();rNav();
   var sess=sessionStorage.getItem('fp_cur');
