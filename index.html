@@ -742,15 +742,15 @@ textarea{resize:vertical;min-height:72px;}
   <h2 class="sec-title">Package Selection</h2>
   <p class="sec-sub">System pricing based on your roof design and the cost calculator configuration below.</p>
   <div class="card">
-    <div class="cost-calc-banner">Solar PV system cost calculator &middot; Full Power Installations &mdash; Configure your system below. All costs will auto-calculate when the pricing matrix is fully wired. Prices ex VAT. Feb 2026.</div>
-    <div class="card-title" style="margin-bottom:4px">Step 1 &mdash; System configuration</div>
-    <p class="sec-sub" style="margin-bottom:14px;font-size:12px">Match the spreadsheet: panel count, component types and accessories. More dropdown options will be added as the matrix is finalised.</p>
+    <div class="cost-calc-banner">SOLAR PV SYSTEM COST CALCULATOR &middot; Full Power Installations &mdash; Select configuration using the fields below. All costs auto-calculate. Prices ex VAT. Feb 2026.</div>
+    <div class="card-title" style="margin-bottom:4px">STEP 1 &mdash; System configuration</div>
+    <p class="sec-sub" style="margin-bottom:14px;font-size:12px">Match the pricing matrix: panel count (typed), then panel type, inverter, battery and accessories. Step 3 materials and package prices follow this Step 1 row.</p>
     <div class="cost-calc-rows">
       <div class="cost-calc-row">
-        <label class="fl" for="calc_panel_qty">Number of panels (from roof design)</label>
+        <label class="fl" for="calc_panel_qty">Number of panels (1&ndash;30)</label>
         <div class="cost-calc-cell">
-          <input type="number" class="cost-calc-num" id="calc_panel_qty" min="1" max="30" value="10" inputmode="numeric" readonly/>
-          <span class="cost-calc-hint">&larr; auto</span>
+          <input type="number" class="cost-calc-num" id="calc_panel_qty" min="1" max="30" value="13" inputmode="numeric" oninput="autoSave();updatePkg()"/>
+          <span class="cost-calc-hint">&larr; type</span>
         </div>
       </div>
       <div class="cost-calc-row">
@@ -771,7 +771,7 @@ textarea{resize:vertical;min-height:72px;}
           <div class="cost-calc-dd-wrap">
             <select id="calc_inverter" onchange="autoSave();updatePkg()">
             <option value="alpha_g3_368">Alpha G3 3.68kW Hybrid IP65</option>
-            <option value="alpha_g3_5">Alpha G3 5kW Hybrid IP65</option>
+            <option value="alpha_g3_5" selected>Alpha G3 5kW Hybrid IP65</option>
             <option value="alpha_g3_8">Alpha G3 8kW Hybrid IP65</option>
             <option value="se3680h">SolarEdge SE3680H 3.68kW Hybrid</option>
             <option value="fox_h1_30">Fox ESS H1-3.0 3kW Hybrid EPS</option>
@@ -779,6 +779,19 @@ textarea{resize:vertical;min-height:72px;}
             <option value="fox_h1_50">Fox ESS H1-5.0 5kW Hybrid EPS</option>
             <option value="fox_h1_60">Fox ESS H1-6.0 6kW Hybrid EPS</option>
             <option value="fox_kh7">Fox ESS KH7 7kW Hybrid</option>
+            <option value="fox_kh8">Fox ESS KH8 8kW Hybrid</option>
+            <option value="fox_kh9">Fox ESS KH9 9kW Hybrid</option>
+            <option value="fox_kh10">Fox ESS KH10 10kW Hybrid</option>
+            <option value="fox_kh105">Fox ESS KH10.5 10.5kW Hybrid</option>
+            <option value="duracell_36_g3">Duracell 3.6kW Hybrid G3</option>
+            <option value="duracell_5_g3">Duracell 5kW Hybrid G3</option>
+            <option value="duracell_6_g3">Duracell 6kW Hybrid G3</option>
+            <option value="sig_ec_36_1ph">Sigenergy EC 3.6kW 1Ph</option>
+            <option value="sig_ec_50_1ph">Sigenergy EC 5.0kW 1Ph</option>
+            <option value="sig_ec_60_1ph">Sigenergy EC 6.0kW 1Ph</option>
+            <option value="sig_ec_80_1ph">Sigenergy EC 8.0kW 1Ph</option>
+            <option value="sig_ec_100_1ph">Sigenergy EC 10.0kW 1Ph</option>
+            <option value="sig_ec_120_1ph">Sigenergy EC 12.0kW 1Ph</option>
             </select>
           </div>
           <span class="cost-calc-hint">&larr; select</span>
@@ -791,14 +804,17 @@ textarea{resize:vertical;min-height:72px;}
             <select id="calc_battery" onchange="autoSave();updatePkg()">
             <option value="none">No battery</option>
             <option value="alpha_g3_48">Alpha G3 4.8kWh IP65</option>
-            <option value="alpha_96_heat">Alpha 9.6kWh Heated IP65</option>
+            <option value="alpha_96_heat" selected>Alpha 9.6kWh Heated IP65</option>
             <option value="se_home_10">SolarEdge Home Battery 10kWh</option>
             <option value="fox_cm2900">Fox ESS CM2900 2.88kWh Master</option>
             <option value="fox_cs2900">Fox ESS CS2900 2.88kWh Slave V2</option>
             <option value="fox_cm4300">Fox ESS CM4300 3kWh Master</option>
             <option value="fox_cs4300">Fox ESS CS4300 4.3kWh Slave</option>
             <option value="fox_ep6h">Fox ESS EP6-H 5.76kWh Heated</option>
-            <option value="fox_ep12h">Fox ESS EP12-H 11.52kWh</option>
+            <option value="fox_ep12h">Fox ESS EP12-H 11.52kWh Heated</option>
+            <option value="duracell_dura5">Duracell Dura5 5kWh</option>
+            <option value="sig_bat_60">Sigenergy SigenStor BAT 6.0kWh</option>
+            <option value="sig_bat_100">Sigenergy SigenStor BAT 10.0kWh</option>
             </select>
           </div>
           <span class="cost-calc-hint">&larr; select</span>
@@ -853,7 +869,7 @@ textarea{resize:vertical;min-height:72px;}
         </div>
       </div>
     </div>
-    <p class="cost-calc-footnote">Change the configuration above &mdash; Step 3 materials and package prices update automatically.</p>
+    <p class="cost-calc-footnote">Change the fields above &mdash; cost breakdown (Step 3) and package prices update automatically.</p>
 
     <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 2 &mdash; Labour costs</div>
     <p class="sec-sub" style="margin-bottom:12px;font-size:12px">Enter trade labour (ex VAT) in the fields below. The total is summed automatically and included in package <strong>trade</strong> totals before the 35% margin is applied.</p>
@@ -879,7 +895,7 @@ textarea{resize:vertical;min-height:72px;}
           </tr>
           <tr>
             <td class="labour-item-td"><span class="labour-ico" aria-hidden="true">&#9889;</span>Electrical labour (inverter, wiring, commissioning)</td>
-            <td><input type="number" class="labour-cost-input" id="lab_electrical" min="0" step="1" value="350" inputmode="numeric" oninput="autoSave();updateLabourTotalDisplay();updatePkg()"/></td>
+            <td><input type="number" class="labour-cost-input" id="lab_electrical" min="0" step="1" value="700" inputmode="numeric" oninput="autoSave();updateLabourTotalDisplay();updatePkg()"/></td>
             <td class="labour-note">DC/AC wiring, isolator, CU connection, MCS docs.</td>
           </tr>
           <tr>
@@ -889,14 +905,14 @@ textarea{resize:vertical;min-height:72px;}
           </tr>
           <tr class="labour-total-row">
             <td class="labour-item-td">TOTAL LABOUR COST</td>
-            <td class="labour-total-amt" id="labour_total_display">&pound;2,000.00</td>
+            <td class="labour-total-amt" id="labour_total_display">&pound;2,350.00</td>
             <td class="labour-note">Sum of all labour lines.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 3 &mdash; Materials cost breakdown</div>
+    <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 3 &mdash; Materials cost breakdown (auto-calculated from selections)</div>
     <p class="sec-sub" style="margin-bottom:12px;font-size:12px">Trade materials (ex VAT) calculated from Step 1. Line totals feed the package <strong>trade</strong> totals below; customer prices use <strong>Step 4</strong> target margin: sell = cost &divide; (1 &minus; margin%) on materials + labour + EV.</p>
     <div class="m3-wrap">
       <div class="m3-scroll">
@@ -905,7 +921,7 @@ textarea{resize:vertical;min-height:72px;}
             <tr>
               <th>Component</th>
               <th class="m3-th-qty">Qty</th>
-              <th class="m3-th-unit">Unit (&pound;)</th>
+              <th class="m3-th-unit">Unit cost (&pound;)</th>
               <th class="m3-th-line">Line total</th>
               <th>Notes</th>
             </tr>
@@ -916,7 +932,7 @@ textarea{resize:vertical;min-height:72px;}
       <table class="m3-sub-table" id="step3-subtotals-table">
         <tbody id="step3-subtotals-body"></tbody>
       </table>
-      <div class="m3-source" id="step3-materials-foot">Trade cost basis: Greentech / Edmundson &middot; Ex VAT &middot; Feb 2026. Figures update when you change Step 1.</div>
+      <div class="m3-source" id="step3-materials-foot">Trade cost from Greentech / Edmundson &middot; Ex VAT &middot; Feb 2026. Figures update when you change Step 1.</div>
     </div>
 
     <div class="card-title" style="margin-top:28px;margin-bottom:4px">Step 4 &mdash; Your sell price &amp; margin</div>
@@ -925,7 +941,7 @@ textarea{resize:vertical;min-height:72px;}
       <div class="step4-summary">
         <div class="step4-sum-cell"><span class="step4-sum-lbl">Total cost (ex VAT)</span><span class="step4-sum-val" id="step4_total_cost">&pound;0.00</span></div>
         <div class="step4-sum-cell"><span class="step4-sum-lbl">Target margin</span><span class="step4-sum-val step4-margin-pct" id="step4_target_margin_display">30.0%</span></div>
-        <div class="step4-sum-cell"><span class="step4-sum-lbl">Sell price (ex VAT)</span><span class="step4-sum-val step4-sell" id="step4_sell_price">&pound;0</span></div>
+        <div class="step4-sum-cell"><span class="step4-sum-lbl">Sell price (ex VAT)</span><span class="step4-sum-val step4-sell" id="step4_sell_price">&pound;0.00</span></div>
         <div class="step4-sum-cell"><span class="step4-sum-lbl">Gross profit</span><span class="step4-sum-val step4-profit" id="step4_gross_profit">&pound;0.00</span></div>
         <div class="step4-sum-cell"><span class="step4-sum-lbl">Gross margin</span><span class="step4-sum-val" id="step4_gross_margin_pct">0.0%</span></div>
       </div>
@@ -1020,36 +1036,36 @@ textarea{resize:vertical;min-height:72px;}
       <div class="kr-row kr-row-info">
         <div class="kr-ico" aria-hidden="true">&#128309;</div>
         <div>
-          <div class="kr-lbl">What you enter vs auto-calculated</div>
-          <div class="kr-txt"><strong>You enter:</strong> Step 1 &mdash; panel count, panel type, inverter, battery, battery mounting, roof/mounting system, isolator, MC4. Step 2 &mdash; labour lines (scaffold, roof, electrical, DNO/MCS). Step 4 &mdash; target margin (%). <strong>Everything else</strong> (materials breakdown, sell price, package totals, competitor row) updates automatically.</div>
+          <div class="kr-lbl">Blue cells are inputs.</div>
+          <div class="kr-txt">Panel count, panel type, inverter, battery, mounting, roof, isolator, MC4 and target margin % are editable. Step 2 labour lines (scaffold, roof, electrical, DNO/MCS) are also editable. <strong>Everything else</strong> auto-calculates.</div>
         </div>
       </div>
       <div class="kr-row kr-row-info">
-        <div class="kr-ico" aria-hidden="true">&#9889;</div>
+        <div class="kr-ico" aria-hidden="true">&#127959;&#65039;</div>
         <div>
-          <div class="kr-lbl">Brand-specific accessories (auto in Step 3)</div>
-          <div class="kr-txt"><strong>Alpha G3 inverters</strong> &mdash; Alpha CT clamp (10m) is added automatically. <strong>SolarEdge SE3680H</strong> &mdash; Energy Net Comm Hub, revenue grade meter, 100A CT clamp and WiFi antenna are added automatically. <strong>SolarEdge Home Battery</strong> &mdash; Y-cable is added when that battery is selected.</div>
+          <div class="kr-lbl">Brand-specific accessories auto-add.</div>
+          <div class="kr-txt">Alpha CT Clamp adds automatically when Alpha inverter selected. SolarEdge monitoring kit (Energy Net Hub, Revenue Grade Meter, CT Clamp, WiFi Antenna) adds automatically when SolarEdge selected. SolarEdge Y-Cable adds when SolarEdge battery selected.</div>
         </div>
       </div>
       <div class="kr-row kr-row-info">
         <div class="kr-ico" aria-hidden="true">&#9989;</div>
         <div>
-          <div class="kr-lbl">VAT @ 0%</div>
-          <div class="kr-txt">Domestic solar PV installations are <strong>zero-rated for VAT</strong> (no VAT charged to the homeowner on qualifying installs). Figures in this calculator are shown <strong>ex VAT</strong> as trade costs; customer prices follow your margin &mdash; still consistent with 0% VAT domestic solar.</div>
+          <div class="kr-lbl">VAT @ 0%.</div>
+          <div class="kr-txt">Domestic solar PV installations are zero-rated for VAT. No VAT to charge or reclaim on the system.</div>
         </div>
       </div>
       <div class="kr-row kr-row-warn">
         <div class="kr-ico" aria-hidden="true">&#9888;&#65039;</div>
         <div>
-          <div class="kr-lbl">Always get DNO approval before install</div>
-          <div class="kr-txt">Submit the correct grid notification: typically <strong>G98</strong> for systems up to 3.68kW inverter capacity (per DNO rules), and <strong>G99</strong> where a full application is required for larger or export-limited systems. Confirm with the relevant DNO &mdash; do not install without approval where required.</div>
+          <div class="kr-lbl">Always get DNO approval before install.</div>
+          <div class="kr-txt">G98 notification for systems &le;3.68kW. G99 full application for larger systems.</div>
         </div>
       </div>
       <div class="kr-row kr-row-warn">
         <div class="kr-ico" aria-hidden="true">&#9888;&#65039;</div>
         <div>
-          <div class="kr-lbl">Material prices &mdash; Greentech / Edmundson (Feb 2026)</div>
-          <div class="kr-txt">Trade material costs are based on <strong>Greentech / Edmundson</strong> pricing, <strong>ex VAT</strong>, <strong>Feb 2026</strong>. If ordering significantly later, refresh panel, inverter and battery costs in the matrix. Prices move with supply and exchange rates.</div>
+          <div class="kr-lbl">Greentech / Edmundson prices valid: Feb 2026.</div>
+          <div class="kr-txt">Update material costs if ordering after quote expiry. Panel and inverter prices move with supply.</div>
         </div>
       </div>
     </div>
@@ -1377,19 +1393,23 @@ var STEP4_MARGIN_SCALE=[
   {p:25,note:'Healthy &mdash; competitive vs local installers',warn:false},
   {p:30,note:'Target margin &mdash; recommended default',star:true},
   {p:35,note:'Strong &mdash; still competitive in most markets',warn:false},
-  {p:40,note:'Premium positioning &mdash; needs strong brand / reviews',warn:false},
+  {p:40,note:'Premium positioning &mdash; needs strong brand/reviews',warn:false},
   {p:45,note:'Top-end &mdash; justify with quality / warranty / service',warn:false},
   {p:50,note:'National supplier territory (OVO / Eon pricing)',warn:false}
 ];
 
 var STEP3_INV_TRADE={
   alpha_g3_368:720,alpha_g3_5:790,alpha_g3_8:910,se3680h:449,
-  fox_h1_30:360,fox_h1_37:395,fox_h1_50:510,fox_h1_60:585,fox_kh7:655
+  fox_h1_30:360,fox_h1_37:395,fox_h1_50:510,fox_h1_60:585,
+  fox_kh7:655,fox_kh8:685,fox_kh9:720,fox_kh10:765,fox_kh105:810,
+  duracell_36_g3:640,duracell_5_g3:710,duracell_6_g3:800,
+  sig_ec_36_1ph:615,sig_ec_50_1ph:685,sig_ec_60_1ph:755,sig_ec_80_1ph:885,sig_ec_100_1ph:1020,sig_ec_120_1ph:1150
 };
 var STEP3_BAT_TRADE={
   none:0,alpha_g3_48:870,alpha_96_heat:1663,se_home_10:3296,
   fox_cm2900:288,fox_cs2900:265,fox_cm4300:320,fox_cs4300:295,
-  fox_ep6h:576,fox_ep12h:1152
+  fox_ep6h:576,fox_ep12h:1152,
+  duracell_dura5:680,sig_bat_60:1120,sig_bat_100:1880
 };
 
 function getTotalLabourCost(){
@@ -1398,7 +1418,7 @@ function getTotalLabourCost(){
     var el=document.getElementById(ids[i]);
     if(el){any=true;s+=parseFloat(el.value)||0;}
   }
-  return any?Math.round(s):2000;
+  return any?Math.round(s):2350;
 }
 function updateLabourTotalDisplay(){
   var t=getTotalLabourCost();
@@ -1509,7 +1529,7 @@ function computeStep3Materials(opts){
   var panelKey=pb==='ja'?'ja450_ab':(pb==='se'?'se430_opt':uiPanel);
 
   var roofMount=getCalcVal('calc_roof_mount')||'fastensol';
-  var inv=getCalcVal('calc_inverter')||'alpha_g3_368';
+  var inv=getCalcVal('calc_inverter')||'alpha_g3_5';
   var bat=getCalcVal('calc_battery')||'none';
   var batMount=getCalcVal('calc_bat_mount')||'wall_no_base';
   var isolator=getCalcVal('calc_isolator')||'20a_368';
@@ -1564,7 +1584,7 @@ function computeStep3Materials(opts){
   var isoU=isolator==='32a_5k'?9.75:8.5;
   var mc4U=mc4==='staubli_258'?2.58:1;
   pushLine('electrical',IC_E,'DC Isolator',1,isoU,'20A \u00a38.50 / 32A \u00a39.75.');
-  pushLine('electrical',IC_E,'MC4 connectors (1 pair)',1,mc4U,'Staubli \u00a32.58 / Temtech \u00a31.00.');
+  pushLine('electrical',IC_E,'MC4 connectors (1 pair)',1,mc4U,'Staubli \u00a32.58 / Termtech \u00a31.00.');
   pushLine('electrical',IC_E,'PV array labels \u2014 pack of 5 [FIXED per install]',1,4.5,'MCS compliance. 1 pack per install.');
   pushLine('electrical',IC_E,'Solar cable 4.0mm (25m standard run)',25,0.4,'\u00a30.40/m. Standard 25m run = \u00a310.');
   /* 18–23 */
@@ -2059,7 +2079,7 @@ function rRoofs(){
   var h='';
   for(var r=1;r<=n;r++){
     h+='<div class="roof-card"><div class="roof-card-title">Roof '+LBLS[r-1]+(n>1?' of '+n:'')+'</div><div class="g3">';
-    h+='<div class="fg"><label class="fl req">Panels on this roof</label><input type="number" id="rp'+r+'" value="'+(r===1?'12':'0')+'" min="0" max="40" oninput="autoSave();updatePkg();rSysSummary()"/></div>';
+    h+='<div class="fg"><label class="fl req">Panels on this roof</label><input type="number" id="rp'+r+'" value="'+(r===1?'13':'0')+'" min="0" max="40" oninput="autoSave();updatePkg();rSysSummary()"/></div>';
     h+='<div class="fg"><label class="fl">Orientation</label><select id="ro'+r+'" onchange="autoSave()">';
     for(var i=0;i<ORI.length;i++)h+='<option>'+ORI[i]+'</option>';
     h+='</select></div>';
@@ -2115,9 +2135,8 @@ function rSysSummary(){
 
 /* ── PACKAGES ── */
 function updatePkg(){
-  var p=totalPanels()||8;
-  var panelQtyEl=document.getElementById('calc_panel_qty');
-  if(panelQtyEl&&String(panelQtyEl.value)!==String(p))panelQtyEl.value=String(p);
+  var mc=matrixPanelCount();
+  var p=(mc!==null&&isFinite(mc))?mc:(totalPanels()||8);
   if(typeof updateLabourTotalDisplay==='function')updateLabourTotalDisplay();
   if(typeof renderStep3Materials==='function')renderStep3Materials();
   var ev=document.getElementById('s_ev').checked;
