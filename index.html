@@ -1074,7 +1074,7 @@ textarea{resize:vertical;min-height:72px;}
           <option value="0.104">High (10.4%)</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">Est. Annual Generation (kWh)</label><input type="number" id="roi_gen" value="0" readonly style="background:var(--light);font-weight:700" aria-describedby="roi-gen-hint"/><span id="roi-gen-hint" class="fg-hint">Auto from System Design: panel count &times; 0.45 kWp &times; 850 kWh/kWp/yr (same as roof summary).</span></div>
+      <div class="fg"><label class="fl">Est. Annual Generation (kWh)</label><input type="number" id="roi_gen" value="0" readonly style="background:var(--light);font-weight:700" aria-describedby="roi-gen-hint"/><span id="roi-gen-hint" class="fg-hint">Auto from System Design: per roof panel count &times; panel kWp &times; 900 kWh/kWp/yr &times; orientation factor &times; shading factor (same as roof summary).</span></div>
       <div class="fg"><label class="fl">Self-Consumption Rate (%)</label><input type="number" id="roi_selfcon" value="40" min="10" max="90" oninput="rROI();autoSave()"/></div>
     </div>
 
@@ -1366,7 +1366,7 @@ textarea{resize:vertical;min-height:72px;}
   </div>
 </div>
 <script>
-var DEFAULT_PANEL_KW=0.45,KWH_PER_KW=850,STORE='fp_v12';
+var DEFAULT_PANEL_KW=0.45,BASE_YIELD_KWH_PER_KWP=900,STORE='fp_v12';
 
 /* Trade materials lookup (ex-VAT, Greentech/Edmundson Feb 2026) + EV install allowance */
 var EV_TRADE=700;
@@ -1417,6 +1417,20 @@ function updateLabourTotalDisplay(){
 function getCalcVal(id){
   var el=document.getElementById(id);
   return el?String(el.value||''):'';
+}
+function getCalcLabel(id){
+  var el=document.getElementById(id);
+  if(!el||!el.options||el.selectedIndex<0)return '';
+  return String(el.options[el.selectedIndex].text||'').trim();
+}
+function getSelectLabelByValue(id,val,fallback){
+  var el=document.getElementById(id);
+  if(!el||!el.options)return fallback||'';
+  for(var i=0;i<el.options.length;i++){
+    var opt=el.options[i];
+    if(String(opt.value)===String(val))return String(opt.text||'').trim();
+  }
+  return fallback||'';
 }
 function round2(x){
   x=Number(x)||0;
@@ -2019,13 +2033,13 @@ function rRoofs(){
   for(var r=1;r<=n;r++){
     h+='<div class="roof-card"><div class="roof-card-title">Roof '+LBLS[r-1]+(n>1?' of '+n:'')+'</div><div class="g3">';
     h+='<div class="fg"><label class="fl req">Panels on this roof</label><input type="number" id="rp'+r+'" value="'+(r===1?'13':'0')+'" min="0" max="40" oninput="autoSave();updatePkg();rSysSummary()"/></div>';
-    h+='<div class="fg"><label class="fl">Orientation</label><select id="ro'+r+'" onchange="autoSave()">';
+    h+='<div class="fg"><label class="fl">Orientation</label><select id="ro'+r+'" onchange="autoSave();rSysSummary()">';
     for(var i=0;i<ORI.length;i++)h+='<option>'+ORI[i]+'</option>';
     h+='</select></div>';
-    h+='<div class="fg"><label class="fl">Pitch</label><select id="rpi'+r+'" onchange="autoSave()">';
+    h+='<div class="fg"><label class="fl">Pitch</label><select id="rpi'+r+'" onchange="autoSave();rSysSummary()">';
     for(var i=0;i<PITCH.length;i++)h+='<option'+(i===2?' selected':'')+'>'+PITCH[i]+'</option>';
     h+='</select></div>';
-    h+='<div class="fg"><label class="fl">Shading</label><select id="rsh'+r+'" onchange="autoSave()">';
+    h+='<div class="fg"><label class="fl">Shading</label><select id="rsh'+r+'" onchange="autoSave();rSysSummary()">';
     for(var i=0;i<SHADE.length;i++)h+='<option value="'+SHADE[i][0]+'">'+SHADE[i][1]+'</option>';
     h+='</select></div>';
     h+='<div class="fg"><label class="fl">Roof Type</label><select id="rrt'+r+'" onchange="autoSave()">';
@@ -2048,8 +2062,45 @@ function getSelectedPanelKwp(){
   if(panel==='se430_opt')return 0.434;
   return DEFAULT_PANEL_KW;
 }
+function getOrientationFactor(ori){
+  var m={
+    'South':1.00,
+    'South-East':0.92,
+    'South-West':0.92,
+    'East':0.78,
+    'West':0.78,
+    'North-East':0.58,
+    'North-West':0.58,
+    'North':0.50,
+    'Split (East/West)':0.70
+  };
+  return m[ori]||1.00;
+}
+function getShadingFactor(sh){
+  var m={none:1.00,low:0.92,moderate:0.85,heavy:0.75};
+  return m[sh]||1.00;
+}
 function getEstAnnualGenerationKwh(){
-  return Math.round((totalPanels()||0)*getSelectedPanelKwp()*KWH_PER_KW);
+  var n=parseInt(document.getElementById('s_roofs').value||1,10);
+  var kwpPerPanel=getSelectedPanelKwp();
+  if(!isFinite(n)||n<1)n=1;
+  var total=0,seenRoof=false;
+  for(var r=1;r<=n;r++){
+    var pEl=document.getElementById('rp'+r);
+    if(!pEl)continue;
+    seenRoof=true;
+    var panels=parseInt(pEl.value||0,10);
+    if(!isFinite(panels)||panels<=0)continue;
+    var oriEl=document.getElementById('ro'+r);
+    var shEl=document.getElementById('rsh'+r);
+    var ori=oriEl?String(oriEl.value||'South'):'South';
+    var sh=shEl?String(shEl.value||'none'):'none';
+    total+=panels*kwpPerPanel*BASE_YIELD_KWH_PER_KWP*getOrientationFactor(ori)*getShadingFactor(sh);
+  }
+  if(!seenRoof){
+    return Math.round((totalPanels()||0)*kwpPerPanel*BASE_YIELD_KWH_PER_KWP);
+  }
+  return Math.round(total);
 }
 function syncRoiGenField(){
   var el=document.getElementById('roi_gen');
@@ -2057,7 +2108,7 @@ function syncRoiGenField(){
   var hint=document.getElementById('roi-gen-hint');
   if(hint){
     var kwp=getSelectedPanelKwp();
-    hint.innerHTML='Auto from System Design: panel count &times; '+kwp.toFixed(3).replace(/\.?0+$/,'')+' kWp &times; 850 kWh/kWp/yr (same as roof summary).';
+    hint.innerHTML='Auto from System Design: per roof panel count &times; '+kwp.toFixed(3).replace(/\.?0+$/,'')+' kWp &times; '+BASE_YIELD_KWH_PER_KWP+' kWh/kWp/yr &times; orientation factor &times; shading factor (same as roof summary).';
   }
 }
 /** Panel count from Step 1 pricing matrix (1–30); falls back to roof total when invalid. */
@@ -2067,6 +2118,14 @@ function matrixPanelCount(){
   var v=parseInt(el.value,10);
   if(isFinite(v)&&v>=1&&v<=30)return v;
   return null;
+}
+function syncMatrixPanelQtyFromRoof(){
+  var el=document.getElementById('calc_panel_qty');
+  if(!el)return;
+  var roofPanels=totalPanels();
+  if(!isFinite(roofPanels)||roofPanels<=0)return;
+  var v=Math.max(1,Math.min(30,Math.round(roofPanels)));
+  if(parseInt(el.value,10)!==v)el.value=String(v);
 }
 
 function rSysSummary(){
@@ -2084,6 +2143,7 @@ function rSysSummary(){
 
 /* ── PACKAGES ── */
 function updatePkg(){
+  syncMatrixPanelQtyFromRoof();
   var mc=matrixPanelCount();
   var p=(mc!==null&&isFinite(mc))?mc:(totalPanels()||8);
   if(typeof updateLabourTotalDisplay==='function')updateLabourTotalDisplay();
@@ -2094,8 +2154,20 @@ function updatePkg(){
   var bqBat=Math.max(1,batQty||1);
 
   var uiPanel=getCalcVal('calc_panel_type')||'ja450_ab';
+  var uiInv=getCalcVal('calc_inverter')||'alpha_g3_5';
+  var uiBat=getCalcVal('calc_battery')||'alpha_96_heat';
+  if(uiBat==='none')uiBat=(uiPanel==='se430_opt'?'se_home_10':'alpha_96_heat');
   var kwpP=uiPanel==='se430_opt'?0.434:0.45;
   var kwp=(p*kwpP).toFixed(2);
+  var panelLblJa=getSelectLabelByValue('calc_panel_type','ja450_ab','JA Solar 450W All-Black');
+  var panelLblSe=getSelectLabelByValue('calc_panel_type','se430_opt','SolarEdge 430W');
+  var invLbl=getSelectLabelByValue('calc_inverter',uiInv,'Hybrid inverter');
+  var batLbl=getSelectLabelByValue('calc_battery',uiBat,'Battery');
+  var batMountLbl=getCalcLabel('calc_bat_mount')||'Battery mounting';
+  var roofLbl=getCalcLabel('calc_roof_mount')||'Roof mounting kit';
+  var isolatorLbl=getCalcLabel('calc_isolator')||'Isolator';
+  var mc4Lbl=getCalcLabel('calc_mc4')||'MC4 connectors';
+  var battQtyLine=batQty>1?(' × '+batQty):'';
 
   var mUiJob=computeStep3Materials({panelBinding:'ui'});
   var jobCostExVat=tradeMaterialsPlusLabourEv(mUiJob.totalMaterials,ev);
@@ -2103,8 +2175,8 @@ function updatePkg(){
 
   var mJa=computeStep3Materials({panelBinding:'ja',includeBattery:false});
   var mSe=computeStep3Materials({panelBinding:'se',includeBattery:false});
-  var mJaBat=computeStep3Materials({panelBinding:'ja',includeBattery:true,forceBattery:'alpha_96_heat',batQty:bqBat});
-  var mSeBat=computeStep3Materials({panelBinding:'se',includeBattery:true,forceBattery:'se_home_10',batQty:bqBat});
+  var mJaBat=computeStep3Materials({panelBinding:'ja',includeBattery:true,forceBattery:uiBat,batQty:bqBat});
+  var mSeBat=computeStep3Materials({panelBinding:'se',includeBattery:true,forceBattery:uiBat,batQty:bqBat});
 
   var jaOnly=tradeMaterialsPlusLabourEv(mJa.totalMaterials,ev);
   var seOnly=tradeMaterialsPlusLabourEv(mSe.totalMaterials,ev);
@@ -2113,14 +2185,14 @@ function updatePkg(){
   _lastPkgTrades={ja_solar:jaOnly,se_solar:seOnly,ja_bat:jaBat,se_bat:seBat};
   var evLine=ev?['OZEV EV charge point']:[];
   var pkgs=[
-    {id:'ja_solar',hasBat:false,n:'Solar Only — JA Solar',sz:p+' × JA Solar 450W All-Black + Alpha Hybrid',trade:jaOnly,
-     inc:['JA Solar JAM54D41-450/LB All-Black panels','Alpha G3 Hybrid Inverter','Fastensol rail mounting system','Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
-    {id:'se_solar',hasBat:false,n:'Solar Only — SolarEdge',sz:p+' × SolarEdge 430W with built-in optimiser',trade:seOnly,
-     inc:['SolarEdge SPV430-R54PDTL panels (integrated optimiser)','SolarEdge SE3680H Hybrid Inverter','SolarEdge monitoring (hub, meter, CT, WiFi)','Fastensol rail mounting system','Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
-    {id:'ja_bat',hasBat:true,n:'Solar + Battery — JA + Alpha',sz:p+' × JA Solar 450W + Alpha G3 9.6kWh Battery',trade:jaBat,
-     inc:['JA Solar JAM54D41-450/LB All-Black panels','Alpha G3 Hybrid Inverter','Alpha G3 9.6kWh Battery (heated, IP65)','Fastensol rail mounting system','Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
-    {id:'se_bat',hasBat:true,n:'Solar + Battery — SolarEdge',sz:p+' × SolarEdge 430W + SolarEdge Home Battery 10kWh',trade:seBat,
-     inc:['SolarEdge SPV430-R54PDTL panels (integrated optimiser)','SolarEdge SE3680H Hybrid Inverter','SolarEdge Home Battery 10kWh + Y-Cable','SolarEdge monitoring (hub, meter, CT, WiFi)','Fastensol rail mounting system','Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)}
+    {id:'ja_solar',hasBat:false,n:'Solar Only — JA Solar',sz:p+' × '+panelLblJa+' + '+invLbl,trade:jaOnly,
+     inc:[panelLblJa+' panels',invLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
+    {id:'se_solar',hasBat:false,n:'Solar Only — SolarEdge',sz:p+' × '+panelLblSe+' + '+invLbl,trade:seOnly,
+     inc:[panelLblSe+' panels',invLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
+    {id:'ja_bat',hasBat:true,n:'Solar + Battery — JA + Alpha',sz:p+' × '+panelLblJa+' + '+batLbl+battQtyLine,trade:jaBat,
+     inc:[panelLblJa+' panels',invLbl,batLbl+battQtyLine,'Battery mounting: '+batMountLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
+    {id:'se_bat',hasBat:true,n:'Solar + Battery — SolarEdge',sz:p+' × '+panelLblSe+' + '+batLbl+battQtyLine,trade:seBat,
+     inc:[panelLblSe+' panels',invLbl,batLbl+battQtyLine,'Battery mounting: '+batMountLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)}
   ];
   var grid=document.getElementById('pkg-grid');grid.innerHTML='';
   for(var i=0;i<pkgs.length;i++){
