@@ -155,44 +155,44 @@ textarea{resize:vertical;min-height:72px;}
 .roi-cell-wo .roi-cell-val{color:#b91c1c;}
 .roi-cell-ws .roi-cell-val{color:#15803d;}
 .roi-horizon-save{text-align:center;padding:10px 12px;font-size:11px;font-weight:800;color:#166534;background:linear-gradient(180deg,#ecfdf5,#d1fae5);border-top:1px solid #6ee7b7;}
-/* Savings & ROI — stat tiles: green = cumulative savings, red = payback */
-#sec7 .stats .sb.g{border-left:4px solid #16a34a;background:linear-gradient(180deg,#f0fdf4,#fff);}
-#sec7 .stats .sb.g .sb-val{color:#15803d;}
-#sec7 .stats .sb.y{border-left:4px solid #dc2626;background:linear-gradient(180deg,#fef2f2,#fff);}
-#sec7 .stats .sb.y .sb-val{color:#b91c1c;}
+/* Savings & ROI — stat tiles and payback split cues */
+#sec6 .stats .sb.g{border-left:4px solid #16a34a;background:linear-gradient(180deg,#f0fdf4,#fff);}
+#sec6 .stats .sb.g .sb-val{color:#15803d;}
+#sec6 .stats .sb.y{border-left:4px solid #dc2626;background:linear-gradient(180deg,#fef2f2,#fff);}
+#sec6 .stats .sb.y .sb-val{color:#b91c1c;}
+#sec6 .rtbl tbody tr.roi-pre-pb td{
+  background:linear-gradient(90deg,rgba(220,38,38,.05) 0%,rgba(220,38,38,.015) 38%,transparent 100%);
+}
+#sec6 .rtbl tbody tr.roi-pre-pb td:first-child{border-left:3px solid rgba(220,38,38,.4);}
+#sec6 .rtbl tbody tr.roi-pre-pb td:nth-child(4),
+#sec6 .rtbl tbody tr.roi-pre-pb td:nth-child(5){color:#b91c1c;font-weight:700;}
+#sec6 .rtbl tbody tr.roi-post-pb td{
+  background:linear-gradient(90deg,rgba(22,163,74,.13) 0%,rgba(22,163,74,.05) 45%,transparent 100%);
+}
+#sec6 .rtbl tbody tr.roi-post-pb td:first-child{border-left:4px solid #16a34a;}
+#sec6 .rtbl tbody tr.roi-post-pb td:nth-child(4),
+#sec6 .rtbl tbody tr.roi-post-pb td:nth-child(5){color:#15803d;font-weight:800;}
+#sec6 .rtbl tbody tr.roi-payback td{
+  background:linear-gradient(90deg,rgba(22,163,74,.2) 0%,rgba(22,163,74,.08) 52%,transparent 100%);
+}
+#sec6 .rtbl .roi-pb-tag{
+  display:inline-block;
+  margin-left:6px;
+  padding:2px 7px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.02em;
+  color:#065f46;
+  background:#d1fae5;
+  border:1px solid #6ee7b7;
+  vertical-align:middle;
+}
 .ib{padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin:14px 0;}
 .ib.y{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
 #extras-banner.ib{box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .ib.g{background:var(--yellow-soft);border:1px solid var(--yellow-border);color:var(--yellow-ink);}
 .ib.gr{background:var(--light);border:1px solid var(--border);color:var(--grey);}
-/* Our Products — card-based categories (Solar PV, Battery, ASHP, EV). Content supplied by Full Power. */
-.product-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start;}
-@media (max-width:700px){.product-info-grid{grid-template-columns:1fr;}}
-.product-info-card{border-radius:16px;border:2px solid var(--border);background:var(--white);overflow:hidden;transition:border-color .25s ease,box-shadow .25s ease;cursor:pointer;}
-.product-info-card:hover{border-color:var(--yellow);box-shadow:0 6px 20px rgba(0,0,0,.08);}
-.product-info-card.expanded{border-color:var(--yellow);box-shadow:0 8px 28px rgba(0,0,0,.1);}
-.product-info-card-head{display:flex;align-items:center;gap:14px;padding:20px 22px;}
-.product-info-card-head .pic{width:52px;height:52px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
-.product-info-card-head .meta{flex:1;min-width:0;}
-.product-info-card-head .title{font-size:16px;font-weight:900;color:var(--black);margin-bottom:2px;}
-.product-info-card-head .brand{font-size:11px;color:var(--yellow);font-weight:700;}
-.product-info-card-head .sum{font-size:12px;color:var(--grey);line-height:1.45;margin-top:6px;}
-.product-info-card-head .chevron{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;color:var(--grey);transition:transform .35s ease,color .25s ease;}
-.product-info-card-head .chevron svg{width:20px;height:20px;}
-.product-info-card.expanded .product-info-card-head .chevron{transform:rotate(180deg);color:var(--yellow);}
-.product-info-detail{max-height:0;overflow:hidden;transition:max-height .4s ease;}
-.product-info-card.expanded .product-info-detail{max-height:720px;}
-.product-info-detail-inner{padding:0 22px 22px;border-top:1px solid var(--border);padding-top:18px;}
-.product-info-detail .desc{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:16px;}
-.product-info-detail .feat-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.product-info-detail .feat-item{padding:6px 12px;background:var(--light);border-radius:8px;font-size:11px;font-weight:700;color:var(--mid);}
-.product-info-detail .spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 16px;margin-bottom:14px;}
-.product-info-detail .spec-item{font-size:12px;}
-.product-info-detail .spec-item .spl{color:var(--grey);}
-.product-info-detail .spec-item .spv{font-weight:800;color:var(--black);margin-left:4px;}
-.product-info-detail .warranty{padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:12px;color:#92400e;margin-bottom:12px;}
-.product-info-detail .certs{font-size:11px;color:var(--grey);}
-.product-info-placeholder{padding:20px 22px;text-align:center;font-size:13px;color:var(--grey);}
 .cw{position:relative;height:280px;margin:20px 0;}
 .cw-lg{position:relative;height:320px;margin:20px 0;}
 .rtbl{width:100%;border-collapse:collapse;font-size:13px;}
@@ -688,23 +688,11 @@ textarea{resize:vertical;min-height:72px;}
     </div>
     <div class="ib y">&#9889; Without solar, this customer could spend <strong id="proj-total-lbl">&pound;0</strong> over <span id="proj-total-yrs">15</span> years on energy bills alone. ONS data shows average increases of 7.5% per year &mdash; solar locks in free generation.</div>
   </div>
-  <div class="nav-btns"><button class="btn-g" onclick="goTo(2)">&larr; Back</button><button class="btn-y" onclick="goTo(4)">Our Products &rarr;</button></div>
+  <div class="nav-btns"><button class="btn-g" onclick="goTo(2)">&larr; Back</button><button class="btn-y" onclick="goTo(4)">System Design &rarr;</button></div>
 </div>
 
 <!-- SEC 4 -->
 <div class="sec" id="sec4" style="display:none">
-  <h2 class="sec-title">Our Products</h2>
-  <p class="sec-sub">Card-based product overview. Tap a card to expand full specifications. Content supplied by Full Power.</p>
-  <div class="card">
-    <div class="card-title">Product Categories</div>
-    <div class="product-info-grid" id="product-cards-wrap"></div>
-    <div class="ib g" style="margin-top:18px">&#9989; All Full Power installations are carried out by <strong>MCS-accredited</strong> and <strong>NAPIT-registered</strong> engineers &mdash; fully insured, certified, and approved for all UK grid connection applications.</div>
-  </div>
-  <div class="nav-btns"><button class="btn-g" onclick="goTo(3)">&larr; Back</button><button class="btn-y" onclick="goTo(5)">System Design &rarr;</button></div>
-</div>
-
-<!-- SEC 5 -->
-<div class="sec" id="sec5" style="display:none">
   <h2 class="sec-title">System Design</h2>
   <p class="sec-sub">Roof survey results and system configuration &mdash; determines package pricing.</p>
   <div class="card">
@@ -734,11 +722,11 @@ textarea{resize:vertical;min-height:72px;}
     </div>
     <div class="ib gr" id="sys-summary">System summary will appear once panels are entered.</div>
   </div>
-  <div class="nav-btns"><button class="btn-g" onclick="goTo(4)">&larr; Back</button><button class="btn-y" onclick="goTo(6)">Package Selection &rarr;</button></div>
+  <div class="nav-btns"><button class="btn-g" onclick="goTo(3)">&larr; Back</button><button class="btn-y" onclick="goTo(5)">Package Selection &rarr;</button></div>
 </div>
 
-<!-- SEC 6 -->
-<div class="sec" id="sec6" style="display:none">
+<!-- SEC 5 -->
+<div class="sec" id="sec5" style="display:none">
   <h2 class="sec-title">Package Selection</h2>
   <p class="sec-sub">System pricing based on your roof design and the cost calculator configuration below.</p>
   <div class="card">
@@ -1070,11 +1058,11 @@ textarea{resize:vertical;min-height:72px;}
       </div>
     </div>
   </div>
-  <div class="nav-btns"><button class="btn-g" onclick="goTo(5)">&larr; Back</button><button class="btn-y" onclick="goTo(7)">Savings &amp; ROI &rarr;</button></div>
+  <div class="nav-btns"><button class="btn-g" onclick="goTo(4)">&larr; Back</button><button class="btn-y" onclick="goTo(6)">Savings &amp; ROI &rarr;</button></div>
 </div>
 
-<!-- SEC 7 -->
-<div class="sec" id="sec7" style="display:none">
+<!-- SEC 6 -->
+<div class="sec" id="sec6" style="display:none">
   <h2 class="sec-title">Savings &amp; ROI</h2>
   <p class="sec-sub">Energy bill comparison with and without solar. ONS electricity inflation feeds through from the scenario below. See cumulative spend at 5, 10 and 15 years in the cards and year-by-year table.</p>
   <div class="card">
@@ -1086,7 +1074,7 @@ textarea{resize:vertical;min-height:72px;}
           <option value="0.104">High (10.4%)</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">Est. Annual Generation (kWh)</label><input type="number" id="roi_gen" value="0" readonly style="background:var(--light);font-weight:700" aria-describedby="roi-gen-hint"/><span id="roi-gen-hint" class="fg-hint">Auto from System Design: panel count &times; 0.42 kWp &times; 850 kWh/kWp/yr (same as roof summary).</span></div>
+      <div class="fg"><label class="fl">Est. Annual Generation (kWh)</label><input type="number" id="roi_gen" value="0" readonly style="background:var(--light);font-weight:700" aria-describedby="roi-gen-hint"/><span id="roi-gen-hint" class="fg-hint">Auto from System Design: panel count &times; 0.45 kWp &times; 850 kWh/kWp/yr (same as roof summary).</span></div>
       <div class="fg"><label class="fl">Self-Consumption Rate (%)</label><input type="number" id="roi_selfcon" value="40" min="10" max="90" oninput="rROI();autoSave()"/></div>
     </div>
 
@@ -1151,11 +1139,11 @@ textarea{resize:vertical;min-height:72px;}
       </table>
     </div>
   </div>
-  <div class="nav-btns"><button class="btn-g" onclick="goTo(6)">&larr; Back</button><button class="btn-y" onclick="goTo(8)">Final Proposal &rarr;</button></div>
+  <div class="nav-btns"><button class="btn-g" onclick="goTo(5)">&larr; Back</button><button class="btn-y" onclick="goTo(7)">Final Proposal &rarr;</button></div>
 </div>
 
-<!-- SEC 8 -->
-<div class="sec" id="sec8" style="display:none">
+<!-- SEC 7 -->
+<div class="sec" id="sec7" style="display:none">
   <h2 class="sec-title proposal-screen-only">Final Proposal</h2>
   <p class="sec-sub proposal-screen-only">Customer quote &mdash; use <strong>Print / Save PDF</strong> or <strong>Download PDF</strong>. <strong>Save &amp; Send</strong> uses <code>EMAILJS_CONFIG</code> in <code>index.html</code> (see <code>EMAILJS_SETUP.md</code>).</p>
   <div id="prop-file-protocol-notice" class="proposal-screen-only ib gr" style="display:none;margin-top:0" role="status">
@@ -1338,7 +1326,7 @@ textarea{resize:vertical;min-height:72px;}
   </div><!-- /#proposal-pdf-root -->
 
   <div class="nav-btns no-print">
-    <button class="btn-g" onclick="goTo(7)">&larr; Back</button>
+    <button class="btn-g" onclick="goTo(6)">&larr; Back</button>
     <div class="nav-btns-r">
       <button type="button" class="btn-dark" onclick="printProposal()" title="Opens print dialog — choose Save as PDF">&#128424; Print / Save PDF</button>
       <button type="button" id="btn-save-send" class="btn-y" onclick="saveAndSendProposal()" title="Save survey locally and email proposal PDF">&#9993; Save &amp; Send</button>
@@ -1378,7 +1366,7 @@ textarea{resize:vertical;min-height:72px;}
   </div>
 </div>
 <script>
-var PANEL_KW=0.42,KWH_PER_KW=850,STORE='fp_v12';
+var DEFAULT_PANEL_KW=0.45,KWH_PER_KW=850,STORE='fp_v12';
 
 /* Trade materials lookup (ex-VAT, Greentech/Edmundson Feb 2026) + EV install allowance */
 var EV_TRADE=700;
@@ -1677,66 +1665,18 @@ function emailjsConfigured(){
 }
 var NAV=[
   {n:1,l:'Customer Details'},{n:2,l:'Energy Usage'},{n:3,l:'Cost Projection'},
-  {n:4,l:'Our Products'},{n:5,l:'System Design'},{n:6,l:'Package Selection'},
-  {n:7,l:'Savings & ROI'},{n:8,l:'Final Proposal'}
+  {n:4,l:'System Design'},{n:5,l:'Package Selection'},
+  {n:6,l:'Savings & ROI'},{n:7,l:'Final Proposal'}
 ];
 var TBI=[
   {t:'Customer Details',s:'Contact and property information'},
   {t:'Energy Usage',s:'Current bills and consumption'},
   {t:'Cost Projection',s:'Annual and cumulative costs without solar'},
-  {t:'Our Products',s:'Full Power Installations product range'},
   {t:'System Design',s:'Roof survey and system configuration'},
   {t:'Package Selection',s:'Pricing based on your design'},
   {t:'Savings & ROI',s:'Bill comparison with and without solar'},
   {t:'Final Proposal',s:'Customer quote ready to present'}
 ];
-
-/* Our Products — card-based display. Content (Solar PV, Battery, EV) supplied by Full Power. ASHP removed per client. */
-var PRODUCT_INFO_CATEGORIES=[
-  {id:'solar-pv',label:'Solar PV',icon:'\u2600\uFE0F',brand:'JA Solar',summary:'JAM78D10 430\u2013450W MBB Bifacial Mono PERC \u00b7 Half-cell double glass',placeholder:false,
-   description:'Assembled with MBB bifacial PERCIUM cells and half-cell configuration, these double glass modules convert incident light from both front and rear into electricity \u2014 providing higher output power, lower temperature coefficient, less shading loss, and enhanced tolerance for mechanical loading.',
-   features:['Higher output power','More reliable, stable power generation','Less shading effect','Lower temperature coefficient'],
-   warranty:'12-year product warranty \u00b7 30-year linear power output warranty \u00b7 0.5% annual degradation over 30 years.',
-   certifications:'IEC 61215, IEC 61730 \u00b7 ISO 9001:2015, ISO 14001:2015 \u00b7 OHSAS 18001:2007'},
-  {id:'battery',label:'Battery Storage',icon:'\uD83D\uDD0B',brand:'',summary:'Content to be supplied by Full Power.',placeholder:true},
-  {id:'ev',label:'EV Charging',icon:'\uD83D\uDE97',brand:'',summary:'Content to be supplied by Full Power.',placeholder:true}
-];
-function buildProductCardsHtml(){
-  var openId=window._productInfoOpen||null;
-  var h='';
-  for(var i=0;i<PRODUCT_INFO_CATEGORIES.length;i++){
-    var c=PRODUCT_INFO_CATEGORIES[i],expanded=openId===c.id;
-    var head='<div class="product-info-card-head"><div class="pic">'+c.icon+'</div><div class="meta"><div class="title">'+c.label+'</div>'+(c.brand?'<div class="brand">'+c.brand+'</div>':'')+'<div class="sum">'+c.summary+'</div></div><span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>';
-    var detailHtml='';
-    if(c.placeholder){
-      detailHtml='<div class="product-info-detail-inner"><div class="product-info-placeholder">Content for this category will be supplied by Full Power. Add specs, warranty and description here once provided.</div></div>';
-    }else{
-      var featHtml=(c.features&&c.features.length)?'<div class="feat-list">'+c.features.map(function(f){return '<span class="feat-item">'+f+'</span>';}).join('')+'</div>':'';
-      var specHtml=(c.specs&&c.specs.length)?'<div class="spec-grid">'+c.specs.map(function(s){return '<div class="spec-item"><span class="spl">'+s.l+'</span><span class="spv">'+s.v+'</span></div>';}).join('')+'</div>':'';
-      var warrHtml=c.warranty?'<div class="warranty">'+c.warranty+'</div>':'';
-      var certHtml=c.certifications?'<div class="certs">'+c.certifications+'</div>':'';
-      detailHtml='<div class="product-info-detail-inner">'+(c.description?'<p class="desc">'+c.description+'</p>':'')+featHtml+specHtml+warrHtml+certHtml+'</div>';
-    }
-    h+='<div class="product-info-card '+(expanded?'expanded':'')+'" data-id="'+c.id+'" onclick="toggleProductInfo(\''+c.id+'\')">'+head+'<div class="product-info-detail">'+detailHtml+'</div></div>';
-  }
-  return h;
-}
-function renderProductCards(){
-  var wrap=document.getElementById('product-cards-wrap');
-  if(!wrap)return;
-  wrap.innerHTML=buildProductCardsHtml();
-}
-window.toggleProductInfo=function(id){
-  window._productInfoOpen=window._productInfoOpen===id?null:id;
-  var wrap=document.getElementById('product-cards-wrap');
-  if(!wrap)return;
-  var cards=wrap.querySelectorAll('.product-info-card');
-  for(var j=0;j<cards.length;j++){
-    var card=cards[j];
-    if(card.getAttribute('data-id')===window._productInfoOpen){card.classList.add('expanded');}
-    else{card.classList.remove('expanded');}
-  }
-};
 
 function rNav(){
   var h='';
@@ -1754,16 +1694,15 @@ function goTo(n){
   document.getElementById('sec'+n).style.display='block';
   var inf=TBI[n-1];
   document.getElementById('tb-title').textContent=inf.t;
-  document.getElementById('tb-sub').textContent='Step '+n+' of 8 \u2014 '+inf.s;
-  document.getElementById('prog-fill').style.width=(n/8*100)+'%';
+  document.getElementById('tb-sub').textContent='Step '+n+' of 7 \u2014 '+inf.s;
+  document.getElementById('prog-fill').style.width=(n/7*100)+'%';
   rNav();
   if(n===1)initPostcodeLookup();
   if(n===3)setTimeout(rProj,60);
-  if(n===4)setTimeout(renderProductCards,60);
-  if(n===5)setTimeout(rRoofs,60);
-  if(n===6){setTimeout(function(){updatePkg();if(typeof refreshCostCalcCustomSelectLabels==='function')refreshCostCalcCustomSelectLabels();},60);}
-  if(n===7)setTimeout(rROI,60);
-  if(n===8){setTimeout(rProp,60);updateFileProtocolNotice();}
+  if(n===4)setTimeout(rRoofs,60);
+  if(n===5){setTimeout(function(){updatePkg();if(typeof refreshCostCalcCustomSelectLabels==='function')refreshCostCalcCustomSelectLabels();},60);}
+  if(n===6)setTimeout(rROI,60);
+  if(n===7){setTimeout(rProp,60);updateFileProtocolNotice();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function updateFileProtocolNotice(){
@@ -2104,12 +2043,22 @@ function totalPanels(){
   return t;
 }
 /** MCS-style yield used in System Summary: panels &times; kWp per panel &times; kWh/kWp/year */
+function getSelectedPanelKwp(){
+  var panel=(getCalcVal('calc_panel_type')||'ja450_ab');
+  if(panel==='se430_opt')return 0.434;
+  return DEFAULT_PANEL_KW;
+}
 function getEstAnnualGenerationKwh(){
-  return Math.round((totalPanels()||0)*PANEL_KW*KWH_PER_KW);
+  return Math.round((totalPanels()||0)*getSelectedPanelKwp()*KWH_PER_KW);
 }
 function syncRoiGenField(){
   var el=document.getElementById('roi_gen');
   if(el)el.value=String(getEstAnnualGenerationKwh());
+  var hint=document.getElementById('roi-gen-hint');
+  if(hint){
+    var kwp=getSelectedPanelKwp();
+    hint.innerHTML='Auto from System Design: panel count &times; '+kwp.toFixed(3).replace(/\.?0+$/,'')+' kWp &times; 850 kWh/kWp/yr (same as roof summary).';
+  }
 }
 /** Panel count from Step 1 pricing matrix (1–30); falls back to roof total when invalid. */
 function matrixPanelCount(){
@@ -2121,7 +2070,7 @@ function matrixPanelCount(){
 }
 
 function rSysSummary(){
-  var p=totalPanels(),kwp=(p*PANEL_KW).toFixed(2),gen=getEstAnnualGenerationKwh();
+  var p=totalPanels(),kwp=(p*getSelectedPanelKwp()).toFixed(2),gen=getEstAnnualGenerationKwh();
   var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'0'}).value||0);
   var bat=batQty>0,ev=document.getElementById('s_ev').checked;
   var n=parseInt(document.getElementById('s_roofs').value||1);
@@ -2145,7 +2094,7 @@ function updatePkg(){
   var bqBat=Math.max(1,batQty||1);
 
   var uiPanel=getCalcVal('calc_panel_type')||'ja450_ab';
-  var kwpP=uiPanel==='se430_opt'?0.43:0.42;
+  var kwpP=uiPanel==='se430_opt'?0.434:0.45;
   var kwp=(p*kwpP).toFixed(2);
 
   var mUiJob=computeStep3Materials({panelBinding:'ui'});
@@ -2281,7 +2230,15 @@ function rROI(){
       var savR=Math.round(sav2);
       cs2+=sav2;
       var withS=Math.round(Math.max(0,bill2-sav2));
-      rows+='<tr><td>'+y2+'</td><td>\u00a3'+bill2.toLocaleString()+'</td>'
+      var rowClass='',yearLbl=String(y2);
+      if(pb){
+        if(y2<pb)rowClass='roi-pre-pb';
+        else rowClass='roi-post-pb'+(y2===pb?' roi-payback':'');
+        if(y2===pb)yearLbl=y2+'<span class="roi-pb-tag">Payback</span>';
+      }else{
+        rowClass='roi-pre-pb';
+      }
+      rows+='<tr class="'+rowClass+'"><td>'+yearLbl+'</td><td>\u00a3'+bill2.toLocaleString()+'</td>'
            +'<td>\u00a3'+withS.toLocaleString()+'</td>'
            +'<td>\u00a3'+savR.toLocaleString()+'</td>'
            +'<td>\u00a3'+Math.round(cs2).toLocaleString()+'</td></tr>';
@@ -2511,7 +2468,7 @@ function rProp(){
   var name=document.getElementById('c_name').value||'\u2014';
   var addr=[document.getElementById('c_addr1').value,document.getElementById('c_street').value,
     document.getElementById('c_town').value,document.getElementById('c_postcode').value].filter(Boolean).join(', ')||'\u2014';
-  var panels=totalPanels(),kwp=(panels*PANEL_KW).toFixed(2);
+  var panels=totalPanels(),kwp=(panels*getSelectedPanelKwp()).toFixed(2);
   var gen=getEstAnnualGenerationKwh();
   var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'0'}).value||0);
   var bat=batQty>0,ev=document.getElementById('s_ev').checked;
