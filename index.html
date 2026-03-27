@@ -1208,6 +1208,7 @@ textarea{resize:vertical;min-height:72px;}
             <div class="p-dr"><span class="p-dr-k">Cumulative savings (15 yrs)</span><span class="p-dr-v p-dr-v-save" id="prop-s15">&mdash;</span></div>
             <div class="p-dr"><span class="p-dr-k">Cumulative savings (25 yrs)</span><span class="p-dr-v p-dr-v-save" id="prop-s25">&mdash;</span></div>
             <div class="p-dr"><span class="p-dr-k">Payback (cumulative savings &ge; investment)</span><span class="p-dr-v" id="prop-pb">&mdash;</span></div>
+            <div class="p-dr" id="prop-pb-flux-row" style="display:none"><span class="p-dr-k">Intelligent Flux payback (indicative)</span><span class="p-dr-v" id="prop-pb-flux">&mdash;</span></div>
           </div>
         </div>
       </div>
@@ -1223,6 +1224,7 @@ textarea{resize:vertical;min-height:72px;}
         </div>
         <div class="prop-pstats">
           <div class="prop-pstat"><div class="prop-pstat-val" id="prop-pb2">&mdash;</div><div class="prop-pstat-lbl">Payback</div></div>
+          <div class="prop-pstat" id="prop-pb2-flux-wrap" style="display:none"><div class="prop-pstat-val" id="prop-pb2-flux">&mdash;</div><div class="prop-pstat-lbl">Flux Payback</div></div>
           <div class="prop-pstat"><div class="prop-pstat-val" id="prop-yr1b">&mdash;</div><div class="prop-pstat-lbl">Yr 1 Saving</div></div>
           <div class="prop-pstat"><div class="prop-pstat-val" id="prop-co2b">&mdash;</div><div class="prop-pstat-lbl">CO&#8322; Saved</div></div>
         </div>
@@ -2062,6 +2064,24 @@ function getSelectedPanelKwp(){
   if(panel==='se430_opt')return 0.434;
   return DEFAULT_PANEL_KW;
 }
+function getSelectedBatteryUnitKwh(){
+  var bat=getCalcVal('calc_battery')||'none';
+  var kwhMap={
+    alpha_g3_48:4.8,
+    alpha_96_heat:9.6,
+    se_home_10:10,
+    fox_cm2900:2.88,
+    fox_cs2900:2.88,
+    fox_cm4300:3,
+    fox_cs4300:4.3,
+    fox_ep6h:5.76,
+    fox_ep12h:11.52,
+    duracell_dura5:5,
+    sig_bat_60:6,
+    sig_bat_100:10
+  };
+  return kwhMap[bat]||0;
+}
 function getOrientationFactor(ori){
   var m={
     'South':1.00,
@@ -2580,6 +2600,33 @@ function rProp(){
   var pbTxt=pb!==null?(pb===1?'1 yr':pb+' yrs'):(price>0?'> 25 yrs':'Set price');
   document.getElementById('prop-pb').textContent=pbTxt;
   document.getElementById('prop-pb2').textContent=pbTxt;
+  var fluxRow=document.getElementById('prop-pb-flux-row');
+  var fluxPill=document.getElementById('prop-pb2-flux-wrap');
+  var fluxEl=document.getElementById('prop-pb-flux');
+  var fluxEl2=document.getElementById('prop-pb2-flux');
+  var fluxTxt='&mdash;';
+  var fluxAnnual=0;
+  if(bat&&price>0){
+    var fluxDay=0.27,fluxPeak=0.38,fluxOffPeak=0.16;
+    var exportPeakShare=0.20,arbCycles=300;
+    var selfUseKwh=gen*sc;
+    var exportKwh=Math.max(0,gen-selfUseKwh);
+    var selfUseBenefit=selfUseKwh*fluxDay;
+    var exportBenefit=exportKwh*(exportPeakShare*fluxPeak+(1-exportPeakShare)*fluxDay);
+    var batTotalKwh=Math.max(0,getSelectedBatteryUnitKwh())*Math.max(1,batQty);
+    var arbitrageBenefit=batTotalKwh*arbCycles*Math.max(0,fluxPeak-fluxOffPeak);
+    fluxAnnual=selfUseBenefit+exportBenefit+arbitrageBenefit;
+    if(fluxAnnual>0){
+      var fluxPb=price/fluxAnnual;
+      fluxTxt=fluxPb>25?'> 25 yrs':(Math.round(fluxPb*10)/10)+' yrs';
+    }else{
+      fluxTxt='> 25 yrs';
+    }
+  }
+  if(fluxRow)fluxRow.style.display=bat?'flex':'none';
+  if(fluxPill)fluxPill.style.display=bat?'block':'none';
+  if(fluxEl)fluxEl.textContent=bat?fluxTxt:'\u2014';
+  if(fluxEl2)fluxEl2.textContent=bat?fluxTxt:'\u2014';
   var s15='\u00a3'+s15v.toLocaleString();
   var s25='\u00a3'+s25v.toLocaleString();
   document.getElementById('prop-s15').textContent=s15;
@@ -2595,8 +2642,13 @@ function rProp(){
     if(invAmt&&pb!==null)payLine='Estimated <strong>payback</strong> is <strong>'+pb+' years</strong> &mdash; the first year cumulative electricity savings reach or exceed your investment of <strong>'+invAmt+'</strong>.';
     else if(invAmt)payLine='With an investment of <strong>'+invAmt+'</strong>, cumulative savings do not reach that level within 25 years on this model (adjust generation, self-use, bill or ONS scenario in Savings &amp; ROI if needed).';
     else payLine='Select a <strong>package</strong> and <strong>final price</strong> to estimate payback.';
+    var fluxLine='';
+    if(bat&&invAmt){
+      var fluxAnnualTxt='\u00a3'+Math.round(fluxAnnual).toLocaleString();
+      fluxLine=' <strong>With Intelligent Octopus Flux, your payback could reduce to '+fluxTxt+'</strong> using an indicative annual Flux benefit of <strong>'+fluxAnnualTxt+'/yr</strong> (self-consumption @ 27p/kWh, export blend 20% @ 38p and 80% @ 27p, plus battery arbitrage @ 16p\u219238p with ~300 cycles/yr). <em>Flux rates are reviewed quarterly, so this figure is indicative.</em>';
+    }
     sumBody.innerHTML='Estimated <strong>annual saving in year 1</strong> (electricity not bought from the grid, at your tariff and export assumptions): <strong>'+y1s+'</strong>. '+
-      '<strong>Cumulative savings</strong> on bills under <strong>'+scenTxt+'</strong>: <strong>'+s15+'</strong> over 15 years and <strong>'+s25+'</strong> over 25 years (same methodology as the chart). '+payLine;
+      '<strong>Cumulative savings</strong> on bills under <strong>'+scenTxt+'</strong>: <strong>'+s15+'</strong> over 15 years and <strong>'+s25+'</strong> over 25 years (same methodology as the chart). '+payLine+fluxLine;
   }
   var co2=Math.round(gen*25*0.233/1000);
   var trees=Math.round(co2*45);
