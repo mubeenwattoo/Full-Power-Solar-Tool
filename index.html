@@ -188,6 +188,13 @@ textarea{resize:vertical;min-height:72px;}
   border:1px solid #6ee7b7;
   vertical-align:middle;
 }
+.roi-payback-toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 6px;flex-wrap:wrap}
+.roi-payback-toggle .lbl{font-size:11px;font-weight:800;color:var(--mid);text-transform:uppercase;letter-spacing:.06em}
+.roi-payback-toggle .sw{display:flex;gap:8px;align-items:center}
+.roi-payback-btn{padding:7px 12px;border:1.5px solid var(--border);border-radius:999px;background:#fff;font-size:11px;font-weight:800;color:var(--mid);cursor:pointer}
+.roi-payback-btn.active{border-color:var(--yellow);background:var(--yellow-soft);color:var(--yellow-ink)}
+.roi-payback-btn:disabled{opacity:.45;cursor:not-allowed}
+.roi-flux-note{font-size:11px;color:var(--grey);margin:0 0 6px}
 .ib{padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin:14px 0;}
 .ib.y{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
 #extras-banner.ib{box-shadow:0 1px 3px rgba(0,0,0,.06);}
@@ -1125,11 +1132,20 @@ textarea{resize:vertical;min-height:72px;}
       </div>
     </div>
 
+    <div class="roi-payback-toggle">
+      <div class="lbl">Payback view</div>
+      <div class="sw">
+        <button type="button" id="roi-payback-standard-btn" class="roi-payback-btn active" onclick="setRoiPaybackView('standard')">Standard</button>
+        <button type="button" id="roi-payback-flux-btn" class="roi-payback-btn" onclick="setRoiPaybackView('flux')">Intelligent Flux</button>
+      </div>
+    </div>
+    <p id="roi-flux-note" class="roi-flux-note">Standard view shown. Select Intelligent Flux when a battery is included.</p>
+
     <div class="stats">
       <div class="sb g"><div class="sb-val" id="roi-s5">&pound;0</div><div class="sb-lbl">Saved Yr 1-5</div></div>
       <div class="sb g"><div class="sb-val" id="roi-s10">&pound;0</div><div class="sb-lbl">Saved Yr 1-10</div></div>
       <div class="sb g"><div class="sb-val" id="roi-s15">&pound;0</div><div class="sb-lbl">Saved Yr 1-15</div></div>
-      <div class="sb y"><div class="sb-val" id="roi-pb">0 yrs</div><div class="sb-lbl">Payback Period</div></div>
+      <div class="sb y"><div class="sb-val" id="roi-pb">0 yrs</div><div class="sb-lbl" id="roi-pb-lbl">Payback Period (Standard)</div></div>
     </div>
     <div class="sdiv">Year-by-Year Breakdown</div>
     <div style="overflow-x:auto">
@@ -2031,21 +2047,38 @@ var LBLS=['A','B','C'];
 
 function rRoofs(){
   var n=parseInt(document.getElementById('s_roofs').value||1);
+  var prev=[];
+  for(var pr=1;pr<=3;pr++){
+    prev.push({
+      p:(document.getElementById('rp'+pr)||{value:''}).value,
+      o:(document.getElementById('ro'+pr)||{value:''}).value,
+      pi:(document.getElementById('rpi'+pr)||{value:''}).value,
+      sh:(document.getElementById('rsh'+pr)||{value:''}).value,
+      rt:(document.getElementById('rrt'+pr)||{value:''}).value
+    });
+  }
   var h='';
   for(var r=1;r<=n;r++){
+    var pv=prev[r-1]||{};
+    var panelDefault=(r===1?String(matrixPanelCount()||13):'0');
+    var panelVal=(pv.p!==''&&pv.p!=null)?pv.p:panelDefault;
+    var oriVal=pv.o||'South';
+    var pitchVal=pv.pi||'Standard (20-35deg)';
+    var shadeVal=pv.sh||'none';
+    var rtypeVal=pv.rt||'Concrete Tile';
     h+='<div class="roof-card"><div class="roof-card-title">Roof '+LBLS[r-1]+(n>1?' of '+n:'')+'</div><div class="g3">';
-    h+='<div class="fg"><label class="fl req">Panels on this roof</label><input type="number" id="rp'+r+'" value="'+(r===1?'13':'0')+'" min="0" max="40" oninput="autoSave();updatePkg();rSysSummary()"/></div>';
+    h+='<div class="fg"><label class="fl req">Panels on this roof</label><input type="number" id="rp'+r+'" value="'+panelVal+'" min="0" max="40" oninput="autoSave();updatePkg();rSysSummary()"/></div>';
     h+='<div class="fg"><label class="fl">Orientation</label><select id="ro'+r+'" onchange="autoSave();rSysSummary()">';
-    for(var i=0;i<ORI.length;i++)h+='<option>'+ORI[i]+'</option>';
+    for(var i=0;i<ORI.length;i++)h+='<option'+(ORI[i]===oriVal?' selected':'')+'>'+ORI[i]+'</option>';
     h+='</select></div>';
     h+='<div class="fg"><label class="fl">Pitch</label><select id="rpi'+r+'" onchange="autoSave();rSysSummary()">';
-    for(var i=0;i<PITCH.length;i++)h+='<option'+(i===2?' selected':'')+'>'+PITCH[i]+'</option>';
+    for(var i=0;i<PITCH.length;i++)h+='<option'+(PITCH[i]===pitchVal?' selected':'')+'>'+PITCH[i]+'</option>';
     h+='</select></div>';
     h+='<div class="fg"><label class="fl">Shading</label><select id="rsh'+r+'" onchange="autoSave();rSysSummary()">';
-    for(var i=0;i<SHADE.length;i++)h+='<option value="'+SHADE[i][0]+'">'+SHADE[i][1]+'</option>';
+    for(var i=0;i<SHADE.length;i++)h+='<option value="'+SHADE[i][0]+'"'+(SHADE[i][0]===shadeVal?' selected':'')+'>'+SHADE[i][1]+'</option>';
     h+='</select></div>';
     h+='<div class="fg"><label class="fl">Roof Type</label><select id="rrt'+r+'" onchange="autoSave()">';
-    for(var i=0;i<RTYPE.length;i++)h+='<option>'+RTYPE[i]+'</option>';
+    for(var i=0;i<RTYPE.length;i++)h+='<option'+(RTYPE[i]===rtypeVal?' selected':'')+'>'+RTYPE[i]+'</option>';
     h+='</select></div>';
     h+='</div></div>';
   }
@@ -2193,26 +2226,18 @@ function updatePkg(){
   var jobCostExVat=tradeMaterialsPlusLabourEv(mUiJob.totalMaterials,ev);
   if(typeof renderStep4Margin==='function')renderStep4Margin(jobCostExVat);
 
-  var mJa=computeStep3Materials({panelBinding:'ja',includeBattery:false});
-  var mSe=computeStep3Materials({panelBinding:'se',includeBattery:false});
-  var mJaBat=computeStep3Materials({panelBinding:'ja',includeBattery:true,forceBattery:uiBat,batQty:bqBat});
-  var mSeBat=computeStep3Materials({panelBinding:'se',includeBattery:true,forceBattery:uiBat,batQty:bqBat});
-
-  var jaOnly=tradeMaterialsPlusLabourEv(mJa.totalMaterials,ev);
-  var seOnly=tradeMaterialsPlusLabourEv(mSe.totalMaterials,ev);
-  var jaBat=tradeMaterialsPlusLabourEv(mJaBat.totalMaterials,ev);
-  var seBat=tradeMaterialsPlusLabourEv(mSeBat.totalMaterials,ev);
-  _lastPkgTrades={ja_solar:jaOnly,se_solar:seOnly,ja_bat:jaBat,se_bat:seBat};
+  var mSolarOnly=computeStep3Materials({panelBinding:'ui',includeBattery:false,p:p});
+  var mSolarBat=computeStep3Materials({panelBinding:'ui',includeBattery:true,forceBattery:uiBat,batQty:bqBat,p:p});
+  var solarOnly=tradeMaterialsPlusLabourEv(mSolarOnly.totalMaterials,ev);
+  var solarBat=tradeMaterialsPlusLabourEv(mSolarBat.totalMaterials,ev);
+  _lastPkgTrades={solar_only:solarOnly,solar_battery:solarBat};
   var evLine=ev?['OZEV EV charge point']:[];
+  var panelLbl=uiPanel==='se430_opt'?panelLblSe:panelLblJa;
   var pkgs=[
-    {id:'ja_solar',hasBat:false,n:'Solar Only — JA Solar',sz:p+' × '+panelLblJa+' + '+invLbl,trade:jaOnly,
-     inc:[panelLblJa+' panels',invLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
-    {id:'se_solar',hasBat:false,n:'Solar Only — SolarEdge',sz:p+' × '+panelLblSe+' + '+invLbl,trade:seOnly,
-     inc:[panelLblSe+' panels',invLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
-    {id:'ja_bat',hasBat:true,n:'Solar + Battery — JA + Alpha',sz:p+' × '+panelLblJa+' + '+batLbl+battQtyLine,trade:jaBat,
-     inc:[panelLblJa+' panels',invLbl,batLbl+battQtyLine,'Battery mounting: '+batMountLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
-    {id:'se_bat',hasBat:true,n:'Solar + Battery — SolarEdge',sz:p+' × '+panelLblSe+' + '+batLbl+battQtyLine,trade:seBat,
-     inc:[panelLblSe+' panels',invLbl,batLbl+battQtyLine,'Battery mounting: '+batMountLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)}
+    {id:'solar_only',hasBat:false,n:'Solar Only',sz:p+' × '+panelLbl+' + '+invLbl,trade:solarOnly,
+     inc:[panelLbl+' panels',invLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)},
+    {id:'solar_battery',hasBat:true,n:'Solar + Battery',sz:p+' × '+panelLbl+' + '+batLbl+battQtyLine,trade:solarBat,
+     inc:[panelLbl+' panels',invLbl,batLbl+battQtyLine,'Battery mounting: '+batMountLbl,roofLbl,isolatorLbl,mc4Lbl,'Full DC/AC wiring & commissioning','DNO/G98 application & MCS certificate'].concat(evLine)}
   ];
   var grid=document.getElementById('pkg-grid');grid.innerHTML='';
   for(var i=0;i<pkgs.length;i++){
@@ -2274,6 +2299,11 @@ function applyDiscount(){
   selPkg.final=f;autoSave();
 }
 function getFinal(){return parseFloat(document.getElementById('pkg_final').value||0);}
+var ROI_PAYBACK_VIEW='standard';
+function setRoiPaybackView(mode){
+  ROI_PAYBACK_VIEW=(mode==='flux'?'flux':'standard');
+  rROI();
+}
 
 
 /* ── ROI ── */
@@ -2284,6 +2314,8 @@ function rROI(){
   var gen=getEstAnnualGenerationKwh();
   var sc=parseFloat(document.getElementById('roi_selfcon').value||40)/100;
   var cost=getFinal();
+  var batQty=parseInt((document.getElementById('s_bat_qty')||{value:'0'}).value||0,10);
+  var hasBattery=batQty>0;
   var yr1=Math.round(gen*sc*tariff+gen*(1-sc)*0.15);
   function roiCumWithout(Y){var s=0;for(var i=1;i<=Y;i++)s+=base*Math.pow(1+rate,i);return Math.round(s);}
   function roiCumWith(Y){var s=0;for(var i=1;i<=Y;i++){var b=base*Math.pow(1+rate,i),sv=yr1*Math.pow(1+rate*0.5,i-1);s+=Math.max(0,b-sv);}return Math.round(s);}
@@ -2311,7 +2343,43 @@ function rROI(){
   sv('roi-s5','\u00a3'+Math.round(s5).toLocaleString());
   sv('roi-s10','\u00a3'+Math.round(s10).toLocaleString());
   sv('roi-s15','\u00a3'+Math.round(s15).toLocaleString());
-  sv('roi-pb',pb?pb+' yrs':'> 25 yrs');
+  var pbStdTxt=pb?pb+' yrs':'> 25 yrs';
+  var pbFluxTxt='N/A';
+  if(hasBattery&&cost>0){
+    var fluxDay=0.27,fluxPeak=0.38,fluxOffPeak=0.16;
+    var exportPeakShare=0.20,arbCycles=300;
+    var selfUseKwh=gen*sc;
+    var exportKwh=Math.max(0,gen-selfUseKwh);
+    var selfUseBenefit=selfUseKwh*fluxDay;
+    var exportBenefit=exportKwh*(exportPeakShare*fluxPeak+(1-exportPeakShare)*fluxDay);
+    var batTotalKwh=Math.max(0,getSelectedBatteryUnitKwh())*Math.max(1,batQty);
+    var arbitrageBenefit=batTotalKwh*arbCycles*Math.max(0,fluxPeak-fluxOffPeak);
+    var fluxAnnual=selfUseBenefit+exportBenefit+arbitrageBenefit;
+    if(fluxAnnual>0){
+      var fluxPb=cost/fluxAnnual;
+      pbFluxTxt=fluxPb>25?'> 25 yrs':(Math.round(fluxPb*10)/10)+' yrs';
+    }else{
+      pbFluxTxt='> 25 yrs';
+    }
+  }
+  if(ROI_PAYBACK_VIEW==='flux'&&!hasBattery)ROI_PAYBACK_VIEW='standard';
+  var showFlux=ROI_PAYBACK_VIEW==='flux'&&hasBattery;
+  sv('roi-pb',showFlux?pbFluxTxt:pbStdTxt);
+  var pbLbl=document.getElementById('roi-pb-lbl');
+  if(pbLbl)pbLbl.textContent=showFlux?'Payback Period (Intelligent Flux)':'Payback Period (Standard)';
+  var btnStd=document.getElementById('roi-payback-standard-btn');
+  var btnFlux=document.getElementById('roi-payback-flux-btn');
+  if(btnStd)btnStd.classList.toggle('active',!showFlux);
+  if(btnFlux){
+    btnFlux.classList.toggle('active',showFlux);
+    btnFlux.disabled=!hasBattery;
+  }
+  var note=document.getElementById('roi-flux-note');
+  if(note){
+    if(!hasBattery)note.textContent='Intelligent Flux view becomes available when a battery is included.';
+    else if(showFlux)note.textContent='Flux payback is indicative. Rates are reviewed quarterly.';
+    else note.textContent='Standard view shown. Switch to Intelligent Flux to compare battery-enabled payback.';
+  }
   /* year-by-year table */
   var tb=document.getElementById('roi-tbody');
   if(tb){
